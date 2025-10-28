@@ -6,8 +6,9 @@
 - semi: true: 세현, 현준, 민경 /
 - printWidth: pass
 
-### 폴더명
-- snake case -> 세현
+### 폴더명 & 파일명
+- kebab case -> 세현
+- component -> pascal, 나머지는 camel
 
 ### typescript
 - I or Props -> Props: 현준, 민경
