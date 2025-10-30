@@ -1,15 +1,14 @@
 {
   // js, jsx, ts, tsx eslint
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   // save eslint
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+  // prettier
+  "prettier.prettierPath": "node_modules/prettier/index.mjs",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
   // typescript path
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true
