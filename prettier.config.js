@@ -12,6 +12,10 @@ const config = {
   arrowParens: "avoid",
   bracketSpacing: true,
   printWidth: 120,
+  plugins: ["@trivago/prettier-plugin-sort-imports"],
+  importOrder: ["<THIRD_PARTY_MODULES>", "^@(.*)$", "^[.]/", "^[.]{2,}/"],
+  importOrderSortSpecifiers: true,
+  importOrderCaseInsensitive: true,
 };
 
 export default config;
