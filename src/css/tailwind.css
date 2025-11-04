@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/* 'dark' 클래스가 있을 때 다크모드 스타일 적용되도록 설정 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* 공통 색상 정의 */
+  --color-main: #2B7FFF;
+  --color-main-50: #EFF6FF;
+
+  /* 기본 테마(라이트 모드) 색상 정의 */
+  --color-bg-main: #FFFFFF;
+  --color-bg-sub: #F0F2F5;
+  --color-text-title: #0F172B;
+  --color-text-content: #1D293D;
+  --color-text-sub: #4A5565;
+  --color-text-light: #101828;
+}
+
+/* 다크 모드 색상 정의 ('.dark' 클래스가 있을 때 이 색상들로 덮어씌워짐) */
+.dark {
+  --color-bg-main: #121212;
+  --color-bg-sub: #202225;
+  --color-text-title: #F1F5FF;
+  --color-text-content: #E2E8F5;
+  --color-text-sub: #A8B1C1;
+  --color-text-light: #6B7285;
+}
