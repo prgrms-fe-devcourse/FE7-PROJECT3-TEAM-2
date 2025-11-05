@@ -15,7 +15,7 @@ interface CircleProfileImageProps {
   rounded?: RoundedSize;
 }
 
-const CircleProfileImageVariants = cva("border border-[#D4D4D4D8] cursor-pointer", {
+const CircleProfileImageVariants = cva("border border-gray-100 cursor-pointer", {
   variants: {
     size: {
       xs: "w-[24px] h-[24px]",
