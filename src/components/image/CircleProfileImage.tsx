@@ -1,43 +1,48 @@
 "use client";
 
+import { cva } from "class-variance-authority";
 import { StaticImageData } from "next/image";
-import BaseImage from "./BaseImage";
+import BaseImage, { RoundedSize } from "./BaseImage";
 
 type ImageSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-interface ProfileImageProps {
+interface CircleProfileImageProps {
   src: string | StaticImageData;
   alt?: string;
   size?: ImageSize;
   className?: string;
   onClick?: () => void;
-  rounded?: boolean;
+  rounded?: RoundedSize;
 }
 
-const sizeMap = {
-  xs: 24,
-  sm: 36,
-  md: 48,
-  lg: 60,
-  xl: 72,
-};
+const CircleProfileImageVariants = cva("border border-[#D4D4D4D8] cursor-pointer", {
+  variants: {
+    size: {
+      xs: "w-[24px] h-[24px]",
+      sm: "w-[36px] h-[36px]",
+      md: "w-[48px] h-[48px]",
+      lg: "w-[60px] h-[60px]",
+      xl: "w-[72px] h-[72px]",
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  },
+});
 
 export default function CircleProfileImage({
   src,
   alt = "image",
   size = "md",
-  className = "",
+  rounded = "lg",
   onClick,
-  rounded = false,
-}: ProfileImageProps) {
-  const w = sizeMap[size];
+}: CircleProfileImageProps) {
   return (
     <BaseImage
       src={src}
       alt={alt}
-      size={w}
       rounded={rounded}
-      className={`border border-[#D4D4D4D8] cursor-pointer ${className}`}
+      className={CircleProfileImageVariants({ size })}
       onClick={onClick}
     />
   );

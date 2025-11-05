@@ -1,28 +1,41 @@
 "use client";
 
+import { cva } from "class-variance-authority";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
+
+export type RoundedSize = "full" | "xl" | "lg";
 
 interface BaseImageProps {
   src: string | StaticImageData;
   alt: string;
-  size?: number;
-  rounded?: boolean;
+  rounded?: RoundedSize;
   onClick?: () => void;
   className?: string;
 }
 
-export default function BaseImage({ src, alt, size, rounded = false, onClick, className }: BaseImageProps) {
+const BaseImageVariants = cva("relative overflow-hidden", {
+  variants: {
+    rounded: {
+      full: "rounded-full",
+      xl: "rounded-xl",
+      lg: "rounded-lg",
+    },
+    defaultVariants: {
+      size: "lg",
+    },
+  },
+});
+
+// post나 카드 같은곳에 이미지 쓸 때 className으로 w, h 값 받아서 쓰기
+export default function BaseImage({ src, alt, onClick, rounded = "lg", className }: BaseImageProps) {
   const [isError, setIsError] = useState(false);
   const handleError = () => setIsError(true);
   return (
-    <div
-      style={{ width: size, height: size }}
-      className={`relative overflow-hidden ${rounded ? "rounded-full" : "rounded-xl"} ${className}`}
-      onClick={onClick}
-    >
+    <div className={twMerge(`h-[50px] w-1/2`, BaseImageVariants({ rounded }), className)} onClick={onClick}>
       {!isError && (
-        <Image src={src} sizes="100px" alt={alt} fill loading="eager" className="object-cover" onError={handleError} />
+        <Image src={src} sizes="1000px" alt={alt} fill loading="eager" className="object-cover" onError={handleError} />
       )}
       {isError && (
         <Image
