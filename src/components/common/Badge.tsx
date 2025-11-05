@@ -9,7 +9,7 @@ interface BadgeProps {
   text: string;
 }
 
-const BadgeVariants = cva("w-max rounded-sm", {
+const BadgeVariants = cva("w-max h-max rounded-sm", {
   variants: {
     size: {
       xs: "text-[8px] px-1.5 py-[3.5px]",

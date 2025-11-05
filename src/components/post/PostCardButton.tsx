@@ -47,13 +47,13 @@ const titleVariants = cva("post-card-btn_title", {
 });
 
 export default function PostCardButton({ device, userName, title, date }: PostCardButtonProps) {
-  const [isClicked, SetIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   return (
     <>
       <div
         className={twMerge(containerVariants({ device }), isClicked && "bg-main-50")}
-        onClick={() => SetIsClicked(prev => !prev)}
+        onClick={() => setIsClicked(prev => !prev)}
       >
         <div className="post-card-btn_info space-y-2.5">
           <PostCardBookMark />
