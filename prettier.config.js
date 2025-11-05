@@ -12,7 +12,7 @@ const config = {
   arrowParens: "avoid",
   bracketSpacing: true,
   printWidth: 120,
-  plugins: ["@trivago/prettier-plugin-sort-imports"],
+  plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   importOrder: ["<THIRD_PARTY_MODULES>", "^@(.*)$", "^[.]/", "^[.]{2,}/"],
   importOrderSortSpecifiers: true,
   importOrderCaseInsensitive: true,
