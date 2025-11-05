@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import PostCardBookMark from "./PostCardBookMark";
-import Badge from "../Badge";
+import Badge from "../common/Badge";
 
 type PostCardButtonDevice = "pc" | "mobile";
 
