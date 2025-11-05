@@ -1,6 +1,7 @@
 "use client";
 
 import { cva, VariantProps } from "class-variance-authority";
+import { LucideIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 const button = cva("inline-flex items-center justify-center rounded-lg", {
@@ -27,12 +28,13 @@ const button = cva("inline-flex items-center justify-center rounded-lg", {
   },
 });
 
-type ButtonProps = VariantProps<typeof button> & React.ComponentPropsWithoutRef<"button">;
+type ButtonProps = { Icon?: LucideIcon } & VariantProps<typeof button> & React.ComponentPropsWithoutRef<"button">;
 
-export function Button({ size, variant, children, ...props }: ButtonProps) {
+export function Button({ size, variant, children, Icon, ...props }: ButtonProps) {
   return (
     <>
       <button className={twMerge(button({ size, variant }))} {...props}>
+        {size !== "Small" && size !== "XSmall" && Icon && <Icon />}
         {children}
       </button>
     </>
