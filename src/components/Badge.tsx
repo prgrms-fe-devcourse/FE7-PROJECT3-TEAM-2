@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-type BadgeSize = "sm" | "md" | "lg" | "xl";
+type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface BadgeProps {
   size: BadgeSize;
@@ -9,13 +9,14 @@ interface BadgeProps {
   text: string;
 }
 
-const BadgeVariants = cva("inline-flex items-center justify-center inline-block align-middle  rounded-sm", {
+const BadgeVariants = cva("w-max rounded-sm", {
   variants: {
     size: {
-      sm: "text-xs py-[3.5px] px-1.5",
-      md: "text-sm py-[4.5px] px-2",
-      lg: "text-base py-[9px] px-[14.5px]",
-      xl: "text-base py-[9px] px-[17px]",
+      xs: "text-[8px] px-1.5 py-[3.5px]",
+      sm: "text-xs px-1.5 py-[3.5px] ",
+      md: "text-sm px-2 py-[4.5px] ",
+      lg: "text-base px-[14.5px] py-[9px] ",
+      xl: "text-base px-[17px] py-[9px] ",
     },
     defaultVariants: {
       size: "md",
