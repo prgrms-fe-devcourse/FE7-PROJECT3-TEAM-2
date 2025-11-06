@@ -1,20 +1,11 @@
 "use client";
 
-import { cva } from "class-variance-authority";
+import { cva, VariantProps } from "class-variance-authority";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
-
-type PostCardButtonDevice = "pc" | "mobile";
-
-interface PostCardButtonProps {
-  device: PostCardButtonDevice;
-  userName: string;
-  title: string;
-  date: string;
-}
 
 const containerVariants = cva(
   "post-card-btn bg-bg-main hover:bg-main-50 text-text-title px-6 py-3 flex justify-between items-center cursor-pointer rounded-xl transition-all duration-300",
@@ -23,6 +14,9 @@ const containerVariants = cva(
       device: {
         pc: "w-[244px]",
         mobile: "w-[190px]",
+      },
+      defaultVariants: {
+        device: "pc",
       },
     },
   }
@@ -46,12 +40,18 @@ const titleVariants = cva("post-card-btn_title", {
   },
 });
 
+interface PostCardButtonProps extends VariantProps<typeof containerVariants> {
+  userName: string;
+  title: string;
+  date: string;
+}
+
 export default function PostCardButton({ device, userName, title, date }: PostCardButtonProps) {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
     <>
-      <div
+      <button
         className={twMerge(containerVariants({ device }), isClicked && "bg-main-50")}
         onClick={() => setIsClicked(prev => !prev)}
       >
@@ -64,10 +64,10 @@ export default function PostCardButton({ device, userName, title, date }: PostCa
           <p className={titleVariants({ device })}>{title}</p>
           <Badge size="xs" bgColor="#ED7371" textColor="#FFFFFF" text="카테고리" />
         </div>
-        <button className="post-card-btn_detail-btn text-text-sub my-auto w-4.5">
+        <div className="post-card-btn_detail-btn text-text-sub my-auto w-4.5">
           <ChevronRight size={18} />
-        </button>
-      </div>
+        </div>
+      </button>
     </>
   );
 }

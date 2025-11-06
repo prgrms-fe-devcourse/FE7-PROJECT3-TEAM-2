@@ -1,22 +1,16 @@
-import { cva } from "class-variance-authority";
-import { CommandIcon, Heart, MessageSquareMore, Share2 } from "lucide-react";
+import { cva, VariantProps } from "class-variance-authority";
+import { Heart, MessageSquareMore, Share2 } from "lucide-react";
 import Image from "next/image";
 import Badge from "../common/Badge";
-
-type PostCardDevice = "pc" | "mobile";
-
-interface PostCarProps {
-  device: PostCardDevice;
-  userName: string;
-  title: string;
-  content: string;
-}
 
 const containerVariants = cva("post-card flex flex-col rounded-3xl border border-gray-200 px-6 py-5", {
   variants: {
     device: {
       pc: "w-[518px]",
       mobile: "w-[320px]",
+    },
+    defaultVariants: {
+      device: "pc",
     },
   },
 });
@@ -29,11 +23,20 @@ const thumbnailVariants = cva(
         pc: "w-[470px] h-[196px]",
         mobile: "w-[272px] h-[113px]",
       },
+      defaultVariants: {
+        device: "pc",
+      },
     },
   }
 );
 
-export default function PostCard({ device, userName, title, content }: PostCarProps) {
+interface PostCardProps extends VariantProps<typeof containerVariants> {
+  userName: string;
+  title: string;
+  content: string;
+}
+
+export default function PostCard({ device, userName, title, content }: PostCardProps) {
   return (
     <>
       <div className={containerVariants({ device })}>
