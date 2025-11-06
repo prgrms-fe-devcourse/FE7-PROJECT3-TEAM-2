@@ -1,46 +1,36 @@
 "use client";
 
-import Link from "next/link";
+import { NavButton } from "@/components/common/NavButton";
+import { navData } from "@/routes/routes.data";
 
 export default function Nav() {
   return (
-    <nav className="bg-bg-sub flex border border-gray-200 sm:w-[223px] sm:flex-col sm:justify-between">
-      <ul className="flex flex-col gap-3">
-        <li>
-          <Link href="/">게시판</Link>
-        </li>
-        <li className="flex flex-col">
-          <Link href="/search">검색</Link>
-          <Link
-            href={{
-              pathname: "/search",
-              query: { type: "post" },
-            }}
-          >
-            게시물 검색
-          </Link>
-          <Link
-            href={{
-              pathname: "search",
-              query: { type: "user" },
-            }}
-          >
-            사용자 검색
-          </Link>
-        </li>
-        <li className="flex flex-col">
-          <Link href="/user">마이페이지</Link>
-          <Link href={{ pathname: "/user", query: { type: "profile" } }}>프로필</Link>
-          <Link href={{ pathname: "/user", query: { type: "archive" } }}>아카이브</Link>
-          <Link href={{ pathname: "/user", query: { type: "badge" } }}>뱃지</Link>
-        </li>
-        <li className="flex flex-col">
-          <Link href="/chart">차트</Link>
-          <Link href={{ pathname: "/chart", query: { type: "all" } }}>전체 랭킹</Link>
-          <Link href={{ pathname: "/chart", query: { type: "category" } }}>분야별 랭킹</Link>
-        </li>
+    <nav className="bg-bg-sub flex flex-row justify-between border border-gray-200 sm:w-[223px] sm:flex-col">
+      <ul className="flex items-center gap-3 sm:flex-col sm:items-baseline">
+        {navData.map(nav => {
+          return (
+            <li className="flex flex-col sm:w-full" key={nav.pathname}>
+              <NavButton href={nav.pathname} icon_img={nav.icon} variant="main">
+                {nav.label}
+              </NavButton>
+              <ul className="hidden sm:block">
+                {nav.children &&
+                  nav.children.map(subNav => {
+                    return (
+                      <NavButton
+                        variant="sub"
+                        key={subNav.pathname}
+                        href={{ pathname: nav.pathname, query: { type: subNav.pathname } }}
+                      >
+                        {subNav.label}
+                      </NavButton>
+                    );
+                  })}
+              </ul>
+            </li>
+          );
+        })}
       </ul>
-
       <ul>
         <li>설정</li>
         <li>로그인</li>
