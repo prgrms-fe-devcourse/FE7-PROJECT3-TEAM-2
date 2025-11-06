@@ -7,11 +7,11 @@ import { twMerge } from "tailwind-merge";
 const button = cva("inline-flex items-center justify-center rounded-lg cursor-pointer", {
   variants: {
     size: {
-      xLarge: "min-w-[343px] text-base py-4 gap-4",
-      large: "min-w-[311px] text-base py-4 gap-3",
-      medium: "min-w-[151px] text-sm py-3 gap-2",
-      small: "min-w-[79px] text-xs py-2 gap-0",
-      xSmall: "min-w-[79px] h-fit text-xs py-1.5 gap-0",
+      xl: "min-w-[343px] text-base py-4 gap-4",
+      lg: "min-w-[311px] text-base py-4 gap-3",
+      md: "min-w-[151px] text-sm py-3 gap-2",
+      sm: "min-w-[79px] text-xs py-2 gap-0",
+      xs: "min-w-[79px] h-fit text-xs py-1.5 gap-0",
     },
     variant: {
       primary: "bg-[var(--color-main)] text-white hover:bg-blue-400 disabled:bg-gray-300",
@@ -26,20 +26,21 @@ const button = cva("inline-flex items-center justify-center rounded-lg cursor-po
   },
 
   defaultVariants: {
-    size: "medium",
+    size: "md",
     variant: "primary",
   },
 });
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<"button">, VariantProps<typeof button> {
   Icon?: LucideIcon;
+  className?: string;
 }
 
-export function Button({ size, variant, children, Icon, ...props }: ButtonProps) {
+export function Button({ size, variant, children, Icon, className, ...props }: ButtonProps) {
   return (
     <>
-      <button className={twMerge(button({ size, variant }))} {...props}>
-        {size !== "small" && size !== "xSmall" && Icon && <Icon />}
+      <button className={twMerge(button({ size, variant }), className)} {...props}>
+        {size !== "sm" && size !== "xs" && Icon && <Icon />}
         {children}
       </button>
     </>
