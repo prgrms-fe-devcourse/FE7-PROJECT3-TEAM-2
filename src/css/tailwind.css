@@ -3,6 +3,10 @@
 /* 'dark' 클래스가 있을 때 다크모드 스타일 적용되도록 설정 */
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --header-height: 60px;
+}
+
 @theme {
   /* 공통 색상 정의 */
   --color-main: #2b7fff;
