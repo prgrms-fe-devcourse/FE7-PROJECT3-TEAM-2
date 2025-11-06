@@ -16,15 +16,15 @@ export default function Nav() {
   };
 
   return (
-    <nav className="bg-bg-sub hidden flex-row justify-between overflow-y-scroll border border-gray-200 sm:block sm:h-[calc(100vh-var(--header-height))] sm:w-[223px] sm:flex-col sm:p-6">
+    <nav className="bg-bg-sub hidden overflow-y-auto border border-gray-200 sm:flex sm:h-[calc(100vh-var(--header-height))] sm:w-[223px] sm:flex-col sm:justify-between sm:p-6">
       <ul className="flex items-center gap-3 sm:flex-col sm:items-baseline">
         {navData.map(nav => {
           return (
-            <li className="flex flex-col sm:w-full" key={nav.pathname}>
+            <li className="flex flex-col gap-2 sm:w-full" key={nav.pathname}>
               <NavButton href={nav.pathname} icon_img={nav.icon} variant="main" active={isActive(nav.pathname)}>
                 {nav.label}
               </NavButton>
-              <ul className="hidden pl-6 sm:block">
+              <ul className="hidden flex-col gap-1 pl-6 sm:flex">
                 {nav.children &&
                   nav.children.map(subNav => {
                     const path = `${nav.pathname}/${subNav.pathname}`;
@@ -39,15 +39,15 @@ export default function Nav() {
           );
         })}
       </ul>
-      <ul className="flex flex-row sm:flex-col">
+      <ul className="flex flex-row gap-2 sm:flex-col">
         <li>
-          <Button variant="secondary">
+          <Button variant="secondary" className="w-full" size="md">
             <Settings2 size={16} />
             설정
           </Button>
         </li>
         <Link href="/login">
-          <Button variant="tertiary">
+          <Button variant="tertiary" className="w-full" size="md">
             <ShieldAlert size={16} />
             로그인
           </Button>
