@@ -1,8 +1,7 @@
-import { cva } from "class-variance-authority";
+import { cva, VariantProps } from "class-variance-authority";
 import Badge from "./Badge";
 
-interface MessageBubbleProps {
-  isMine: boolean;
+interface MessageBubbleProps extends VariantProps<typeof BubbleVariants> {
   name?: string;
   time: string;
   text: string;
@@ -25,8 +24,8 @@ const BubbleVariants = cva("flex items-end gap-2 w-full", {
 const TextVariants = cva("max-w-[60%] px-5 py-3 rounded-2xl", {
   variants: {
     isMine: {
-      true: "bg-main text-[#e2e8f5]",
-      false: "bg-[#f1f5ff] text-[#0f172b] border-2 border-[#e2e8f5]",
+      true: "bg-main text-white",
+      false: "bg-white text-gray-900 border-2 border-gray-100",
     },
   },
   defaultVariants: {
@@ -40,8 +39,8 @@ export default function MessageBubble({ isMine = false, name, time, text }: Mess
       {isMine ? (
         <>
           <div className="flex flex-col">
-            <button className="text--text-sub text-[8px]">수정 삭제</button>
-            <span className="text--text-sub text-[8px]">{time}</span>
+            <button className="text-text-sub text-[8px]">수정 삭제</button>
+            <span className="text-text-sub text-[8px]">{time}</span>
           </div>
           <div className={TextVariants({ isMine })}>
             <p>{text}</p>
@@ -49,7 +48,6 @@ export default function MessageBubble({ isMine = false, name, time, text }: Mess
         </>
       ) : (
         <div>
-          {/* flex 방지 - 손주 영향 없으니까 div를 하나 더 감싸서 그 안의 것들을 손주로 만듦 */}
           <div className="flex items-center justify-start gap-2">
             {/* <Profile /> */}
             <span className="text-[12px]">{name}</span>
@@ -63,7 +61,7 @@ export default function MessageBubble({ isMine = false, name, time, text }: Mess
             <div className={TextVariants({ isMine })}>
               <p>{text}</p>
             </div>
-            <span className="text--text-sub text-[8px]">{time}</span>
+            <span className="text-text-sub text-[8px]">{time}</span>
           </div>
 
           <div></div>
