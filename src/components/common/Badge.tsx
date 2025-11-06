@@ -1,13 +1,4 @@
-import { cva } from "class-variance-authority";
-
-type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
-
-interface BadgeProps {
-  size: BadgeSize;
-  bgColor: string;
-  textColor: string;
-  text: string;
-}
+import { cva, VariantProps } from "class-variance-authority";
 
 const BadgeVariants = cva("w-max h-max rounded-sm", {
   variants: {
@@ -23,6 +14,12 @@ const BadgeVariants = cva("w-max h-max rounded-sm", {
     },
   },
 });
+
+interface BadgeProps extends VariantProps<typeof BadgeVariants> {
+  bgColor: string;
+  textColor: string;
+  text: string;
+}
 
 export default function Badge({ size, bgColor, textColor, text }: BadgeProps) {
   return (
