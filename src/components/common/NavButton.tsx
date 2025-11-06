@@ -1,11 +1,12 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { StaticImageData } from "next/image";
+import Link, { LinkProps } from "next/link";
 import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import BaseImage from "./image/BaseImage";
 
 const navButtonVariants = cva(
-  "flex items-center w-full text-left px-3 py-2 text-[12px] xl:text-[16px] lg:text-[16px] md:text-[14px] sm:text-[12px] hover:bg-gray-100 active:bg-gray-200 rounded-lg cursor-pointer",
+  "flex items-center w-full text-left px-3 py-2 text-[12px] xl:text-[16px] lg:text-[16px] md:text-[14px] sm:text-[12px] hover:bg-gray-100 active:bg-gray-200 rounded-lg cursor-pointer font-medium",
   {
     variants: {
       variant: {
@@ -31,22 +32,24 @@ const navButtonVariants = cva(
   }
 );
 
-interface NavButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof navButtonVariants> {
+interface NavButtonProps extends VariantProps<typeof navButtonVariants>, LinkProps {
   children: ReactNode;
+  className?: string;
   icon_img?: StaticImageData;
 }
 
 export const NavButton = ({ variant, active, children, className, icon_img, ...props }: NavButtonProps) => {
+  console.log(icon_img, variant);
   return (
-    <button className={twMerge(navButtonVariants({ variant, active }), className)} {...props}>
+    <Link className={twMerge(navButtonVariants({ variant, active }), className)} {...props}>
       {variant === "main" && (
         <BaseImage
-          src={icon_img || ""}
+          src={icon_img?.src || ""}
           alt="nav_icon"
           className="mr-3 hidden h-4 w-4 sm:block md:h-4.5 md:w-4.5 lg:h-5.5 lg:w-5.5 xl:h-5.5 xl:w-5.5"
         />
       )}
       {children}
-    </button>
+    </Link>
   );
 };
