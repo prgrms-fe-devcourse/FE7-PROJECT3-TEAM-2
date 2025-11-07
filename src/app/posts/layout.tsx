@@ -1,27 +1,16 @@
-import Link from "next/link";
-import BaseImage from "@/components/common/image/BaseImage";
+import Category from "@/components/post/Category";
+import { createClient } from "@/utils/supabase/client";
 
-export default function PostsLayout({ children }: { children: React.ReactNode }) {
-  // 테스트용 변수
-  const categorys = new Array(11).fill(null);
-  let key = 0;
+export default async function PostsLayout({ children }: { children: React.ReactNode }) {
+  const supabase = createClient();
+  const { data } = await supabase.from("category").select("*");
 
-  return (
-    <div className="flex w-full flex-col p-6">
-      <div className="category mb-6 flex gap-6">
-        <Link href={"/posts/all"}>
-          {" "}
-          <div className="bg-bg-main border-main text-main flex h-15 w-15 items-center justify-center rounded-full border">
-            전체
-          </div>
-        </Link>
-        {categorys.map(() => (
-          <Link key={key++} href={"/posts/"}>
-            <BaseImage rounded="full" src="/" alt="category image" className="h-15 w-15" />
-          </Link>
-        ))}
+  if (data) {
+    return (
+      <div className="flex w-full flex-col p-6">
+        <Category categorys={data} />
+        <div>{children}</div>
       </div>
-      <div>{children}</div>
-    </div>
-  );
+    );
+  } else return null;
 }
