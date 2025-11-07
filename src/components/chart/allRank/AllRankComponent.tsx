@@ -33,7 +33,7 @@ export default function AllRankComponent({
           </div>
           <div className="mx-auto grid w-3/4 grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             <ResponsiveContainer className="bg-main col-span-1 p-6">
-              <div className="not-[]:flex mb-2 flex-col gap-1">
+              <div className="mb-2 flex flex-col gap-1">
                 <div className="text-xs text-gray-200">전체 {title}</div>
                 <div className="text-2xl text-gray-50">{stats.total}</div>
                 <span className="invisible text-xs">0%</span>

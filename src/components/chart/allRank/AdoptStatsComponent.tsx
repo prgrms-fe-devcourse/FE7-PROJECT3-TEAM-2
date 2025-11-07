@@ -3,22 +3,15 @@
 import { Bar, BarChart, Cell, ResponsiveContainer as RsponsiveContain, Tooltip, XAxis } from "recharts";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 
-export default function AdoptStatsComponent() {
-  const data = [
-    { name: "연애", 훈수: 100, 채택: 50 },
-    { name: "IT", 훈수: 100, 채택: 40 },
-    { name: "A", 훈수: 100, 채택: 30 },
-    { name: "B", 훈수: 100, 채택: 35 },
-    { name: "C", 훈수: 100, 채택: 45 },
-    { name: "D", 훈수: 100, 채택: 40 },
-    { name: "E", 훈수: 100, 채택: 38 },
-    { name: "F", 훈수: 100, 채택: 37 },
-    { name: "F", 훈수: 100, 채택: 37 },
-    { name: "F", 훈수: 100, 채택: 37 },
-    { name: "F", 훈수: 100, 채택: 37 },
-    { name: "F", 훈수: 100, 채택: 37 },
-  ];
-
+export default function AdoptStatsComponent({
+  stats,
+}: {
+  stats: {
+    name: string;
+    훈수: number;
+    채택: number;
+  }[];
+}) {
   return (
     <ResponsiveContainer className="w-full px-6 py-7">
       {
@@ -28,9 +21,9 @@ export default function AdoptStatsComponent() {
             <span className="text-text-light text-xs font-semibold">훈수별 채택</span>
           </div>
           <div className="mx-auto h-[400px] w-11/12">
-            <RsponsiveContain className="h-[400px] w-full focus:outline-none">
+            <RsponsiveContain className="h-[400px] w-full">
               <BarChart
-                data={data}
+                data={stats}
                 width={100}
                 height={100}
                 barCategoryGap="25%"
@@ -49,7 +42,7 @@ export default function AdoptStatsComponent() {
                 {/* 전체 훈수 (연한 회색) */}
                 {/* 채택된 훈수 (진한 색상) */}
                 <Bar dataKey="채택" stackId="a" radius={[0, 0, 8, 8]} activeBar={false}>
-                  {data.map((_, i) => (
+                  {stats.map((_, i) => (
                     <Cell key={`cell-${i}`} fill="#007A55" />
                   ))}
                 </Bar>

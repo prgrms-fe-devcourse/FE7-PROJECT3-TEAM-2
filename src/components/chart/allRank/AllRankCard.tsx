@@ -47,7 +47,6 @@ export default function AllRankCard({
         <div className="text-text-title text-xs">{category.percent}%</div>
       </div>
       <div className="flex w-full justify-end">
-        {/* 이미지 */}
         <CircleProfileImage src={test} alt="test" rounded="full" size="lg" className="cursor-none" />
       </div>
     </ResponsiveContainer>
