@@ -27,7 +27,7 @@ export default function RootLayout({
         <Header />
         <div className="flex flex-col sm:flex-row">
           <Nav />
-          <main className="flex min-h-screen flex-1">{children}</main>
+          <main className="flex flex-1 sm:h-[calc(100vh-var(--header-height))] sm:overflow-y-scroll">{children}</main>
         </div>
       </body>
     </html>
