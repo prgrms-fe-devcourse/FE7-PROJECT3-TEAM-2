@@ -2,6 +2,7 @@
 
 import { cva, VariantProps } from "class-variance-authority";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import PostCardBookMark from "./PostCardBookMark";
@@ -15,14 +16,14 @@ const containerVariants = cva(
         pc: "w-[244px]",
         mobile: "w-[190px]",
       },
-      defaultVariants: {
-        device: "pc",
-      },
+    },
+    defaultVariants: {
+      device: "pc",
     },
   }
 );
 
-const userTextVariants = cva("post-card-btn_user", {
+const userTextVariants = cva("post-card-btn_user flex justify-start", {
   variants: {
     device: {
       pc: "text-xs",
@@ -41,18 +42,30 @@ const titleVariants = cva("post-card-btn_title", {
 });
 
 interface PostCardButtonProps extends VariantProps<typeof containerVariants> {
+  categoryId: string;
+  postId: string;
   userName: string;
   title: string;
   date: string;
+  className?: string;
 }
 
-export default function PostCardButton({ device, userName, title, date }: PostCardButtonProps) {
+export default function PostCardButton({
+  device,
+  categoryId,
+  postId,
+  userName,
+  title,
+  date,
+  className,
+}: PostCardButtonProps) {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
     <>
-      <button
-        className={twMerge(containerVariants({ device }), isClicked && "bg-main-50")}
+      <Link
+        href={`/posts/${categoryId}/post/${postId}`}
+        className={twMerge(containerVariants({ device }), className, isClicked && "bg-main-50")}
         onClick={() => setIsClicked(prev => !prev)}
       >
         <div className="post-card-btn_info space-y-2.5">
@@ -62,12 +75,12 @@ export default function PostCardButton({ device, userName, title, date }: PostCa
             <span className="text-text-light">{date}</span>
           </div>
           <p className={titleVariants({ device })}>{title}</p>
-          <Badge size="xs" bgColor="#ED7371" textColor="#FFFFFF" text="카테고리" />
+          <Badge size="xs" text="카테고리" className="bg-rose-400 text-white" />
         </div>
         <div className="post-card-btn_detail-btn text-text-sub my-auto w-4.5">
           <ChevronRight size={18} />
         </div>
-      </button>
+      </Link>
     </>
   );
 }
