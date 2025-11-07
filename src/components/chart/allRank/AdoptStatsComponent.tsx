@@ -2,6 +2,7 @@
 
 import { Bar, BarChart, Cell, ResponsiveContainer as RsponsiveContain, Tooltip, XAxis } from "recharts";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import { categoryColor } from "@/utils/category";
 
 export default function AdoptStatsComponent({
   stats,
@@ -39,14 +40,13 @@ export default function AdoptStatsComponent({
                     fontSize: "13px",
                   }}
                 />
-                {/* 전체 훈수 (연한 회색) */}
-                {/* 채택된 훈수 (진한 색상) */}
                 <Bar dataKey="채택" stackId="a" radius={[0, 0, 8, 8]} activeBar={false}>
-                  {stats.map((_, i) => (
-                    <Cell key={`cell-${i}`} fill="#007A55" />
-                  ))}
+                  {stats.map((data, i) => {
+                    const fillColor = categoryColor[data.name as Category] ?? "#CCCCCC";
+                    return <Cell key={`cell-${i}`} fill={fillColor} />;
+                  })}
                 </Bar>
-                <Bar dataKey="훈수" stackId="a" fill="#D1D5DC" radius={[8, 8, 0, 0]} activeBar={false} />
+                <Bar dataKey="훈수" stackId="a" fill="#E2E2E2" radius={[8, 8, 0, 0]} activeBar={false} />
               </BarChart>
             </RsponsiveContain>
           </div>

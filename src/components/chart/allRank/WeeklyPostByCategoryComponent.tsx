@@ -2,19 +2,17 @@
 
 import { Cell, Pie, PieChart, ResponsiveContainer as RsponsiveContain, Tooltip } from "recharts";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import { categoryColor } from "@/utils/category";
 
-type CategoryData = {
-  name: string;
-  value: number;
-  color: string;
-};
-
-interface Props {
-  data: CategoryData[];
-}
-
-export default function WeeklyPostByCategoryComponent({ data }: Props) {
-  const totalPosts = data.reduce((sum, d) => sum + d.value, 0);
+export default function WeeklyPostByCategoryComponent({
+  stats,
+}: {
+  stats: {
+    name: string;
+    value: number;
+  }[];
+}) {
+  const totalPosts = stats.reduce((acc, cur) => acc + cur.value, 0);
 
   return (
     <ResponsiveContainer className="min-h-0 w-full px-6 py-7">
@@ -29,7 +27,7 @@ export default function WeeklyPostByCategoryComponent({ data }: Props) {
           <RsponsiveContain width="100%" height="100%">
             <PieChart>
               <Pie
-                data={data}
+                data={stats}
                 dataKey="value"
                 nameKey="name"
                 width={100}
@@ -41,9 +39,10 @@ export default function WeeklyPostByCategoryComponent({ data }: Props) {
                 paddingAngle={2}
                 stroke="#fff"
               >
-                {data.map((d, index) => (
-                  <Cell key={`cell-${index}`} fill={d.color} />
-                ))}
+                {stats.map((data, index) => {
+                  const fillColor = categoryColor[data.name as Category] ?? "#CCCCCC";
+                  return <Cell key={`cell-${index}`} fill={fillColor} />;
+                })}
               </Pie>
               <Tooltip
                 contentStyle={{
@@ -63,10 +62,13 @@ export default function WeeklyPostByCategoryComponent({ data }: Props) {
         {/* 중앙에 총 게시글 수 표시 */}
 
         <div className="flex flex-wrap items-center justify-center gap-3 px-3 py-1 text-xs">
-          {data.map((d, i) => (
+          {stats.map((data, i) => (
             <div key={i} className="flex items-center gap-1">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: d.color }}></span>
-              <span className="text-text-light">{d.name}</span>
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-sm"
+                style={{ backgroundColor: categoryColor[data.name as Category] }}
+              ></span>
+              <span className="text-text-light">{data.name}</span>
             </div>
           ))}
         </div>

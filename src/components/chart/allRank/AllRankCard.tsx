@@ -1,5 +1,5 @@
-import { cva } from "class-variance-authority";
 import test from "@/assets/images/navbar/profile.png";
+import { categoryColor } from "@/utils/category";
 import CircleProfileImage from "../../common/image/CircleProfileImage";
 import ResponsiveContainer from "../../common/ResponsiveContainer";
 
@@ -16,29 +16,12 @@ export default function AllRankCard({
   };
   title: string;
 }) {
-  const categoryNameVariants = cva("text-xs", {
-    variants: {
-      name: {
-        기본: "text-white",
-        연애: "text-pink-500",
-        "기술/IT": "text-[#DAE3FF]",
-        "음식/요리": "text-[#FFCBC0]",
-      },
-    },
-    defaultVariants: {
-      name: "기본",
-    },
-  });
-
+  const fillColor = categoryColor[category.name as Category] ?? "#CCCCCC";
   return (
     <ResponsiveContainer className="col-span-1 p-6">
       <div className="mb-2 flex flex-col gap-1">
         <div className="text-text-light text-xs">
-          <span
-            className={categoryNameVariants({
-              name: category.name as "기본" | "연애" | "기술/IT" | "음식/요리" | null | undefined,
-            })}
-          >
+          <span style={{ color: fillColor }} className="font-semibold">
             {category.name}
           </span>{" "}
           {title}

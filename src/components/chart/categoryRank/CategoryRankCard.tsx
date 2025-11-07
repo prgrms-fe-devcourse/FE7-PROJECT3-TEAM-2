@@ -25,7 +25,7 @@ export default function CategoryRankCard() {
       </div>
       <div className="flex flex-col gap-2">
         <div className="text-text-title mb-2 text-lg font-semibold">통계</div>
-        <div className="flex gap-10">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           <AdoptRatioChart label="평균 훈수" percentage={60} color="#cfd4da" />
           <AdoptRatioChart label="채택률" percentage={60} color="#f6339a" />
           <AdoptRatioChart label="평균 뱃지" percentage={3} color="#f6339a" />
