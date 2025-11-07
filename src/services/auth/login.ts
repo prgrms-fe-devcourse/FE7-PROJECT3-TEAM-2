@@ -13,3 +13,4 @@ export async function signInWithOAuth(provider: Provider, redirectUrl: string): 
 }
 
 export const signInWithGithub = async () => signInWithOAuth("github", "http://localhost:3000/oauth/callback");
+export const signInWithGoogle = async () => signInWithOAuth("google", "http://localhost:3000/oauth/callback");

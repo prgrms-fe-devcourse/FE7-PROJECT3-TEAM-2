@@ -1,7 +1,7 @@
 "use client";
 
 import SocialLoginButton from "@/components/auth/SocialLoginButton";
-import { signInWithGithub } from "@/services/auth/login";
+import { signInWithGithub, signInWithGoogle } from "@/services/auth/login";
 
 export default function SocialLogins() {
   return (
@@ -9,7 +9,7 @@ export default function SocialLogins() {
       <SocialLoginButton social="naver" disabled />
       <SocialLoginButton social="kakao" />
       <SocialLoginButton social="github" onClick={() => signInWithGithub()} />
-      <SocialLoginButton social="google" />
+      <SocialLoginButton social="google" onClick={() => signInWithGoogle()} />
     </div>
   );
 }
