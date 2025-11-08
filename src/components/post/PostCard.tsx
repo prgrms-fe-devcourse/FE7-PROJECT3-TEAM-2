@@ -1,6 +1,9 @@
+"use client";
+
 import { cva, VariantProps } from "class-variance-authority";
-import { BookMarked, Heart, MessageSquareMore, Share2 } from "lucide-react";
+import { BookMarked, ChevronLeft, MessageSquareMore } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import Badge from "../common/Badge";
 
@@ -39,11 +42,20 @@ interface PostCardProps extends VariantProps<typeof containerVariants> {
 }
 
 export default function PostCard({ device, userName, title, content, className }: PostCardProps) {
+  const router = useRouter();
   return (
     <>
       <div className={twMerge(containerVariants({ device }), className)}>
         <div className="post-card_user mb-7.5 flex items-center justify-between">
           <div className="post-card_user-info text-text-title flex items-center">
+            <button
+              onClick={() => {
+                router.back();
+              }}
+              className="hover:text-main mr-5 cursor-pointer min-[1100px]:hidden"
+            >
+              <ChevronLeft />
+            </button>
             <Image
               src="/profile_sample.svg"
               alt="user profile image"
