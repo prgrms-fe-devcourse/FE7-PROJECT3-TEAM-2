@@ -1,3 +1,9 @@
-export default function page() {
-  return <div>검색</div>;
+import SearchForm from "./SearchForm";
+
+export default function Page() {
+  return (
+    <>
+      <SearchForm />
+    </>
+  );
 }
