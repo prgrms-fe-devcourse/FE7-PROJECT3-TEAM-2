@@ -32,7 +32,7 @@ export default function PostSideBar() {
   return (
     <div
       className={twMerge(
-        "category-side flex min-w-[270px] flex-col items-center gap-2 max-sm:w-full",
+        "category-side flex min-w-[270px] flex-col items-center gap-2 max-sm:w-full max-sm:p-5",
         isPostDetail && "max-[1100px]:hidden"
       )}
     >
