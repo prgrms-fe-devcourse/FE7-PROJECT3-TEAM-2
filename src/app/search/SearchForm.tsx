@@ -21,7 +21,7 @@ export default function SearchForm() {
 
       <SearchBar searchType={searchType} />
 
-      <SearchRecommend searchType={searchType} />
+      {searchType === "post" && <SearchRecommend />}
     </div>
   );
 }
