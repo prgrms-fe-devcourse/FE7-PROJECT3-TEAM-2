@@ -1,14 +1,7 @@
-"use client";
-
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/common/Button";
 
-export default function SearchBar() {
-  const searchParams = useSearchParams();
-
-  const searchType = searchParams.get("type") === "user" ? "user" : "post";
-
+export default function SearchBar({ searchType }: { searchType: string }) {
   return (
     <div className="flex w-full flex-col gap-3 rounded-3xl border border-gray-200 p-6">
       <div className="flex items-start gap-3">

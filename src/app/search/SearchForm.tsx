@@ -1,6 +1,13 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import SearchBar from "./SearchBar";
+import SearchRecommend from "./SearchRecommend";
 
 export default function SearchForm() {
+  const searchParams = useSearchParams();
+  const searchType = searchParams.get("type") === "user" ? "user" : "post";
+
   return (
     <div className="flex max-h-[314px] w-full max-w-[697px] flex-col gap-4">
       <div className="flex justify-center font-bold">
@@ -12,9 +19,9 @@ export default function SearchForm() {
         찾고자 하는 키워드를 검색하면 관련 훈수 모음들을 찾아드릴게요
       </p>
 
-      <SearchBar />
+      <SearchBar searchType={searchType} />
 
-      <div>{/* 게시물 검색 - 추천 검색어 */}</div>
+      <SearchRecommend searchType={searchType} />
     </div>
   );
 }
