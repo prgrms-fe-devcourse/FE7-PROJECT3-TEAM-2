@@ -3,29 +3,17 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { BookMarked, ChevronLeft, MessageSquareMore } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import Badge from "../common/Badge";
-
-const containerVariants = cva("post-card flex flex-col rounded-3xl border border-gray-200 px-6 py-5", {
-  variants: {
-    device: {
-      pc: "min-w-[518px]",
-      mobile: "min-w-[320px]",
-    },
-  },
-  defaultVariants: {
-    device: "pc",
-  },
-});
 
 const thumbnailVariants = cva(
   "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-gray-200",
   {
     variants: {
       device: {
-        pc: "min-w-[470px] h-[196px]",
-        mobile: "min-w-[272px] h-[113px]",
+        pc: "h-[196px]",
+        mobile: "h-[113px]",
       },
     },
     defaultVariants: {
@@ -34,7 +22,7 @@ const thumbnailVariants = cva(
   }
 );
 
-interface PostCardProps extends VariantProps<typeof containerVariants> {
+interface PostCardProps extends VariantProps<typeof thumbnailVariants> {
   userName: string;
   title: string;
   content: string;
@@ -43,9 +31,10 @@ interface PostCardProps extends VariantProps<typeof containerVariants> {
 
 export default function PostCard({ device, userName, title, content, className }: PostCardProps) {
   const router = useRouter();
+  const currentPath = usePathname();
   return (
     <>
-      <div className={twMerge(containerVariants({ device }), className)}>
+      <div className={twMerge("post-card flex flex-col rounded-3xl border border-gray-200 px-6 py-5", className)}>
         <div className="post-card_user mb-7.5 flex items-center justify-between">
           <div className="post-card_user-info text-text-title flex items-center">
             <button
@@ -56,13 +45,23 @@ export default function PostCard({ device, userName, title, content, className }
             >
               <ChevronLeft />
             </button>
-            <Image
-              src="/profile_sample.svg"
-              alt="user profile image"
-              width={32}
-              height={32}
-              className="rounded-sm border border-gray-200"
-            />
+            <button
+              onClick={() => {
+                const next = new URLSearchParams();
+                next.set("user", userName);
+                router.push(`${currentPath}?${next.toString()}`);
+              }}
+              className="cursor-pointer"
+            >
+              <Image
+                src="/profile_sample.svg"
+                alt="user profile image"
+                width={32}
+                height={32}
+                className="rounded-sm border border-gray-200"
+              />
+            </button>
+
             <span className="mr-2 ml-5 text-xs">{userName}</span>
             <Badge size="sm" text="칭호칭호" className="bg-gray-200 text-black" />
           </div>
