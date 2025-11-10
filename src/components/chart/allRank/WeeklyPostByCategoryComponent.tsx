@@ -24,7 +24,7 @@ export default function WeeklyPostByCategoryComponent({
       </div>
       <div className="mx-auto h-fit w-11/12">
         <div className="relative h-[350px] min-h-[300px] w-full min-w-0">
-          <RsponsiveContain width="100%" height="100%">
+          <RsponsiveContain width="100%" height={300}>
             <PieChart>
               <Pie
                 data={stats}
@@ -54,13 +54,11 @@ export default function WeeklyPostByCategoryComponent({
               />
             </PieChart>
           </RsponsiveContain>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
             <p className="text-xs text-gray-500">총 게시글</p>
             <p className="text-lg font-bold">{totalPosts}</p>
           </div>
         </div>
-        {/* 중앙에 총 게시글 수 표시 */}
-
         <div className="flex flex-wrap items-center justify-center gap-3 px-3 py-1 text-xs">
           {stats.map((data, i) => (
             <div key={i} className="flex items-center gap-1">

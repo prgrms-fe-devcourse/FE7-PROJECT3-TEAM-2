@@ -34,9 +34,7 @@ export default function BaseImage({ src, alt, onClick, rounded = "lg", className
   const handleError = () => setIsError(true);
   return (
     <div className={twMerge(`h-[50px] w-1/2`, BaseImageVariants({ rounded }), className)} onClick={onClick}>
-      {!isError && (
-        <Image src={src} sizes="1000px" alt={alt} fill loading="eager" className="object-cover" onError={handleError} />
-      )}
+      {!isError && <Image src={src} sizes="1000px" alt={alt} fill className="object-cover" onError={handleError} />}
       {isError && (
         <Image
           alt="placeholder"

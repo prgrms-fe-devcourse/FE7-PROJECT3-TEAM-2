@@ -22,7 +22,7 @@ export default function AdoptStatsComponent({
             <span className="text-text-light text-xs font-semibold">훈수별 채택</span>
           </div>
           <div className="mx-auto h-[400px] w-11/12">
-            <RsponsiveContain className="h-[400px] w-full">
+            <RsponsiveContain width="100%" height={400}>
               <BarChart
                 data={stats}
                 width={100}
