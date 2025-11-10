@@ -25,11 +25,11 @@ interface ToggleProps extends React.ComponentPropsWithoutRef<"button">, VariantP
   isToggle: boolean;
 }
 
-export function Toggle({ size, children, isToggle, ...props }: ToggleProps) {
+export function Toggle({ size, children, isToggle, className, ...props }: ToggleProps) {
   const active = isToggle ? "t" : "f";
   return (
     <>
-      <button className={twMerge(toggle({ size, active }))} {...props}>
+      <button className={twMerge(toggle({ size, active }), className)} {...props}>
         {children}
       </button>
     </>
