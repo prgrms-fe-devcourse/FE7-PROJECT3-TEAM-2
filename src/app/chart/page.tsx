@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function page() {
-  return <div>차트 페이지</div>;
+  redirect("/chart/all-rank");
 }
