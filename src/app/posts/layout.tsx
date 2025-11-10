@@ -1,4 +1,5 @@
 import Category from "@/components/post/Category";
+import PostSideBar from "@/components/post/PostSideBar";
 import { createClient } from "@/utils/supabase/client";
 
 export default async function PostsLayout({ children }: { children: React.ReactNode }) {
@@ -11,7 +12,10 @@ export default async function PostsLayout({ children }: { children: React.ReactN
         <div className="max-sm:hidden">
           <Category categorys={data} />
         </div>
-        <div className="h-full">{children}</div>
+        <div className="posts-area flex h-full w-full gap-6">
+          <PostSideBar />
+          {children}
+        </div>
       </div>
     );
   } else return null;
