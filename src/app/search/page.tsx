@@ -1,3 +1,9 @@
-export default function page() {
-  return <div>검색</div>;
+import SearchForm from "@/components/search/SearchForm";
+
+export default function Page() {
+  return (
+    <>
+      <SearchForm />
+    </>
+  );
 }
