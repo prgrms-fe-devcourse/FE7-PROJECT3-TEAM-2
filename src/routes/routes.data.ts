@@ -51,11 +51,11 @@ export const navData: NavDataType[] = [
     children: [
       {
         label: "전체 랭킹",
-        pathname: "all",
+        pathname: "all-rank",
       },
       {
         label: "분야별 랭킹",
-        pathname: "category",
+        pathname: "category-rank",
       },
     ],
   },
