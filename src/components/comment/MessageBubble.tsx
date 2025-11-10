@@ -64,7 +64,7 @@ export default function MessageBubble({ data }: { data: CommentType }) {
               <Badge text="연애프로 패널급" size="xs" className="bg-pink-600 px-1 text-white" />
             </div>
           </div>
-          <div className="flex items-end">
+          <div className="flex items-end gap-2">
             <div className={TextVariants({ isMine })}>
               <p>{content}</p>
             </div>

@@ -11,7 +11,7 @@ export default async function PostsLayout({ children }: { children: React.ReactN
         <div className="max-sm:hidden">
           <Category categorys={data} />
         </div>
-        <div>{children}</div>
+        <div className="h-full">{children}</div>
       </div>
     );
   } else return null;
