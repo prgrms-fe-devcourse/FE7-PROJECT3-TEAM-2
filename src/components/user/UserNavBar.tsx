@@ -10,7 +10,7 @@ export default function UserNavBar() {
   return (
     <>
       <div className="flex w-full gap-3 rounded-3xl border border-gray-200 p-6">
-        <Link href="profile">
+        <Link href="/user/profile">
           <Toggle
             size="sm"
             isToggle={active === "profile" ? true : false}
@@ -21,7 +21,7 @@ export default function UserNavBar() {
             프로필
           </Toggle>
         </Link>
-        <Link href="archive">
+        <Link href="/user/archive">
           <Toggle
             size="sm"
             isToggle={active === "archive" ? true : false}
@@ -32,7 +32,7 @@ export default function UserNavBar() {
             아카이브
           </Toggle>
         </Link>
-        <Link href="badge">
+        <Link href="/user/badge">
           <Toggle
             size="sm"
             isToggle={active === "badge" ? true : false}
