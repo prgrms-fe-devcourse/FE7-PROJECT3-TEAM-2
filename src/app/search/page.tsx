@@ -1,9 +1,5 @@
-import SearchForm from "@/components/search/SearchForm";
+import { redirect } from "next/navigation";
 
-export default function Page() {
-  return (
-    <>
-      <SearchForm />
-    </>
-  );
+export default function SearchPage() {
+  redirect("/search/post");
 }
