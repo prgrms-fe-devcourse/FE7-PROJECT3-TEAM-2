@@ -1,4 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
 
 const BadgeVariants = cva("w-max h-max rounded-sm", {
   variants: {
@@ -16,17 +17,14 @@ const BadgeVariants = cva("w-max h-max rounded-sm", {
 });
 
 interface BadgeProps extends VariantProps<typeof BadgeVariants> {
-  bgColor: string;
-  textColor: string;
   text: string;
+  className?: string;
 }
 
-export default function Badge({ size, bgColor, textColor, text }: BadgeProps) {
+export default function Badge({ size, text, className }: BadgeProps) {
   return (
     <>
-      <div style={{ backgroundColor: bgColor, color: textColor }} className={BadgeVariants({ size })}>
-        {text}
-      </div>
+      <div className={twMerge(BadgeVariants({ size }), className)}>{text}</div>
     </>
   );
 }
