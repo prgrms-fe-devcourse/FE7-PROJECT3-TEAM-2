@@ -9,9 +9,10 @@ import BaseImage from "../common/image/BaseImage";
 export default function Category({ categorys }: { categorys: CategoryType[] }) {
   const pathname = usePathname();
   const currentCategory = pathname.split("/")[2];
+  const isPostDetail = pathname.split("/").length > 3 || pathname.split("/")[2] === "new";
 
   return (
-    <div className="category mb-6 flex gap-6">
+    <div className={twMerge("category mb-6 flex gap-6 max-sm:m-6", isPostDetail && "max-sm:hidden")}>
       <Link href={"/posts/all"}>
         {" "}
         <div

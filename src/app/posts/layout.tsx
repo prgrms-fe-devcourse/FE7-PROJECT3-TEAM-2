@@ -9,9 +9,7 @@ export default async function PostsLayout({ children }: { children: React.ReactN
   if (data) {
     return (
       <div className="flex w-full flex-col p-6 max-sm:p-0">
-        <div className="max-sm:hidden">
-          <Category categorys={data} />
-        </div>
+        <Category categorys={data} />
         <div className="posts-area flex h-full w-full gap-6">
           <PostSideBar />
           {children}
