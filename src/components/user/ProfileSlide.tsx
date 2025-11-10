@@ -25,7 +25,7 @@ export default function ProfileSlide({ isOpen, userId, onClose }: ProfileSlidePr
               <ChevronLeft />
             </button>
             <div className="flex flex-col gap-2">
-              <Badge size="sm" text="LV.1" bgColor="#2b7fff" textColor="white" />
+              <Badge size="sm" text="LV.1" className="bg-main text-white" />
               <p className="font-medium">김철수</p>
             </div>
           </div>
