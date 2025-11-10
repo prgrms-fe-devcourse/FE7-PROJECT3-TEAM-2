@@ -1,13 +1,19 @@
+"use client";
+
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/common/Button";
 
 export default function SearchBar({ searchType }: { searchType: string }) {
+  const route = useRouter();
+
   return (
     <div className="flex w-full flex-col gap-3 rounded-3xl border border-gray-200 p-6">
       <div className="flex items-start gap-3">
         <Button
           variant={searchType === "post" ? "primary" : "secondary"}
           className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
+          onClick={() => route.push("/search/post")}
         >
           <PanelsLeftBottomIcon size={12} />
           게시물 검색
@@ -15,6 +21,7 @@ export default function SearchBar({ searchType }: { searchType: string }) {
         <Button
           variant={searchType === "user" ? "primary" : "secondary"}
           className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
+          onClick={() => route.push("/search/user")}
         >
           <User size={12} />
           사용자 검색
