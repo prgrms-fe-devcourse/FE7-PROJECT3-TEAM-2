@@ -23,12 +23,12 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   // const commentDataSample = null;
   return (
     <>
-      <ResponsiveContainer className="bg-bg-sub w-full">
+      <ResponsiveContainer className="bg-bg-sub w-full overflow-hidden max-sm:border-none">
         <PostCard
           userName="나"
           title="이거 썸 맞나요?"
           content="이거 썸 맞나요?"
-          className="bg-bg-main border-t-0 border-r-0 border-l-0"
+          className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
         />
         <div className="px-6 py-5">
           {commentDataSample ? (
