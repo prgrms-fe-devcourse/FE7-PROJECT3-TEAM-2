@@ -16,7 +16,7 @@ export default function CategoryDropdown({ categorys }: { categorys: CategoryTyp
       <PopoverTrigger asChild>
         <button
           className={twMerge(
-            "text-text-light border-text-light hover:bg-bg-sub flex w-full cursor-pointer items-center justify-between rounded-xl border px-3 py-4",
+            "text-text-light hover:bg-bg-sub flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-3 py-4",
             type && "text-text-sub"
           )}
         >
@@ -28,7 +28,7 @@ export default function CategoryDropdown({ categorys }: { categorys: CategoryTyp
           )}
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="border-text-light w-(--radix-popover-trigger-width) p-0">
+      <PopoverContent align="start" className="w-(--radix-popover-trigger-width) border-gray-200 p-0">
         <Command>
           <CommandInput placeholder="카테고리명을 검색하세요" />
           <CommandList>
