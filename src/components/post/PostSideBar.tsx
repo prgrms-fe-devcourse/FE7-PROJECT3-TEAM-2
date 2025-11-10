@@ -1,6 +1,7 @@
 "use client";
 
 import { Grid2x2, Plus, Users } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/common/Button";
@@ -18,7 +19,8 @@ export interface postCardSampleDataType {
 }
 
 export default function PostSideBar() {
-  const isPostDetail = usePathname().split("/").length > 3;
+  const currentPath = usePathname().split("/");
+  const isPostDetail = currentPath.length > 3 || currentPath[2] === "new";
 
   const postCardSampleData = {
     id: "1",
@@ -36,10 +38,13 @@ export default function PostSideBar() {
         isPostDetail && "max-[1100px]:hidden"
       )}
     >
-      <Button size="md" className="w-60 max-sm:w-full">
-        <Plus size={24} />
-        <span>글쓰기</span>
-      </Button>
+      <Link href="/posts/new" className="max-sm:w-full">
+        <Button size="md" className="w-60 max-sm:w-full">
+          <Plus size={24} />
+          <span>글쓰기</span>
+        </Button>
+      </Link>
+
       <Divider width="90" />
       <div className="post-filter-btn flex gap-3 max-sm:w-full">
         <Button size="sm" className="max-sm:w-full">
