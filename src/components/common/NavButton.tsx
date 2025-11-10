@@ -10,8 +10,8 @@ const navButtonVariants = cva(
   {
     variants: {
       variant: {
-        main: "text-text-title sm:pl-4 pl-11",
-        sub: "text-text-sub pl-11",
+        main: "text-text-title sm:pl-4 justify-center sm:justify-start",
+        sub: "text-text-sub",
       },
       active: {
         true: "text-blue-500",
@@ -22,7 +22,7 @@ const navButtonVariants = cva(
       {
         variant: "main",
         active: true,
-        className: "bg-gray-200",
+        className: "!bg-gray-200",
       },
     ],
     defaultVariants: {
@@ -39,7 +39,6 @@ interface NavButtonProps extends VariantProps<typeof navButtonVariants>, LinkPro
 }
 
 export const NavButton = ({ variant, active, children, className, icon_img, ...props }: NavButtonProps) => {
-  console.log(icon_img, variant);
   return (
     <Link className={twMerge(navButtonVariants({ variant, active }), className)} {...props}>
       {variant === "main" && (

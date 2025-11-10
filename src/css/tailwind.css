@@ -5,6 +5,7 @@
 
 :root {
   --header-height: 60px;
+  --global-padding: 24px;
 }
 
 @theme {
