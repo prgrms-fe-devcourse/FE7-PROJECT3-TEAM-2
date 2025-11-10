@@ -23,11 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable}`}>
-      <body className={`${pretendard.className} bg-color-main antialiased`}>
-        <Header />
-        <div className="flex flex-col sm:flex-row">
-          <Nav />
-          <main className="flex flex-1 sm:h-[calc(100vh-var(--header-height))] sm:overflow-y-scroll">{children}</main>
+      <body className={`${pretendard.className} bg-[#E5E8EB] antialiased`}>
+        <div className="bg-bg-main m-auto w-full max-w-full rounded-[30px] lg:max-w-[1440px]">
+          <Header />
+          <div className="flex h-fit flex-col sm:flex-row">
+            <Nav />
+            <main className="flex flex-1 rounded-br-[30px] sm:h-[calc(100vh-var(--header-height))] sm:overflow-y-scroll">
+              {children}
+            </main>
+          </div>
         </div>
       </body>
     </html>
