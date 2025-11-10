@@ -23,7 +23,7 @@ export default function HeaderNav() {
         </button>
 
         {open && (
-          <ul className="fixed top-(--header-height) left-0 flex w-full flex-col gap-2 bg-white p-(--global-padding)">
+          <ul className="fixed top-(--header-height) left-0 z-10 flex w-full flex-col gap-2 bg-white p-(--global-padding)">
             {navData.map(nav => {
               return (
                 <li

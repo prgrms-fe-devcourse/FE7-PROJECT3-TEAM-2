@@ -19,7 +19,8 @@ export interface postCardSampleDataType {
 }
 
 export default function PostSideBar() {
-  const isPostDetail = usePathname().split("/").length > 3;
+  const currentPath = usePathname().split("/");
+  const isPostDetail = currentPath.length > 3 || currentPath[2] === "new";
 
   const postCardSampleData = {
     id: "1",
