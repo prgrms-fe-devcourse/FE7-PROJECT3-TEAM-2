@@ -1,6 +1,7 @@
 "use client";
 
 import { Grid2x2, Plus, Users } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/common/Button";
@@ -36,10 +37,13 @@ export default function PostSideBar() {
         isPostDetail && "max-[1100px]:hidden"
       )}
     >
-      <Button size="md" className="w-60 max-sm:w-full">
-        <Plus size={24} />
-        <span>글쓰기</span>
-      </Button>
+      <Link href="/posts/new">
+        <Button size="md" className="w-60 max-sm:w-full">
+          <Plus size={24} />
+          <span>글쓰기</span>
+        </Button>
+      </Link>
+
       <Divider width="90" />
       <div className="post-filter-btn flex gap-3 max-sm:w-full">
         <Button size="sm" className="max-sm:w-full">
