@@ -7,11 +7,11 @@ import SearchIntro from "./SearchIntro";
 import SearchRecommend from "./SearchRecommend";
 import SearchResult from "./SearchResult";
 
-const searchFormVariants = cva("flex flex-col gap-4 max-h-[314px] w-full max-w-[697px]", {
+const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
   variants: {
     searched: {
       true: "mx-6 mt-5",
-      false: "mx-auto",
+      false: "mx-auto items-center justify-center min-h-[calc(100vh-64px)]",
     },
   },
   defaultVariants: {
