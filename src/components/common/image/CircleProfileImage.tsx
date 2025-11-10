@@ -2,6 +2,7 @@
 
 import { cva } from "class-variance-authority";
 import { StaticImageData } from "next/image";
+import { twMerge } from "tailwind-merge";
 import BaseImage, { RoundedSize } from "./BaseImage";
 
 type ImageSize = "xs" | "sm" | "md" | "lg" | "xl";
@@ -35,6 +36,7 @@ export default function CircleProfileImage({
   alt = "image",
   size = "md",
   rounded = "lg",
+  className,
   onClick,
 }: CircleProfileImageProps) {
   return (
@@ -42,7 +44,7 @@ export default function CircleProfileImage({
       src={src}
       alt={alt}
       rounded={rounded}
-      className={CircleProfileImageVariants({ size })}
+      className={twMerge(CircleProfileImageVariants({ size }), className)}
       onClick={onClick}
     />
   );

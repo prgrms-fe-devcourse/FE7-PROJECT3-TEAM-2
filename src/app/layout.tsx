@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable}`}>
-      <body className={`${pretendard.className} bg-[#E5E8EB] antialiased`}>
+      <body className={`${pretendard.className} bg-[#E5E8EB] px-0 antialiased md:px-1`}>
         <div className="bg-bg-main m-auto w-full max-w-full rounded-[30px] lg:max-w-[1440px]">
           <Header />
           <div className="flex h-fit flex-col sm:flex-row">
