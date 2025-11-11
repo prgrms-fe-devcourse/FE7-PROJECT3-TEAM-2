@@ -38,7 +38,7 @@ export default function PostSideBar() {
         isPostDetail && "max-[1100px]:hidden"
       )}
     >
-      <Link href="/posts/new" className="max-sm:w-full">
+      <Link href="/posts/write" className="max-sm:w-full">
         <Button size="md" className="w-60 max-sm:w-full">
           <Plus size={24} />
           <span>글쓰기</span>
