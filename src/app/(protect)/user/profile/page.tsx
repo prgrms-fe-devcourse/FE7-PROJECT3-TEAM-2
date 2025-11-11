@@ -15,7 +15,7 @@ export default function page() {
         <div className="mb-3 flex items-center gap-3">
           <CircleProfileImage src={""} size="lg" />
           <div className="flex flex-col gap-2">
-            <Badge size="sm" text="LV.1" bgColor="#2b7fff" textColor="white" />
+            <Badge size="sm" text="LV.1" className="bg-main text-white" />
             <p className="font-medium">김철수</p>
           </div>
         </div>

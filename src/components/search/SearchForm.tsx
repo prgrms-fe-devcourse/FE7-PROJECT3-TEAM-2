@@ -1,17 +1,17 @@
 "use client";
 
 import { cva } from "class-variance-authority";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import SearchBar from "./SearchBar";
 import SearchIntro from "./SearchIntro";
 import SearchRecommend from "./SearchRecommend";
 import SearchResult from "./SearchResult";
 
-const searchFormVariants = cva("flex flex-col gap-4 max-h-[314px] w-full max-w-[697px]", {
+const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
   variants: {
     searched: {
-      true: "mx-6 mt-5",
-      false: "mx-auto",
+      true: "w-screen max-w-none mx-6 mt-5",
+      false: "mx-auto items-center justify-center min-h-[calc(100vh-64px)]",
     },
   },
   defaultVariants: {
@@ -20,9 +20,10 @@ const searchFormVariants = cva("flex flex-col gap-4 max-h-[314px] w-full max-w-[
 });
 
 export default function SearchForm() {
-  const searchParams = useSearchParams();
-  const searchType = searchParams.get("type") === "user" ? "user" : "post";
-  const queryParam = searchParams.get("query");
+  const { type } = useParams();
+  const searchType = type === "user" ? "user" : "post";
+  const searchQueryParams = useSearchParams();
+  const queryParam = searchQueryParams.get("query");
 
   const isSearched = !!queryParam;
 
