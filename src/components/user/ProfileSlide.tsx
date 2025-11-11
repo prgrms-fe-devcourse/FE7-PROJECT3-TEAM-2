@@ -1,27 +1,31 @@
 "use client";
 
 import { ChevronLeft } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import BadgeDetail from "./BadgeDetail";
 import CategoryRanking from "./CategoryRanking";
 import Badge from "../common/Badge";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { Toggle } from "../common/Toggle";
 
-type ProfileSlideProps = {
-  isOpen: boolean;
-  userId: string;
-  onClose: () => void;
-};
-
 //유저 아이디를 통한 데이터 패치 필요 (현재 구현 X)
 
-export default function ProfileSlide({ isOpen, userId, onClose }: ProfileSlideProps) {
+export default function ProfileSlide({ userId }: { userId: string }) {
+  const router = useRouter();
+  const search = useSearchParams();
+  const currentPath = usePathname();
+  const isOpen = search.get("user");
   return (
     <>
       {isOpen && (
         <ResponsiveContainer className="min-w-[334px] px-6 py-8.5">
           <div className="flex items-center gap-6">
-            <button onClick={onClose}>
+            <button
+              onClick={() => {
+                router.replace(currentPath);
+              }}
+              className="cursor-pointer"
+            >
               <ChevronLeft />
             </button>
             <div className="flex flex-col gap-2">
