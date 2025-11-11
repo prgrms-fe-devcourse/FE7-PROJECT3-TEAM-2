@@ -2,7 +2,7 @@ import Badge from "@/components/common/Badge";
 
 export default function SearchRecommend() {
   return (
-    <div className="flex flex-col gap-3 px-6">
+    <div className="flex w-full flex-col items-start gap-3 px-6">
       <p className="text-main text-[14px]">추천 검색어</p>
       <div className="flex gap-3">
         {/* 더미 */}

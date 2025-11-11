@@ -16,7 +16,7 @@ export default function Nav() {
   };
 
   return (
-    <nav className="bg-bg-sub hidden overflow-y-auto border border-gray-200 sm:flex sm:h-[calc(100vh-var(--header-height))] sm:w-[223px] sm:flex-col sm:justify-between sm:p-6">
+    <nav className="bg-bg-sub hidden overflow-y-auto rounded-bl-[30px] border border-gray-200 sm:flex sm:h-[calc(100vh-var(--header-height))] sm:w-[223px] sm:flex-col sm:justify-between sm:p-6">
       <ul className="flex items-center gap-3 sm:flex-col sm:items-baseline">
         {navData.map(nav => {
           return (
