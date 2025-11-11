@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import localFont from "next/font/local";
+import Header from "@/components/layout/Header";
+import Nav from "@/components/layout/Nav";
+import "../css/index.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const pretendard = localFont({
+  src: "../fonts/pretendard/PretendardVariable.woff2",
+  display: "swap",
+  weight: "100 900",
+  variable: "--font-pretendard",
 });
 
 export const metadata: Metadata = {
@@ -23,8 +22,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html lang="ko" className={`${pretendard.variable}`}>
+      <body className={`${pretendard.className} bg-[#E5E8EB] px-0 antialiased md:px-1`}>
+        <div className="bg-bg-main m-auto w-full max-w-full rounded-[30px] lg:max-w-[1440px]">
+          <Header />
+          <div className="flex h-fit flex-col sm:flex-row">
+            <Nav />
+            <main className="flex flex-1 rounded-br-[30px] sm:h-[calc(100vh-var(--header-height))] sm:overflow-y-scroll">
+              {children}
+            </main>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
