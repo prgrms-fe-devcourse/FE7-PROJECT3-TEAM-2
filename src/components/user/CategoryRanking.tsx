@@ -14,7 +14,7 @@ export default function CategoryRanking({ Field, total, current }: CategoryRanki
   const currentData = [{ name: "current", value: ratio }]; // total 데이터
 
   return (
-    <ResponsiveContainer className="flex items-center justify-center gap-13 px-6 py-7">
+    <ResponsiveContainer className="flex items-center justify-center gap-13 px-6 py-7 max-sm:justify-between max-sm:rounded-2xl">
       {/* 그래프 */}
       <div className="relative h-20 w-20">
         {/* total 데이터 bar */}
