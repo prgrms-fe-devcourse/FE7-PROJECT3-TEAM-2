@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import PostForm from "@/components/post/PostForm";
-import { createPost } from "@/services/post";
+import { createPost, updatePost } from "@/services/post";
 import { CategoryType, FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -35,8 +35,7 @@ export default async function NewPostPage() {
     const categoryId = formData.get("category_id")?.toString() ?? "";
     const title = formData.get("title")?.toString() ?? "";
     const content = formData.get("content")?.toString() ?? "";
-    const imgFile = formData.get("upload_image") as File | null;
-    let imgUrl: string | null = null;
+    const imgFile = formData.get("upload_image") as File;
 
     if (!categoryId || !title || !content) {
       return {
@@ -45,7 +44,17 @@ export default async function NewPostPage() {
       };
     }
 
-    if (imgFile) {
+    // supabase에 post 데이터 insert
+    const [state, data] = await createPost({
+      user_id: user.id,
+      category_id: categoryId,
+      title: title,
+      content: content,
+    });
+
+    if (!state.success) return state;
+
+    if (imgFile && imgFile.size > 0) {
       const fileExt = imgFile.name.split(".").pop();
       const fileName = `${user.id}${Date.now()}.${fileExt}`;
 
@@ -57,23 +66,36 @@ export default async function NewPostPage() {
           error: "이미지 업로드 실패",
         };
       } else {
-        const { data } = supabase.storage.from("user_upload_image").getPublicUrl(fileName);
+        const { data: image } = supabase.storage.from("user_upload_image").getPublicUrl(fileName);
 
-        imgUrl = data.publicUrl;
+        const [updateState, updateData] = await updatePost({
+          id: data?.id ? data.id : "",
+          updateData: { post_image: image.publicUrl },
+        });
+
+        if (!updateState?.success) return state;
+
+        // 뱃지, 경험치
+        if (updateData) {
+          const { data: newBadge, error: newBadgeError } = await supabase.rpc("grant_badges_and_update_exp", {
+            p_user_id: user.id,
+            p_category_id: categoryId,
+          });
+
+          if (newBadgeError) throw newBadgeError;
+
+          if (newBadge[0]) {
+            const badgeInfo = newBadge[0];
+            console.log(`${badgeInfo.badge_name}, 뱃지를 얻으셨습니다!`);
+            if (badgeInfo.leveled_up) console.log(`${badgeInfo.new_level}, 레벨업!`);
+          }
+        }
+
+        return {
+          success: true,
+          error: null,
+        };
       }
-    }
-
-    // supabase에 post 데이터 insert
-    const [state, data] = await createPost({
-      user_id: user.id,
-      category_id: categoryId,
-      title: title,
-      content: content,
-      post_image: imgUrl,
-    });
-
-    if (!state.success) {
-      return state;
     }
 
     // 뱃지, 경험치
