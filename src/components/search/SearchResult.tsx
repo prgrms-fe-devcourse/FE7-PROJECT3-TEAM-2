@@ -1,8 +1,11 @@
 "use client";
 
+import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 // import Image from "next/image";
 import Badge from "../common/Badge";
+
+const cardVariants = cva("flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-gray-200");
 
 export default function SearchResult({ searchType }: { searchType: string }) {
   // 더미
@@ -39,6 +42,8 @@ export default function SearchResult({ searchType }: { searchType: string }) {
     },
   ];
 
+  const profileHandler = () => {};
+
   return (
     <div className="flex flex-col gap-3 rounded-3xl border border-gray-200 p-6">
       <div className="flex justify-between">
@@ -48,7 +53,7 @@ export default function SearchResult({ searchType }: { searchType: string }) {
           <p className="text-content text-xs">건</p>
         </div>
         <div className="text-content flex cursor-pointer gap-0.5 text-xs">
-          <p className="">날짜 순</p>
+          <p>날짜 순</p>
           <button className="cursor-pointer">
             <ChevronDown size={12} />
           </button>
@@ -57,7 +62,7 @@ export default function SearchResult({ searchType }: { searchType: string }) {
 
       {searchType === "post" &&
         dummyPosts.map(post => (
-          <div key={post.id} className="flex w-full justify-between gap-3 rounded-3xl border border-gray-200">
+          <div key={post.id} className={cardVariants()}>
             <div className="flex flex-col gap-6 p-6">
               <div className="flex gap-2 text-xs">
                 <p>{post.user_id}</p>
@@ -82,9 +87,10 @@ export default function SearchResult({ searchType }: { searchType: string }) {
             </div>
           </div>
         ))}
+
       {searchType === "user" &&
         dummyUsers.map(user => (
-          <div key={user.id} className="flex w-full justify-between gap-3 rounded-3xl border border-gray-200">
+          <div key={user.id} className={cardVariants()} onClick={profileHandler}>
             <div className="flex flex-col gap-6 p-6">
               <p>{user.name}</p>
               <Badge className="bg-amber-400 px-2 py-1" size="sm" text={`LV.${user.level}`} />
