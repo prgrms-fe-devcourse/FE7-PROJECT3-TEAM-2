@@ -8,7 +8,7 @@ export default function SearchBar({ searchType }: { searchType: string }) {
   const route = useRouter();
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-3xl border border-gray-200 p-6">
+    <div className="flex w-full flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
       <div className="flex items-start gap-3">
         <Button
           variant={searchType === "post" ? "primary" : "secondary"}

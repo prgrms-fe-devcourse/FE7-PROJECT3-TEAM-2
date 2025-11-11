@@ -45,7 +45,7 @@ export default function SearchResult({ searchType }: { searchType: string }) {
   const profileHandler = () => {};
 
   return (
-    <div className="flex flex-col gap-3 rounded-3xl border border-gray-200 p-6">
+    <div className="flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
       <div className="flex justify-between">
         <div className="flex">
           <p className="text-content text-xs">검색 결과&nbsp;</p>
