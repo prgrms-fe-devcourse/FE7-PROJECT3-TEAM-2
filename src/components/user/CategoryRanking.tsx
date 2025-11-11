@@ -10,12 +10,14 @@ type CategoryRankingProps = {
 };
 export default function CategoryRanking({ Field, total, current }: CategoryRankingProps) {
   const ratio = (current / total) * 100;
-  const totalData = [{ name: "total", value: 100 }];
-  const currentData = [{ name: "current", value: ratio }];
+  const totalData = [{ name: "total", value: 100 }]; // user의 데이터
+  const currentData = [{ name: "current", value: ratio }]; // total 데이터
 
   return (
-    <ResponsiveContainer className="flex items-center justify-center gap-13 px-6 py-7">
+    <ResponsiveContainer className="flex items-center justify-center gap-13 px-6 py-7 max-sm:justify-between max-sm:rounded-2xl">
+      {/* 그래프 */}
       <div className="relative h-20 w-20">
+        {/* total 데이터 bar */}
         <div className="absolute inset-0">
           <RadialBarChart
             width={80}
@@ -27,10 +29,10 @@ export default function CategoryRanking({ Field, total, current }: CategoryRanki
             barSize={6}
             data={totalData}
           >
-            <RadialBar dataKey="value" fill="#f0f2f5" cornerRadius={3} />
+            <RadialBar dataKey="value" fill="#f0f2f5" cornerRadius={5} />
           </RadialBarChart>
         </div>
-
+        {/* user의 데이터 bar */}
         <div className="absolute inset-0">
           <RadialBarChart
             width={80}

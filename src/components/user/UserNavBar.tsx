@@ -9,7 +9,7 @@ export default function UserNavBar() {
   const [active, setActive] = useState("profile");
   return (
     <>
-      <div className="flex w-full gap-3 rounded-3xl border border-gray-200 p-6">
+      <div className="flex w-full gap-3 rounded-3xl border border-gray-200 p-6 max-sm:border-none max-sm:p-0">
         <Link href="/user/profile">
           <Toggle
             size="sm"

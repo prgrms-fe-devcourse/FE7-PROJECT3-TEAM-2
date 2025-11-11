@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function page() {
-  return <div>유저 페이지</div>;
+  return redirect("/user/profile");
 }
