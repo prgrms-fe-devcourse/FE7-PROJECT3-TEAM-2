@@ -5,21 +5,14 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { CategoryType } from "@/types";
 
-export default function CategoryDropdown({
-  categorys,
-  handleCategory,
-  categoryValue,
-  handleCategoryValue,
-}: {
-  categorys: CategoryType[];
-  handleCategory: (id: string) => void;
-  categoryValue: string;
-  handleCategoryValue: (value: string) => void;
-}) {
+export default function CategoryDropdown({ categorys }: { categorys: CategoryType[] }) {
   const [open, setOpen] = useState(false);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
 
   return (
     <div className="relative">
+      <input type="hidden" name="category_id" value={categoryId} />
       <button
         type="button"
         className={twMerge(
@@ -45,8 +38,8 @@ export default function CategoryDropdown({
           <li
             key={category.id}
             onClick={() => {
-              handleCategoryValue(categoryValue === category.name ? "" : category.name);
-              handleCategory(category.id);
+              setCategoryValue(categoryValue === category.name ? "" : category.name);
+              setCategoryId(category.id);
               setOpen(false);
             }}
             className="hover:bg-bg-sub cursor-pointer rounded-xl px-3 py-3"
