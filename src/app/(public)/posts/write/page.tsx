@@ -15,5 +15,5 @@ export default async function NewPostPage() {
     redirect("/login");
   }
 
-  return <PostForm categorys={data as CategoryType[]} />;
+  return <PostForm categorys={data as CategoryType[]} userId={user.id} />;
 }
