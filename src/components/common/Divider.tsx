@@ -25,13 +25,14 @@ const divider = cva("h-px mx-auto", {
 });
 
 interface DividerProps extends VariantProps<typeof divider> {
+  className?: string;
   width?: "25" | "50" | "75" | "90" | "100";
 }
 
-export function Divider({ thickness, width = "100" }: DividerProps) {
+export function Divider({ thickness, width = "100", className }: DividerProps) {
   return (
     <>
-      <div className={twMerge(divider({ thickness, width }))}></div>
+      <div className={twMerge(divider({ thickness, width }), className)}></div>
     </>
   );
 }
