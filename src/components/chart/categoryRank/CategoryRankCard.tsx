@@ -5,20 +5,12 @@ import { categoryColor } from "@/utils/category";
 import AdoptRatioChart from "./AdoptRatioChart";
 import ChartFillPie from "../ChartFillPie";
 
-export default function CategoryRankCard({
-  data,
-  stats,
-}: {
-  data: {
-    name: string;
-    value: number;
-  }[];
-  stats: categoryStatsType;
-}) {
+export default function CategoryRankCard({ stats }: { stats: categoryStatsType }) {
   const color = categoryColor[stats.category_name];
   const defaultColor = ["#F9E79F", "#D6DBDF", "#F5CBA7"];
   const adoptedPercent = stats.total_posts > 0 ? Math.round((stats.adopted_posts / stats.total_posts) * 100) : 0;
   const getBadgePercent = Math.round((stats.users_with_badge / stats.total_users) * 100);
+  const badgeCountStat = stats.badge_counts.reduce((acc, cur) => acc * cur.achieved_count, 1);
 
   return (
     <ResponsiveContainer className="col-span-1 flex min-h-[360px] flex-col gap-8 p-6 whitespace-nowrap md:gap-12">
@@ -45,7 +37,7 @@ export default function CategoryRankCard({
           <div className="text-text-title mb-1 text-sm font-semibold">키워드 TOP3</div>
           <div className="flex gap-5">
             {!stats.topkeywords[0] && (
-              <Badge size="md" className="bg-text-content px-2 py-1 text-white" text="지표가 부족합니다" />
+              <Badge size="md" className="bg-text-sub px-2 py-1 text-white" text="지표가 부족합니다" />
             )}
             {stats.topkeywords[0] &&
               stats.topkeywords.map((keyword, index) => (
@@ -65,7 +57,7 @@ export default function CategoryRankCard({
         <div className="grid max-w-[360px] cursor-pointer grid-cols-3 gap-8">
           {!stats.topusers[0] && (
             <div className="min-h-[98px]">
-              <Badge size="md" className="bg-text-content px-2 py-1 text-white" text="지표가 부족합니다" />
+              <Badge size="md" className="bg-text-sub px-2 py-1 text-white" text="지표가 부족합니다" />
             </div>
           )}
           {stats.topusers?.map((user, index) => (
@@ -91,7 +83,10 @@ export default function CategoryRankCard({
         <div className="flex flex-col gap-3">
           <div className="text-text-title text-sm font-semibold">업적별 뱃지</div>
           <div className="h-[130px]">
-            <ChartFillPie stats={data} />
+            {!badgeCountStat && (
+              <Badge size="md" className="bg-text-sub px-2 py-1 text-white" text="지표가 부족합니다" />
+            )}
+            {!!badgeCountStat && <ChartFillPie stats={stats.badge_counts} />}
           </div>
         </div>
       </div>

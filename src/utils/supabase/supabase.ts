@@ -428,20 +428,7 @@ export type Database = {
         Returns: {
           adopted_posts: number;
           avg_comments: number;
-          category_id: string;
-          category_name: string;
-          image_url: string;
-          topkeywords: string[];
-          topusers: Json;
-          total_point: number;
-          total_posts: number;
-        }[];
-      };
-      get_category_full_statistics_v2: {
-        Args: never;
-        Returns: {
-          adopted_posts: number;
-          avg_comments: number;
+          badge_counts: Json;
           category_id: string;
           category_name: string;
           image_url: string;

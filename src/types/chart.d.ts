@@ -5,6 +5,13 @@ type TopUserType = {
   total_point: number;
   rank: number;
 };
+
+type BagdeCountType = {
+  badge_id: string;
+  badge_name: string;
+  achieved_count: number;
+};
+
 interface categoryStatsType {
   avg_comments: number;
   category_id: string;
@@ -17,4 +24,5 @@ interface categoryStatsType {
   adopted_posts: number;
   total_users: number;
   users_with_badge: number;
+  badge_counts: BagdeCountType[];
 }
