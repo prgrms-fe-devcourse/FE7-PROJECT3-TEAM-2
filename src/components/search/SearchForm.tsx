@@ -1,7 +1,4 @@
-"use client";
-
 import { cva } from "class-variance-authority";
-import { useParams, useSearchParams } from "next/navigation";
 import SearchBar from "./SearchBar";
 import SearchIntro from "./SearchIntro";
 import SearchRecommend from "./SearchRecommend";
@@ -20,12 +17,7 @@ const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
   },
 });
 
-export default function SearchForm() {
-  const { type } = useParams();
-  const searchType = type === "user" ? "user" : "post";
-  const searchQueryParams = useSearchParams();
-  const queryParam = searchQueryParams.get("query");
-
+export default function SearchForm({ searchType, queryParam }: { searchType: string; queryParam: string | null }) {
   const isSearched = !!queryParam;
 
   return (
