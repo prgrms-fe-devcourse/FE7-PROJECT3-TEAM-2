@@ -7,3 +7,9 @@ export type SearchResultProps = {
   searchType: string;
   data: Post[] | Profile[];
 };
+
+export type PostWithProfile = Post & {
+  profiles?: {
+    name?: string;
+  };
+};

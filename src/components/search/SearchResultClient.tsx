@@ -2,49 +2,13 @@
 
 import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
-import { SearchResultProps } from "@/types/search";
+import { PostWithProfile, Profile, SearchResultProps } from "@/types/search";
 // import Image from "next/image";
 import Badge from "../common/Badge";
 
 const cardVariants = cva("flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-gray-200");
 
 export default function SearchResultClient({ searchType, data }: SearchResultProps) {
-  // 더미
-  const dummyPosts = [
-    {
-      id: 1,
-      user_id: 1,
-      created_at: "2025년 11월 8일",
-      title: "이거 썸 맞나요?",
-      content: "얘 나 좋아하는거 맞지.",
-      post_img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKPelunvobTdrAM_XNl7ME6ThiVkk0yhSHyQ&s",
-    },
-    {
-      id: 2,
-      user_id: 1,
-      created_at: "2025년 11월 9일",
-      title: "안녕하세요",
-      content: "오늘부터 훈수시작",
-      post_img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKPelunvobTdrAM_XNl7ME6ThiVkk0yhSHyQ&s",
-    },
-  ];
-  const dummyUsers = [
-    {
-      id: 1,
-      name: "훈수꾼",
-      avatar_img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKPelunvobTdrAM_XNl7ME6ThiVkk0yhSHyQ&s",
-      level: 100,
-    },
-    {
-      id: 2,
-      name: "나요",
-      avatar_img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKPelunvobTdrAM_XNl7ME6ThiVkk0yhSHyQ&s",
-      level: 99,
-    },
-  ];
-
-  const profileHandler = () => {};
-
   return (
     <div className="flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
       <div className="flex justify-between">
@@ -62,11 +26,11 @@ export default function SearchResultClient({ searchType, data }: SearchResultPro
       </div>
 
       {searchType === "post" &&
-        dummyPosts.map(post => (
+        (data as PostWithProfile[]).map(post => (
           <div key={post.id} className={cardVariants()}>
             <div className="flex flex-col gap-6 p-6">
               <div className="flex gap-2 text-xs">
-                <p>{post.user_id}</p>
+                <p>{post.profiles?.name}</p>
                 <p className="text-text-light">{post.created_at}</p>
               </div>
               <div className="flex flex-col gap-2.5 text-sm">
@@ -84,14 +48,14 @@ export default function SearchResultClient({ searchType, data }: SearchResultPro
                   className="rounded-sm"
                 /> */}
               {/* 임시 */}
-              <img src={post.post_img} className="rounded-sm" />
+              {/* <img src={post.post_image} className="rounded-sm" /> */}
             </div>
           </div>
         ))}
 
       {searchType === "user" &&
-        dummyUsers.map(user => (
-          <div key={user.id} className={cardVariants()} onClick={profileHandler}>
+        (data as Profile[]).map(user => (
+          <div key={user.id} className={cardVariants()}>
             <div className="flex flex-col gap-6 p-6">
               <p>{user.name}</p>
               <Badge className="bg-amber-400 px-2 py-1" size="sm" text={`LV.${user.level}`} />
@@ -99,7 +63,7 @@ export default function SearchResultClient({ searchType, data }: SearchResultPro
             </div>
             <div>
               {/* 임시 */}
-              <img src={user.avatar_img} className="rounded-sm" />
+              {/* <img src={user.avatar_img} className="rounded-sm" /> */}
             </div>
           </div>
         ))}

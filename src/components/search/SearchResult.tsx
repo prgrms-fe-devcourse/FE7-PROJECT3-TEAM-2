@@ -12,7 +12,7 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
   if (searchType === "post") {
     const { data: posts } = await supabase
       .from("posts")
-      .select("*")
+      .select("*, profiles(name)")
       .or(`title.ilike.%${queryParam}%, content.ilike.%${queryParam}%`);
     data = posts || [];
   } else {
