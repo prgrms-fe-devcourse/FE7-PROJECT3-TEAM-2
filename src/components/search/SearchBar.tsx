@@ -2,10 +2,19 @@
 
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/common/Button";
 
 export default function SearchBar({ searchType }: { searchType: string }) {
   const route = useRouter();
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    route.push(`/search/${searchType}?query=${encodeURIComponent(query)}`);
+  };
 
   return (
     <div className="flex w-full flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
@@ -27,12 +36,17 @@ export default function SearchBar({ searchType }: { searchType: string }) {
           사용자 검색
         </Button>
       </div>
-      <div className="flex h-14 w-full rounded-lg border border-gray-200">
-        <input placeholder="검색어를 입력해주세요..." className="ml-3 w-full outline-none" />
-        <Button variant="primary" className="m-2 mr-3 min-h-10 min-w-10 px-3 py-2 text-xs">
+      <form className="flex h-14 w-full rounded-lg border border-gray-200" onSubmit={handleSearch}>
+        <input
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="검색어를 입력해주세요..."
+          className="ml-3 w-full outline-none"
+        />
+        <Button type="submit" variant="primary" className="m-2 mr-3 min-h-10 min-w-10 px-3 py-2 text-xs">
           <Search size={16} color="white" />
         </Button>
-      </div>
+      </form>
     </div>
   );
 }
