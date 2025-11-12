@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import SearchBar from "./SearchBar";
 import SearchIntro from "./SearchIntro";
 import SearchRecommend from "./SearchRecommend";
-import SearchResultClient from "./SearchResultClient";
+import SearchResult from "./SearchResult";
 
 const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
   variants: {
@@ -34,7 +34,7 @@ export default function SearchForm() {
 
       <SearchBar searchType={searchType} />
 
-      {isSearched && <SearchResultClient searchType={searchType} />}
+      {isSearched && <SearchResult searchType={searchType} queryParam={queryParam} />}
 
       {!isSearched && searchType === "post" && <SearchRecommend />}
     </div>

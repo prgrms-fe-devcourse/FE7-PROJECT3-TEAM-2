@@ -2,12 +2,13 @@
 
 import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
+import { SearchResultProps } from "@/types/search";
 // import Image from "next/image";
 import Badge from "../common/Badge";
 
 const cardVariants = cva("flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-gray-200");
 
-export default function SearchResultClient({ searchType }: { searchType: string }) {
+export default function SearchResultClient({ searchType, data }: SearchResultProps) {
   // 더미
   const dummyPosts = [
     {
