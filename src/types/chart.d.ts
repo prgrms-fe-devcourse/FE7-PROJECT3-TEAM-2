@@ -15,4 +15,6 @@ interface categoryStatsType {
   total_point: number;
   total_posts: number;
   adopted_posts: number;
+  total_users: number;
+  users_with_badge: number;
 }

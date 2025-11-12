@@ -18,6 +18,7 @@ export default function CategoryRankCard({
   const color = categoryColor[stats.category_name];
   const defaultColor = ["#F9E79F", "#D6DBDF", "#F5CBA7"];
   const adoptedPercent = stats.total_posts > 0 ? Math.round((stats.adopted_posts / stats.total_posts) * 100) : 0;
+  const getBadgePercent = Math.round((stats.users_with_badge / stats.total_users) * 100);
 
   return (
     <ResponsiveContainer className="col-span-1 flex min-h-[360px] flex-col gap-8 p-6 whitespace-nowrap md:gap-12">
@@ -84,7 +85,7 @@ export default function CategoryRankCard({
           <div className="text-text-title mb-2 text-sm font-semibold">지표</div>
           <div className="flex gap-7">
             <AdoptRatioChart label="채택률" percentage={adoptedPercent} color={color} />
-            <AdoptRatioChart label="사용자별 뱃지" percentage={3} color={color} />
+            <AdoptRatioChart label="사용자별 뱃지" percentage={getBadgePercent} color={color} />
           </div>
         </div>
         <div className="flex flex-col gap-3">

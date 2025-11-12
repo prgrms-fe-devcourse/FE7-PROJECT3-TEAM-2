@@ -12,7 +12,7 @@ export default async function CategoryRankComponent() {
   ];
 
   const supabase = await createClient();
-  const { data: statsData, error } = await supabase.rpc("get_category_full_statistics");
+  const { data: statsData, error } = await supabase.rpc("get_category_full_statistics_v2");
 
   if (error) throw error;
 
