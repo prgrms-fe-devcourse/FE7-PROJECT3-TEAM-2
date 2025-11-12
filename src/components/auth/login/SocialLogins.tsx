@@ -1,6 +1,6 @@
 "use client";
 
-import SocialLoginButton from "@/components/auth/SocialLoginButton";
+import SocialLoginButton from "@/components/auth/login/SocialLoginButton";
 import { signInWithGithub, signInWithGoogle, signInWithKakao } from "@/services/auth/login";
 
 export default function SocialLogins() {
