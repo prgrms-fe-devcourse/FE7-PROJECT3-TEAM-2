@@ -24,11 +24,11 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${pretendard.variable}`}>
       <body className={`${pretendard.className} bg-[#E5E8EB] px-0 antialiased md:px-1`}>
-        <div className="bg-bg-main m-auto w-full max-w-full rounded-[30px] lg:max-w-[1440px]">
+        <div className="bg-bg-main m-auto flex min-h-dvh w-full max-w-full flex-col rounded-none 2xl:max-w-[1536px] 2xl:rounded-[30px]">
           <Header />
-          <div className="flex h-fit flex-col sm:flex-row">
+          <div className="flex h-fit flex-1 flex-col sm:flex-row">
             <Nav />
-            <main className="flex flex-1 rounded-br-[30px] sm:h-[calc(100vh-var(--header-height))] sm:overflow-y-scroll">
+            <main className="scrollbar-hide flex h-[calc(100vh-var(--header-height))] flex-1 rounded-br-[30px] sm:overflow-y-scroll">
               {children}
             </main>
           </div>
