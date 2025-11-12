@@ -13,4 +13,6 @@ interface categoryStatsType {
   topkeywords: string[];
   topusers: TopUserType[];
   total_point: number;
+  total_posts: number;
+  adopted_posts: number;
 }
