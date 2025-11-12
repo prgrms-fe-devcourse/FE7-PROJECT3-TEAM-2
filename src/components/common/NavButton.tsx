@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import BaseImage from "./image/BaseImage";
 
 const navButtonVariants = cva(
-  "flex items-center w-full text-left px-3 py-2 text-[12px] xl:text-[16px] lg:text-[16px] md:text-[14px] sm:text-[12px] rounded-lg cursor-pointer font-medium overflow-hidden relative", // ✅ overflow-hidden 추가
+  "flex items-center w-full text-left px-3 py-2 text-[12px] xl:text-[16px] lg:text-[16px] md:text-[14px] sm:text-[12px] rounded-lg cursor-pointer font-medium overflow-hidden relative",
   {
     variants: {
       variant: {
