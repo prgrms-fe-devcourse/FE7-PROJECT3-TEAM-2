@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { z } from "zod";
 import { signUpWithEmail } from "@/services/auth/join";
@@ -36,7 +36,10 @@ export async function createUser(_prevState: CreateUserState, formData: FormData
     };
   }
   const { email, name, password } = parsed.data;
-  await signUpWithEmail(email, password, name as string);
-
-  return { message: "게정이 생성되었습니다" };
+  const data = await signUpWithEmail(email, password, name as string);
+  if (data.ok) {
+    window.history.replaceState(null, "", "/join/welcome");
+    return { message: data.message };
+  }
+  return { message: data.message };
 }
