@@ -12,25 +12,19 @@ export default async function CategoryRankComponent() {
   ];
 
   const supabase = await createClient();
+  const { data: statsData, error } = await supabase.rpc("get_category_full_statistics_v2");
 
-  const { data: categoryTotalData, error: categoryDataError } = await supabase.from("category").select("*");
-  const { data: topKeyword, error: topKeywordError } = await supabase.rpc("get_top_keyword");
+  if (error) throw error;
 
-  console.log(topKeyword);
-  console.log(categoryTotalData);
-
-  if (categoryDataError) throw categoryDataError;
-  if (topKeywordError) throw topKeywordError;
-
-  const mergeData = categoryTotalData?.map(item => {
-    const sameTopKeyword = topKeyword?.filter(t => t.category_name === item.name);
-    return { ...item, topKeywords: sameTopKeyword };
-  });
+  const parsedData = statsData?.map(item => ({
+    ...item,
+    topusers: item.topusers ? (item.topusers as TopUserType[]) : [],
+  }));
 
   return (
     <div className="grid w-full grid-cols-1 gap-5 py-7 pt-0 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
-      {mergeData?.map(stats => (
-        <CategoryRankCard key={stats.id} data={badgeData} stats={stats} />
+      {parsedData?.map(stats => (
+        <CategoryRankCard key={stats.category_id} data={badgeData} stats={stats} />
       ))}
     </div>
   );

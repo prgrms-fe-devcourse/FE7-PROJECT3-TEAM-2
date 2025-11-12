@@ -423,6 +423,36 @@ export type Database = {
       };
     };
     Functions: {
+      get_category_full_statistics: {
+        Args: never;
+        Returns: {
+          avg_comments: number;
+          category_id: string;
+          category_name: string;
+          topkeywords: string[];
+          total_point: number;
+        }[];
+      };
+      get_category_full_statistics_v2: {
+        Args: never;
+        Returns: {
+          avg_comments: number;
+          category_id: string;
+          category_name: string;
+          image_url: string;
+          topkeywords: string[];
+          topusers: Json;
+          total_point: number;
+        }[];
+      };
+      get_category_total_points: {
+        Args: never;
+        Returns: {
+          category_id: string;
+          name: string;
+          total_point: number;
+        }[];
+      };
       get_top_keyword: {
         Args: never;
         Returns: {

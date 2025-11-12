@@ -1,5 +1,3 @@
-import { CategoryType } from ".";
-
 type Category =
   | "연애"
   | "기술/IT"
@@ -12,13 +10,3 @@ type Category =
   | "운동"
   | "공부/자기계발"
   | "여행";
-
-interface TopKeywordType {
-  category_name: string;
-  keyword: string;
-  keyword_count: number;
-}
-
-interface MergeCategoryChartType extends CategoryType {
-  topKeywords: TopKeywordType[];
-}
