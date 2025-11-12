@@ -92,6 +92,13 @@ export type Database = {
             foreignKeyName: "bookmark_post_id_fkey";
             columns: ["post_id"];
             isOneToOne: false;
+            referencedRelation: "post_card";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "bookmark_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
             referencedRelation: "posts";
             referencedColumns: ["id"];
           },
@@ -191,6 +198,13 @@ export type Database = {
             foreignKeyName: "comments_post_id_fkey";
             columns: ["post_id"];
             isOneToOne: false;
+            referencedRelation: "post_card";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
             referencedRelation: "posts";
             referencedColumns: ["id"];
           },
@@ -206,33 +220,33 @@ export type Database = {
       follow: {
         Row: {
           created_at: string;
-          follwer_id: string;
-          follwing: string;
+          follower_id: string;
+          following_id: string;
           id: string;
         };
         Insert: {
           created_at?: string;
-          follwer_id: string;
-          follwing: string;
+          follower_id: string;
+          following_id: string;
           id?: string;
         };
         Update: {
           created_at?: string;
-          follwer_id?: string;
-          follwing?: string;
+          follower_id?: string;
+          following_id?: string;
           id?: string;
         };
         Relationships: [
           {
             foreignKeyName: "follow_follwer_id_fkey";
-            columns: ["follwer_id"];
+            columns: ["follower_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "follow_follwing_fkey";
-            columns: ["follwing"];
+            columns: ["following_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
@@ -314,7 +328,7 @@ export type Database = {
       };
       profiles: {
         Row: {
-          avartar_image: string | null;
+          avatar_image: string | null;
           bio: string | null;
           created_at: string;
           email: string;
@@ -325,7 +339,7 @@ export type Database = {
           phone_number: string | null;
         };
         Insert: {
-          avartar_image?: string | null;
+          avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
           email: string;
@@ -336,7 +350,7 @@ export type Database = {
           phone_number?: string | null;
         };
         Update: {
-          avartar_image?: string | null;
+          avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
           email?: string;
@@ -386,10 +400,46 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      post_card: {
+        Row: {
+          adopted_comment_id: string | null;
+          category: Json | null;
+          content: string | null;
+          created_at: string | null;
+          id: string | null;
+          post_image: string | null;
+          profiles: Json | null;
+          title: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "posts_adopted_comment_id_fkey";
+            columns: ["adopted_comment_id"];
+            isOneToOne: false;
+            referencedRelation: "comments";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
-      [_ in never]: never;
+      get_top_keyword: {
+        Args: never;
+        Returns: {
+          category_name: string;
+          keyword: string;
+          keyword_count: number;
+        }[];
+      };
+      grant_badges_and_update_exp: {
+        Args: { p_category_id: string; p_user_id: string };
+        Returns: {
+          badge_name: string;
+          leveled_up: boolean;
+          new_exp: number;
+          new_level: number;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;

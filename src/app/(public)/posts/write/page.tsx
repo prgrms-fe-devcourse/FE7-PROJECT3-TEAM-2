@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 import PostForm from "@/components/post/PostForm";
 import { createPost, updatePost } from "@/services/post";
-import { CategoryType, FormState } from "@/types";
+import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function NewPostPage() {
   const supabase = await createClient();
-  const { data } = await supabase.from<"category", CategoryType>("category").select("*");
+  const { data } = await supabase.from("category").select("*");
   const {
     data: { user },
   } = await supabase.auth.getUser();
