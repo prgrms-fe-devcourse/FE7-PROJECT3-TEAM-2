@@ -40,13 +40,17 @@ export async function updatePost({ id, updateData }: { id: string; updateData: P
 export async function getPosts(category: BadgeType | "all") {
   const supabase = await createClient();
   if (category === "all") {
-    const { data, error } = await supabase.from("post_card").select("*");
+    const { data, error } = await supabase.from("post_card").select("*").order("created_at", { ascending: false });
 
     if (!error) {
       return data as PostCardType[];
     } else return null;
   } else {
-    const { data, error } = await supabase.from("post_card").select("*").eq("category->>type", category);
+    const { data, error } = await supabase
+      .from("post_card")
+      .select("*")
+      .eq("category->>type", category)
+      .order("created_at", { ascending: false });
 
     if (!error) {
       return data as PostCardType[];
@@ -54,6 +58,6 @@ export async function getPosts(category: BadgeType | "all") {
   }
 }
 
-// export async function readDetailPost() {
+// export async function getDetailPost() {
 
 // }
