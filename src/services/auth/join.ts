@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 export async function signUpWithEmail(email: string, password: string, name: string) {
   const supabase = await createClient();
@@ -11,6 +11,9 @@ export async function signUpWithEmail(email: string, password: string, name: str
       },
     },
   });
-  console.log(data);
-  if (error && process.env.NODE_ENV === "development") console.error(error);
+  if (error) {
+    if (error.code === "over_email_send_rate_limit") return { ok: false, message: "잠시후 다시 시도해주세요" };
+  }
+  if (data) return { ok: true, message: "계정이 확인되었습니다" };
+  return { ok: false, message: "계정 생성이 실패되었습니다" };
 }

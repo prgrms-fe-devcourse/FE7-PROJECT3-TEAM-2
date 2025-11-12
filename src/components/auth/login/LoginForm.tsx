@@ -16,19 +16,31 @@ export default function LoginForm() {
         <label htmlFor="login_id" className="text-base font-medium text-gray-400">
           이메일 주소
         </label>
-        <input type="email" className="h-14 rounded-lg border border-gray-200" name="email" />
-        <p>{state.errors?.email}</p>
+        <input
+          type="email"
+          className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+          name="email"
+          id="login_id"
+          placeholder="example@mail.com"
+          autoComplete="email"
+        />
+        <p className="text-xs text-red-500">{state.errors?.email}</p>
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="login_paassword" className="text-base font-medium text-gray-400">
+        <label htmlFor="login_password" className="text-base font-medium text-gray-400">
           비밀번호
         </label>
-        <input type="password" className="h-14 rounded-lg border border-gray-200" name="password" />
-        <p>{state.errors?.password}</p>
+        <input
+          type="password"
+          className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+          name="password"
+          id="login_password"
+        />
+        <p className="text-xs text-red-500">{state.errors?.password}</p>
       </div>
       <div>
-        <p>{state.message}</p>
-        <Button variant="primary" size="lg" className="font-bold" disabled={pending}>
+        <p className="text-xs text-red-500">{state.message}</p>
+        <Button variant="primary" size="lg" className="w-full font-bold" disabled={pending}>
           로그인
         </Button>
       </div>
