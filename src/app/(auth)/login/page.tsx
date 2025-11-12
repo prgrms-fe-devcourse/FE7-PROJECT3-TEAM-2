@@ -1,7 +1,7 @@
-import LoginForm from "@/components/auth/LoginForm";
-import LoginHeader from "@/components/auth/LoginHeader";
-import LoginOptions from "@/components/auth/LoginOptions";
-import SocialLogins from "@/components/auth/SocialLogins";
+import LoginForm from "@/components/auth/login/LoginForm";
+import LoginHeader from "@/components/auth/login/LoginHeader";
+import LoginOptions from "@/components/auth/login/LoginOptions";
+import SocialLogins from "@/components/auth/login/SocialLogins";
 import { Divider } from "@/components/common/Divider";
 
 export default function page() {

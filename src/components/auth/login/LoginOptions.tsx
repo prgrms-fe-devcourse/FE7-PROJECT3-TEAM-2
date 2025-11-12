@@ -12,7 +12,7 @@ export default function LoginOptions() {
       </div>
       <div className="flex gap-2">
         <span>아직 계정이 없으신가요?</span>
-        <a href="" className="text-gray-950">
+        <a href="/join" className="text-gray-950">
           이메일로 회원가입
         </a>
       </div>

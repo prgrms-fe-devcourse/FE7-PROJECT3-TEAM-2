@@ -1,8 +1,8 @@
 "use client";
 
-import { Settings2, ShieldAlert } from "lucide-react";
-import Link from "next/link";
+import { Settings2 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import LoginButton from "@/components/auth/login/LoginButton";
 import { Button } from "@/components/common/Button";
 import { NavButton } from "@/components/common/NavButton";
 import { navData } from "@/routes/routes.data";
@@ -46,12 +46,7 @@ export default function Nav() {
             설정
           </Button>
         </li>
-        <Link href="/login">
-          <Button variant="tertiary" className="w-full" size="md">
-            <ShieldAlert size={16} />
-            로그인
-          </Button>
-        </Link>
+        <LoginButton />
       </ul>
     </nav>
   );
