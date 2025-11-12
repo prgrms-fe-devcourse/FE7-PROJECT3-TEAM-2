@@ -1,6 +1,7 @@
 import PostSideBar from "@/components/post/PostSideBar";
 import ProfileSlide from "@/components/user/ProfileSlide";
-import { PostCardType } from "@/types";
+import { getPosts } from "@/services/post";
+import { BadgeType } from "@/types/badge";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function CategoryLayout({
@@ -8,30 +9,15 @@ export default async function CategoryLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { category: string };
+  params: { category: BadgeType };
 }) {
   const { category } = await params;
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  let postData: PostCardType[] = [];
 
-  if (category) {
-    if (category === "all") {
-      const { data, error } = await supabase.from("post_card").select("*");
-
-      if (!error) {
-        postData = data;
-      } else return null;
-    } else {
-      const { data, error } = await supabase.from("post_card").select("*").eq("category->>type", category);
-
-      if (!error) {
-        postData = data;
-      } else return null;
-    }
-  }
+  const postData = await getPosts(category);
 
   return (
     <div className="posts-area flex h-full w-full gap-6">
