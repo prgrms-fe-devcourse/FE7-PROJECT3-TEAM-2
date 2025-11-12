@@ -7,7 +7,7 @@ import type { NavDataType } from "@/routes/routes.type";
 export const navData: NavDataType[] = [
   {
     label: "게시판",
-    pathname: "/",
+    pathname: "/posts",
     icon: homeIcon,
   },
   {
@@ -51,11 +51,11 @@ export const navData: NavDataType[] = [
     children: [
       {
         label: "전체 랭킹",
-        pathname: "all",
+        pathname: "all-rank",
       },
       {
         label: "분야별 랭킹",
-        pathname: "category",
+        pathname: "category-rank",
       },
     ],
   },
