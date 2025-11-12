@@ -19,12 +19,17 @@ export default async function CategoryRankComponent() {
   console.log(topKeyword);
   console.log(categoryTotalData);
 
-  // 에러처리
-  if (categoryDataError) console.log(categoryTotalData);
+  if (categoryDataError) throw categoryDataError;
+  if (topKeywordError) throw topKeywordError;
+
+  const mergeData = categoryTotalData?.map(item => {
+    const sameTopKeyword = topKeyword?.filter(t => t.category_name === item.name);
+    return { ...item, topKeywords: sameTopKeyword };
+  });
 
   return (
     <div className="grid w-full grid-cols-1 gap-5 py-7 pt-0 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
-      {categoryTotalData?.map(stats => (
+      {mergeData?.map(stats => (
         <CategoryRankCard key={stats.id} data={badgeData} stats={stats} />
       ))}
     </div>

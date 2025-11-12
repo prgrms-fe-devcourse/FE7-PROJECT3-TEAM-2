@@ -2,7 +2,7 @@ import testImg from "@/assets/images/navbar/profile.png";
 import Badge from "@/components/common/Badge";
 import CircleProfileImage from "@/components/common/image/CircleProfileImage";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import { CategoryType } from "@/types";
+import { MergeCategoryChartType } from "@/types/category";
 import { categoryColor } from "@/utils/category";
 import AdoptRatioChart from "./AdoptRatioChart";
 import ChartFillPie from "../ChartFillPie";
@@ -15,7 +15,7 @@ export default function CategoryRankCard({
     name: string;
     value: number;
   }[];
-  stats: CategoryType;
+  stats: MergeCategoryChartType;
 }) {
   const color = categoryColor[stats.name];
 
@@ -43,9 +43,15 @@ export default function CategoryRankCard({
         <div className="flex flex-col gap-1">
           <div className="text-text-title mb-1 text-sm font-semibold">키워드 TOP3</div>
           <div className="flex gap-5">
-            <Badge size="md" className="px-2 py-1 text-white" text="사랑" style={{ backgroundColor: color }} />
-            <Badge size="md" className="px-2 py-1 text-white" text="사랑" style={{ backgroundColor: color }} />
-            <Badge size="md" className="px-2 py-1 text-white" text="사랑" style={{ backgroundColor: color }} />
+            {stats.topKeywords?.map((k, index) => (
+              <Badge
+                key={index}
+                size="md"
+                className="px-2 py-1 text-white"
+                text={k.keyword}
+                style={{ backgroundColor: color }}
+              />
+            ))}
           </div>
         </div>
       </div>
