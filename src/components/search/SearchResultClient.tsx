@@ -9,7 +9,21 @@ import Badge from "../common/Badge";
 
 export const cardVariants = cva("flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-gray-200");
 
-export default function SearchResultClient({ searchType, data }: SearchResultProps) {
+export default function SearchResultClient({ searchType, data, queryParam }: SearchResultProps) {
+  const textHighlight = (text: string) => {
+    if (!queryParam) return text;
+    const parts = text.split(new RegExp(`(${queryParam})`, "gi"));
+    return parts.map((part, i) => {
+      return part.toLowerCase() === queryParam.toLowerCase() ? (
+        <span key={i} className="text-main text-bold">
+          {part}
+        </span>
+      ) : (
+        <span>{part}</span>
+      );
+    });
+  };
+
   return (
     <div className="flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
       <div className="flex justify-between">
@@ -26,13 +40,13 @@ export default function SearchResultClient({ searchType, data }: SearchResultPro
         </div>
       </div>
 
-      {searchType === "post" && <ResultPosts data={data as PostWithProfile[]} />}
+      {searchType === "post" && <ResultPosts data={data as PostWithProfile[]} textHighlight={textHighlight} />}
 
       {searchType === "user" &&
         (data as Profile[]).map(user => (
           <div key={user.id} className={cardVariants()}>
             <div className="flex flex-col gap-6 p-6">
-              <p>{user.name}</p>
+              <p>{textHighlight(user.name)}</p>
               <Badge className="bg-amber-400 px-2 py-1" size="sm" text={`LV.${user.level}`} />
               <Badge size="sm" className="bg-pink-600 px-2 py-1 text-white" text="HOT" />
             </div>
@@ -40,8 +54,8 @@ export default function SearchResultClient({ searchType, data }: SearchResultPro
               <Image
                 src={user.avatar_image || "/profile_sample.svg"}
                 alt={`${user.name}의 프로필 사진`}
-                width={155}
-                height={133}
+                width={177}
+                height={155}
                 className="rounded-sm"
               />
             </div>
