@@ -5,6 +5,7 @@ export type PostType = Database["public"]["Tables"]["posts"]["Row"];
 export type PostInsertType = Database["public"]["Tables"]["posts"]["Insert"];
 export type PostUpdateType = Database["public"]["Tables"]["posts"]["Update"];
 export type CommentType = Database["public"]["Tables"]["comments"]["Row"];
+export type ProfileType = Database["public"]["Tables"]["profiles"]["Row"];
 
 export type FormState = {
   success: boolean;

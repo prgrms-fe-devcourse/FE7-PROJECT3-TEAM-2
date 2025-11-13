@@ -1,0 +1,59 @@
+"use client";
+
+import { UserRoundPen } from "lucide-react";
+import { useState } from "react";
+import { FormState, ProfileType } from "@/types";
+import UserInfoModalForm from "./UserInfoModalForm";
+import Badge from "../common/Badge";
+import { Button } from "../common/Button";
+import CircleProfileImage from "../common/image/CircleProfileImage";
+
+type UserInfoProps = {
+  profile: ProfileType | null;
+  action: (prevState: FormState, formData: FormData) => Promise<FormState>;
+};
+
+export default function UserInfo({ profile, action }: UserInfoProps) {
+  const [modalStatus, setModalStatus] = useState(false);
+  const onHandleModalStatus = () => {
+    setModalStatus(prev => !prev);
+  };
+
+  return (
+    <>
+      <div className="p-6">
+        <div className="mb-3 flex items-center gap-3">
+          <CircleProfileImage src={profile?.avatar_image ?? ""} size="lg" />
+          <div className="flex flex-col gap-2">
+            <Badge size="sm" text={`LV.${profile?.level}`} className="bg-main text-white" />
+            <p className="font-medium">{profile?.name}</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-6 text-xs">
+          <p className="text-text-light">개인정보</p>
+          <div className="flex flex-wrap gap-56 max-lg:flex-col max-lg:gap-16 max-sm:gap-8">
+            <div>
+              <p className="text-text-sub mb-3">이메일</p>
+              <p>{profile?.email}</p>
+            </div>
+            <div>
+              <p className="text-text-sub mb-3">전화번호</p>
+              <p>{profile?.phone_number ?? "-"}</p>
+            </div>
+            <div>
+              <p className="text-text-sub mb-3">한줄 소개</p>
+              <p>{profile?.bio ?? "-"}</p>
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <Button size={"xs"} variant={"secondary"} onClick={onHandleModalStatus}>
+              <UserRoundPen size={12} className="mr-1" />
+              수정하기
+            </Button>
+          </div>
+        </div>
+      </div>
+      {modalStatus && <UserInfoModalForm profile={profile} setModal={onHandleModalStatus} action={action} />}
+    </>
+  );
+}
