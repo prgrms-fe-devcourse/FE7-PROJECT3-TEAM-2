@@ -1,11 +1,18 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { PostWithProfile } from "@/types/search";
 import { cardVariants } from "./SearchResultClient";
 import Badge from "../common/Badge";
 
 export default function ResultPosts({ data }: { data: PostWithProfile[] }) {
+  const router = useRouter();
+  const handleClick = (id: string, category?: string) => {
+    router.push(`/posts/${category}/post/${id}`);
+  };
   return data.map(post => (
-    <div key={post.id} className={cardVariants()}>
+    <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex gap-2 text-xs">
           <p>{post.profiles?.name}</p>
