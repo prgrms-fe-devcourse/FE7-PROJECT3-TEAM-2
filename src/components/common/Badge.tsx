@@ -1,10 +1,7 @@
 import { cva, VariantProps } from "class-variance-authority";
+import { CSSProperties } from "react";
 import { twMerge } from "tailwind-merge";
-import { BADGE_MAP, BadgeType } from "@/types/badge";
-
-const badgeColor = Object.fromEntries(
-  Object.entries(BADGE_MAP).map(([key, value]) => [key, `${value.bgColor} ${value.textColor}`])
-);
+import { BadgeType } from "@/types/badge";
 
 const BadgeVariants = cva("w-max h-max rounded-sm", {
   variants: {
@@ -15,7 +12,6 @@ const BadgeVariants = cva("w-max h-max rounded-sm", {
       lg: "text-base px-[14.5px] py-[9px] ",
       xl: "text-base px-[17px] py-[9px] ",
     },
-    color: badgeColor,
   },
   defaultVariants: {
     size: "md",
@@ -26,12 +22,15 @@ interface BadgeProps extends VariantProps<typeof BadgeVariants> {
   text: string;
   type: BadgeType;
   className?: string;
+  style?: CSSProperties;
 }
 
-export default function Badge({ size, type, text, className }: BadgeProps) {
+export default function Badge({ size, text, className, style }: BadgeProps) {
   return (
     <>
-      <div className={twMerge(BadgeVariants({ size, color: type }), className)}>{text}</div>
+      <div className={twMerge(BadgeVariants({ size }), className)} style={style}>
+        {text}
+      </div>
     </>
   );
 }
