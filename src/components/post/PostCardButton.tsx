@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { PostCardType } from "@/types";
+import { categoryColor } from "@/utils/category";
 import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 
@@ -59,6 +60,7 @@ interface PostCardButtonProps extends VariantProps<typeof containerVariants> {
 export default function PostCardButton({ device, postData, className }: PostCardButtonProps) {
   const [isClicked, setIsClicked] = useState(false);
   const { adopted_comment_id, category, content, created_at, id, post_image, profiles, title } = postData;
+  const color = categoryColor[category.name];
   dayjs.extend(relativeTime);
   dayjs.locale("ko");
 
@@ -75,7 +77,7 @@ export default function PostCardButton({ device, postData, className }: PostCard
           <span className="text-text-light">{dayjs(created_at).fromNow()}</span>
         </div>
         <p className={titleVariants({ device })}>{title}</p>
-        <Badge size="xs" text={category?.name} type={category.type} />
+        <Badge size="xs" text={category?.name} style={{ backgroundColor: color, color: "#fff" }} />
       </div>
       <div className="post-card-btn_detail-btn text-text-sub my-auto w-4.5">
         <ChevronRight size={18} />

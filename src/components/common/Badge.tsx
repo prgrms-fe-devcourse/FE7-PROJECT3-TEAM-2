@@ -1,7 +1,6 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { CSSProperties } from "react";
 import { twMerge } from "tailwind-merge";
-import { BadgeType } from "@/types/badge";
 
 const BadgeVariants = cva("w-max h-max rounded-sm", {
   variants: {
@@ -20,7 +19,6 @@ const BadgeVariants = cva("w-max h-max rounded-sm", {
 
 interface BadgeProps extends VariantProps<typeof BadgeVariants> {
   text: string;
-  type: BadgeType;
   className?: string;
   style?: CSSProperties;
 }

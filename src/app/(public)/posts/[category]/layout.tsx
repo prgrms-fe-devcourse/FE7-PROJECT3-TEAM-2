@@ -1,7 +1,6 @@
 import PostSideBar from "@/components/post/PostSideBar";
 import ProfileSlide from "@/components/user/ProfileSlide";
 import { getPosts } from "@/services/post";
-import { BadgeType } from "@/types/badge";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function CategoryLayout({
@@ -9,7 +8,7 @@ export default async function CategoryLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { category: BadgeType };
+  params: { category: string };
 }) {
   const { category } = await params;
   const supabase = await createClient();

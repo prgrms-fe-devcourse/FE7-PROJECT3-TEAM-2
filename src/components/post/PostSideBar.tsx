@@ -17,7 +17,7 @@ export interface postCardSampleDataType {
 
 export default function PostSideBar({ isLogin, postData }: { isLogin: boolean; postData: PostCardType[] }) {
   const currentPath = usePathname().split("/");
-  const isPostDetail = currentPath.length > 3 || currentPath[2] === "new";
+  const isPostDetail = currentPath.length > 3;
 
   return (
     <div

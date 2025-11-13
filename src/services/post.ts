@@ -1,6 +1,4 @@
-import { z } from "zod";
 import { FormState, PostCardType, PostInsertType, PostUpdateType } from "@/types";
-import { BadgeType } from "@/types/badge";
 import { createClient } from "@/utils/supabase/server";
 
 export async function createPost(postData: PostInsertType): Promise<[FormState, PostInsertType | null]> {
@@ -37,7 +35,7 @@ export async function updatePost({ id, updateData }: { id: string; updateData: P
   return [{ success: true, error: null }, data];
 }
 
-export async function getPosts(category: BadgeType | "all") {
+export async function getPosts(category: string) {
   const supabase = await createClient();
   if (category === "all") {
     const { data, error } = await supabase.from("post_card").select("*").order("created_at", { ascending: false });
