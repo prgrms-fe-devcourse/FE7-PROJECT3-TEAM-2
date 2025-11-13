@@ -11,9 +11,9 @@ const BadgeVariants = cva("w-max h-max rounded-sm", {
       lg: "text-base px-[14.5px] py-[9px] ",
       xl: "text-base px-[17px] py-[9px] ",
     },
-    defaultVariants: {
-      size: "md",
-    },
+  },
+  defaultVariants: {
+    size: "md",
   },
 });
 
