@@ -7,20 +7,25 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function page() {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("category").select("*,posts(*,comments:comments_post_id_fkey (*))");
-  const { data: weekCommentData, error: weekCommentError } = await supabase.rpc("get_hot_comments_of_week");
-  const { data: weekPostData, error: weekPostError } = await supabase.rpc("get_hot_posts_of_week");
+  const [
+    { data: categoryData, error: categoryError },
+    { data: weekCommentData, error: weekCommentError },
+    { data: weekPostData, error: weekPostError },
+  ] = await Promise.all([
+    supabase.from("category").select("*, posts(*, comments:comments_post_id_fkey(*))"),
+    supabase.rpc("get_hot_comments_of_week"),
+    supabase.rpc("get_hot_posts_of_week"),
+  ]);
 
-  if (error) throw error;
+  if (categoryError) throw categoryError;
   if (weekCommentError) throw weekCommentError;
   if (weekPostError) throw weekPostError;
 
-  const postStats = data.map(item => {
+  const postStats = categoryData.map(item => {
     return { id: item.id, name: item.name, count: item.posts.length, image: item.image_url };
   });
-  const commentStats = data.map(item => {
+  const commentStats = categoryData.map(item => {
     const count = item.posts.reduce((acc, cur) => acc + (cur.comments?.length || 0), 0);
-
     return { id: item.id, name: item.name, count, image: item.image_url };
   });
 
@@ -38,7 +43,7 @@ export default async function page() {
     { name: "여행", 훈수: 100, 채택: 37 },
   ];
 
-  const categoryData = [
+  const categoryData2 = [
     { name: "연애", value: 25 },
     { name: "기술/IT", value: 18 },
     { name: "제테크/소비", value: 10 },
@@ -55,7 +60,7 @@ export default async function page() {
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2">
-        <BookmarkStatsComponent stats={categoryData} />
+        <BookmarkStatsComponent stats={categoryData2} />
         <WeeklyCommentComponent stats={weekCommentData} />
       </div>
       <WeeklyPostComponent stats={weekPostData} />
