@@ -2,35 +2,22 @@ import AdoptStatsComponent from "@/components/chart/allRank/AdoptStatsComponent"
 import AllRankComponent from "@/components/chart/allRank/AllRankComponent";
 import WeeklyHotPostComponent from "@/components/chart/allRank/WeeklyHotPostComponent";
 import WeeklyPostByCategoryComponent from "@/components/chart/allRank/WeeklyPostByCategoryComponent";
+import { createClient } from "@/utils/supabase/server";
 
-export default function page() {
-  const postStats = [
-    { id: 1, name: "연애", count: 12, image: "" },
-    { id: 2, name: "기술/IT", count: 6, image: "" },
-    { id: 3, name: "제테크/소비", count: 24, image: "" },
-    { id: 4, name: "음식/요리", count: 24, image: "" },
-    { id: 5, name: "생활", count: 24, image: "" },
-    { id: 6, name: "게임", count: 44, image: "" },
-    { id: 7, name: "일상/고민", count: 54, image: "" },
-    { id: 8, name: "패션", count: 24, image: "" },
-    { id: 9, name: "운동", count: 24, image: "" },
-    { id: 10, name: "공부/자기계발", count: 24, image: "" },
-    { id: 11, name: "여행", count: 24, image: "" },
-  ];
+export default async function page() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("category").select("*,posts(*,comments:comments_post_id_fkey (*))");
 
-  const commentStats = [
-    { id: 1, name: "연애", count: 12, image: "" },
-    { id: 2, name: "기술/IT", count: 6, image: "" },
-    { id: 3, name: "제테크/소비", count: 24, image: "" },
-    { id: 4, name: "음식/요리", count: 24, image: "" },
-    { id: 5, name: "생활", count: 24, image: "" },
-    { id: 6, name: "게임", count: 44, image: "" },
-    { id: 7, name: "일상/고민", count: 54, image: "" },
-    { id: 8, name: "패션", count: 24, image: "" },
-    { id: 9, name: "운동", count: 24, image: "" },
-    { id: 10, name: "공부/자기계발", count: 24, image: "" },
-    { id: 11, name: "여행", count: 24, image: "" },
-  ];
+  if (error) throw error;
+
+  const postStats = data.map(item => {
+    return { id: item.id, name: item.name, count: item.posts.length, image: item.image_url };
+  });
+  const commentStats = data.map(item => {
+    const count = item.posts.reduce((acc, cur) => acc + (cur.comments?.length || 0), 0);
+
+    return { id: item.id, name: item.name, count, image: item.image_url };
+  });
 
   const adoptStats = [
     { name: "연애", 훈수: 100, 채택: 50 },

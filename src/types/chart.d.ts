@@ -1,3 +1,10 @@
+type AllStatsType = {
+  id: string;
+  name: string;
+  count: number;
+  image: string | null;
+};
+
 type TopUserType = {
   user_id: string;
   user_name: string;
@@ -25,4 +32,8 @@ interface categoryStatsType {
   total_users: number;
   users_with_badge: number;
   badge_counts: BagdeCountType[];
+}
+
+interface AllStatsCardType extends AllStatsType {
+  percent: number;
 }

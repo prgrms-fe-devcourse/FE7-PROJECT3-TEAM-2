@@ -34,7 +34,7 @@ export default function ChartPie({
               stroke="#fff"
             >
               {stats.map((data, index) => {
-                const fillColor = categoryColor[data.name as Category];
+                const fillColor = categoryColor[data.name];
                 return <Cell key={`cell-${index}`} fill={fillColor} />;
               })}
             </Pie>
@@ -55,7 +55,7 @@ export default function ChartPie({
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3 px-3 py-1 text-xs">
         {stats.map((data, index) => {
-          const fillColor = categoryColor[data.name as Category];
+          const fillColor = categoryColor[data.name];
           return (
             <div key={index} className="flex items-center gap-1">
               <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: fillColor }}></span>

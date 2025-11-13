@@ -1,23 +1,11 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import AllRankCard from "./AllRankCard";
 
-export default function AllRankComponent({
-  title,
-  stats,
-}: {
-  title: string;
-  stats: {
-    id: number;
-    name: string;
-    count: number;
-    image: string;
-  }[];
-}) {
+export default function AllRankComponent({ title, stats }: { title: string; stats: AllStatsType[] }) {
   const total = stats.reduce((acc, cur) => acc + cur.count, 0);
-
   const categories = stats.map(c => ({
     ...c,
-    percent: ((c.count / total) * 100).toFixed(0),
+    percent: c.count > 0 ? Number(((c.count / total) * 100).toFixed(0)) : 0,
   }));
 
   return (
@@ -34,7 +22,7 @@ export default function AllRankComponent({
             <ResponsiveContainer className="bg-main col-span-1 p-6">
               <div className="mb-2 flex flex-col gap-1">
                 <div className="text-xs text-gray-200">전체 {title}</div>
-                <div className="text-2xl text-gray-50">{total}</div>
+                <div className="text-2xl text-gray-50">{total || 0}</div>
                 <span className="invisible text-xs">0%</span>
               </div>
               <div className="flex w-full justify-end">
