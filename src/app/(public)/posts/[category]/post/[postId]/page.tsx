@@ -14,15 +14,18 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   const { postId } = await params;
   const postData = await getDetailPost(postId);
   const commentData = await getComments(postId);
-
   return (
     <>
       <ResponsiveContainer className="bg-bg-sub flex w-full flex-col overflow-hidden max-sm:border-none">
-        <PostCard postData={postData} className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0" />
+        <PostCard
+          commentCount={commentData?.length ?? 0}
+          postData={postData}
+          className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
+        />
         <div className="flex h-full flex-col justify-between px-6 py-5">
-          <div className={twMerge("comments flex h-full flex-col", !commentData && "justify-center")}>
+          <div className={twMerge("comments flex h-full flex-col", commentData?.length === 0 && "justify-center")}>
             {" "}
-            {commentData ? (
+            {commentData?.length !== 0 && commentData ? (
               commentData.map(comment => (
                 <MessageBubble
                   key={comment.id}
@@ -32,7 +35,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
                 />
               ))
             ) : (
-              <p className="text-text-sub text-center text-sm">등록된 댓글이 없습니다.</p>
+              <p className="text-text-light text-center text-sm">등록된 댓글이 없습니다.</p>
             )}
           </div>
           <div className="comment-input-container bg-bg-main mt-5 flex items-center rounded-lg px-5 py-4">

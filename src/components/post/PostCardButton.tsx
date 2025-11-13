@@ -6,7 +6,7 @@ import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { PostCardType } from "@/types";
 import { categoryColor } from "@/utils/category";
@@ -58,17 +58,17 @@ interface PostCardButtonProps extends VariantProps<typeof containerVariants> {
 }
 
 export default function PostCardButton({ device, postData, className }: PostCardButtonProps) {
-  const [isClicked, setIsClicked] = useState(false);
-  const { adopted_comment_id, category, content, created_at, id, post_image, profiles, title } = postData;
+  const { category, created_at, id, profiles, title } = postData;
   const color = categoryColor[category.name];
+  const path = usePathname().split("/")[4];
+
   dayjs.extend(relativeTime);
   dayjs.locale("ko");
 
   return (
     <Link
       href={`/posts/${category?.type}/post/${id}`}
-      className={twMerge(containerVariants({ device }), className, isClicked && "bg-main-50")}
-      onClick={() => setIsClicked(prev => !prev)}
+      className={twMerge(containerVariants({ device }), path === postData.id && "bg-main-50", className)}
     >
       <div className="post-card-btn_info space-y-2.5">
         <PostCardBookMark />

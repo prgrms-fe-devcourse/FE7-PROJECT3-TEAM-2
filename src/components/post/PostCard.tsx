@@ -5,7 +5,7 @@ import { BookMarked, ChevronLeft, MessageSquareMore } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { PostCardType } from "@/types";
+import { PostDetailType } from "@/types";
 import Badge from "../common/Badge";
 
 const thumbnailVariants = cva(
@@ -24,15 +24,16 @@ const thumbnailVariants = cva(
 );
 
 interface PostCardProps extends VariantProps<typeof thumbnailVariants> {
-  postData: PostCardType | null;
+  postData: PostDetailType | null;
+  commentCount: number;
   className?: string;
 }
 
-export default function PostCard({ device, postData, className }: PostCardProps) {
+export default function PostCard({ device, postData, commentCount, className }: PostCardProps) {
   const router = useRouter();
   const currentPath = usePathname();
   if (postData) {
-    const { adopted_comment_id, category, content, created_at, id, post_image, profiles, title } = postData;
+    const { content, post_image, profiles, title } = postData;
     return (
       <>
         <div className={twMerge("post-card flex flex-col rounded-3xl border border-gray-200 px-6 py-5", className)}>
@@ -81,7 +82,7 @@ export default function PostCard({ device, postData, className }: PostCardProps)
             <div className="post-card_btns text-text-sub flex gap-6">
               <div className="post-card_comment flex items-center justify-center">
                 <MessageSquareMore size={12} />
-                <span className="ml-2 text-xs">1</span>
+                <span className="ml-2 text-xs">{commentCount}</span>
               </div>
               <div className="post-card_share flex items-center justify-center">
                 <BookMarked size={12} />

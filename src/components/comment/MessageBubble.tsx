@@ -39,22 +39,39 @@ export default function MessageBubble({
   currentUserId: string;
   adoptedId: string;
 }) {
-  const { content, created_at, id, comment_reactions, user_id, profiles } = data;
+  const { content, created_at, id, reactions, user_id, profiles } = data;
   const isAdopted = id === adoptedId;
   const isMine = currentUserId === user_id;
 
   return (
     <div className={BubbleVariants({ isMine })}>
       {isMine ? (
-        <>
-          <div className="flex flex-col items-end">
-            <button className="text-text-sub text-[8px]">수정 삭제</button>
-            <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
+        <div className="flex w-full flex-col gap-1">
+          <div className="flex items-end justify-end gap-2">
+            <div className="flex flex-col items-end">
+              <button className="text-text-sub text-[8px]">수정 삭제</button>{" "}
+              <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
+            </div>
+
+            <div className={TextVariants({ isMine })}>
+              <p>{content}</p>
+            </div>
           </div>
-          <div className={TextVariants({ isMine })}>
-            <p>{content}</p>
+          <div className="comment-btns flex justify-end gap-2">
+            <CommentReactionBtn buttonType="like" reactions={reactions.like}>
+              <ThumbsUp size={8} />
+            </CommentReactionBtn>
+
+            <CommentReactionBtn buttonType="disLike" reactions={reactions.disLike}>
+              <ThumbsDown size={8} />
+            </CommentReactionBtn>
+            {isAdopted && (
+              <CommentReactionBtn buttonType="adopt">
+                <Stamp size={8} />
+              </CommentReactionBtn>
+            )}
           </div>
-        </>
+        </div>
       ) : (
         <div className="flex w-full flex-col gap-1">
           <div className="flex items-center justify-start gap-2">
@@ -79,14 +96,15 @@ export default function MessageBubble({
             <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
           </div>
           <div className="comment-btns flex gap-2">
-            <CommentReactionBtn buttonType="like" text="1">
+            <CommentReactionBtn buttonType="like" reactions={reactions.like}>
               <ThumbsUp size={8} />
             </CommentReactionBtn>
-            <CommentReactionBtn buttonType="disLike" text="1">
+
+            <CommentReactionBtn buttonType="disLike" reactions={reactions.disLike}>
               <ThumbsDown size={8} />
             </CommentReactionBtn>
             {isAdopted && (
-              <CommentReactionBtn buttonType="adopt" text="1">
+              <CommentReactionBtn buttonType="adopt">
                 <Stamp size={8} />
               </CommentReactionBtn>
             )}
