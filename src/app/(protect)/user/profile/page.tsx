@@ -43,7 +43,6 @@ export default async function page() {
   //   .eq("user_id", user.id);
   // console.log(adoptedComments);
 
-  // 서버 액션 정의 (폼이 이 함수를 호출하게 됨)
   async function updateProfileAction(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
 
@@ -72,7 +71,7 @@ export default async function page() {
       };
     }
 
-    if (phoneNumber.length !== 8 && phoneNumber.length !== 11) {
+    if (phoneNumber.length !== 11) {
       return {
         success: false,
         error: "올바른 전화번호를 입력해주세요.",
