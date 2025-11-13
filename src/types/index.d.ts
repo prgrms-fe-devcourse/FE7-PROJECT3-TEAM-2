@@ -19,6 +19,7 @@ export type PostCardType = Omit<PostCardViewType, "category" | "profiles"> & {
   };
 };
 export type CommentType = Database["public"]["Tables"]["comments"]["Row"];
+export type ProfileType = Database["public"]["Tables"]["profiles"]["Row"];
 
 export type FormState = {
   success: boolean;
