@@ -1,7 +1,7 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import WeekCommentCard from "./WeekCommentCard";
 
-export default function WeeklyHotPostComponent({ stats }: { stats: weekCommentDataType[] }) {
+export default function WeeklyCommentComponent({ stats }: { stats: weekCommentDataType[] }) {
   return (
     <ResponsiveContainer className="w-full px-6 py-7">
       <div className="flex flex-col">

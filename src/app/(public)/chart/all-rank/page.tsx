@@ -1,7 +1,7 @@
 import AdoptStatsComponent from "@/components/chart/allRank/AdoptStatsComponent";
 import AllRankComponent from "@/components/chart/allRank/AllRankComponent";
-import WeeklyHotPostComponent from "@/components/chart/allRank/WeeklyHotPostComponent";
-import WeeklyPostByCategoryComponent from "@/components/chart/allRank/WeeklyPostByCategoryComponent";
+import BookmarkStatsComponent from "@/components/chart/allRank/BookmarkStatsComponent";
+import WeeklyCommentComponent from "@/components/chart/allRank/WeeklyCommentComponent";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function page() {
@@ -51,9 +51,9 @@ export default async function page() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
-        <WeeklyPostByCategoryComponent stats={categoryData} />
-        <WeeklyHotPostComponent stats={weekCommentData} />
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2">
+        <BookmarkStatsComponent stats={categoryData} />
+        <WeeklyCommentComponent stats={weekCommentData} />
       </div>
       <AllRankComponent title="게시글" stats={postStats} />
       <AllRankComponent title="훈수" stats={commentStats} />

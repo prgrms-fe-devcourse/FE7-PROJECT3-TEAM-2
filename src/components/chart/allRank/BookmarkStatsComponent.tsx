@@ -1,7 +1,7 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import ChartPie from "../ChartPie";
 
-export default function WeeklyPostByCategoryComponent({
+export default function BookmarkStatsComponent({
   stats,
 }: {
   stats: {
