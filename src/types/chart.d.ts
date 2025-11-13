@@ -19,6 +19,18 @@ type BagdeCountType = {
   achieved_count: number;
 };
 
+type weekCommentDataType = {
+  avatar_image: string;
+  category_type: string;
+  comment_id: string;
+  content: string;
+  dislike_count: number;
+  like_count: number;
+  name: string;
+  post_id: string;
+  user_id: string;
+};
+
 interface categoryStatsType {
   avg_comments: number;
   category_id: string;

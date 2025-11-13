@@ -152,13 +152,6 @@ export type Database = {
             foreignKeyName: "comment_reactions_comment_id_fkey";
             columns: ["comment_id"];
             isOneToOne: false;
-            referencedRelation: "comment_detail";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "comment_reactions_comment_id_fkey";
-            columns: ["comment_id"];
-            isOneToOne: false;
             referencedRelation: "comments";
             referencedColumns: ["id"];
           },
@@ -300,13 +293,6 @@ export type Database = {
             foreignKeyName: "posts_adopted_comment_id_fkey";
             columns: ["adopted_comment_id"];
             isOneToOne: false;
-            referencedRelation: "comment_detail";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "posts_adopted_comment_id_fkey";
-            columns: ["adopted_comment_id"];
-            isOneToOne: false;
             referencedRelation: "comments";
             referencedColumns: ["id"];
           },
@@ -400,25 +386,7 @@ export type Database = {
       };
     };
     Views: {
-      comment_detail: {
-        Row: {
-          content: string | null;
-          created_at: string | null;
-          id: string | null;
-          profiles: Json | null;
-          reactions: Json | null;
-          user_id: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "comments_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
+      [_ in never]: never;
     };
     Functions: {
       get_category_full_statistics: {
@@ -445,6 +413,31 @@ export type Database = {
           category_id: string;
           name: string;
           total_point: number;
+        }[];
+      };
+      get_comment_details: {
+        Args: { p_post_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_hot_comments_of_week: {
+        Args: never;
+        Returns: {
+          avatar_image: string;
+          category_type: string;
+          comment_id: string;
+          content: string;
+          dislike_count: number;
+          like_count: number;
+          name: string;
+          post_id: string;
+          user_id: string;
         }[];
       };
       get_top_keyword: {

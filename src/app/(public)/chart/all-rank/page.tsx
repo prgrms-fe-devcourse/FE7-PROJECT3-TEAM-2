@@ -7,8 +7,10 @@ import { createClient } from "@/utils/supabase/server";
 export default async function page() {
   const supabase = await createClient();
   const { data, error } = await supabase.from("category").select("*,posts(*,comments:comments_post_id_fkey (*))");
+  const { data: weekCommentData, error: weekCommentError } = await supabase.rpc("get_hot_comments_of_week");
 
   if (error) throw error;
+  if (weekCommentError) throw weekCommentError;
 
   const postStats = data.map(item => {
     return { id: item.id, name: item.name, count: item.posts.length, image: item.image_url };
@@ -51,7 +53,7 @@ export default async function page() {
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
         <WeeklyPostByCategoryComponent stats={categoryData} />
-        <WeeklyHotPostComponent />
+        <WeeklyHotPostComponent stats={weekCommentData} />
       </div>
       <AllRankComponent title="게시글" stats={postStats} />
       <AllRankComponent title="훈수" stats={commentStats} />

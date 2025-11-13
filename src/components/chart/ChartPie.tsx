@@ -28,7 +28,7 @@ export default function ChartPie({
               height={100}
               cx="50%"
               cy="50%"
-              innerRadius="60%"
+              innerRadius="58%"
               outerRadius="80%"
               paddingAngle={2}
               stroke="#fff"
@@ -53,7 +53,7 @@ export default function ChartPie({
           <p className="text-lg font-bold">{totalPosts}개</p>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-3 px-3 py-1 text-xs">
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-3 px-3 py-1 text-xs">
         {stats.map((data, index) => {
           const fillColor = categoryColor[data.name];
           return (
