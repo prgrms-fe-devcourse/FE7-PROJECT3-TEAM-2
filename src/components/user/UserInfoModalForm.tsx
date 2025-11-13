@@ -1,7 +1,7 @@
 "use client";
 
 import { UserRoundPen } from "lucide-react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { FormState, ProfileType } from "@/types";
 import { Button } from "../common/Button";
@@ -14,19 +14,20 @@ type UserInfoModalFormProps = {
 };
 export default function UserInfoModalForm({ profile, setModal, action }: UserInfoModalFormProps) {
   const [state, formAction, isPending] = useActionState(action, { success: false, error: null });
-
+  const router = useRouter();
   useEffect(() => {
     document.body.style.overflow = "hidden";
     if (state.error) {
       alert(state.error);
     } else if (state.success && !state.error) {
       alert("프로필이 성공적으로 업데이트 되었습니다.");
-      redirect("/user/profile");
+      setModal();
+      router.push("/user/profile");
     }
     return () => {
       document.body.style.overflow = "auto";
     };
-  });
+  }, [setModal, router, state.error, state.success]);
 
   //모달 내부는 클릭해도 사라지지 않게
   const preventOffModal = (event: React.MouseEvent) => {

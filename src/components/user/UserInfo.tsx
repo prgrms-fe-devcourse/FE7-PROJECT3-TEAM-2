@@ -15,7 +15,7 @@ type UserInfoProps = {
 
 export default function UserInfo({ profile, action }: UserInfoProps) {
   const [modalStatus, setModalStatus] = useState(false);
-  const onHandleModalStatus = async () => {
+  const onHandleModalStatus = () => {
     setModalStatus(prev => !prev);
   };
 

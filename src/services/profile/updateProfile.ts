@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 
 export async function updateProfile(userId: string, name: string, email: string, phoneNumber: string, bio: string) {
   const supabase = await createClient();
