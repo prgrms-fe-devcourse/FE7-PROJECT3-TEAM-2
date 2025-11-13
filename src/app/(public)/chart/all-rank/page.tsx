@@ -2,15 +2,18 @@ import AdoptStatsComponent from "@/components/chart/allRank/AdoptStatsComponent"
 import AllRankComponent from "@/components/chart/allRank/AllRankComponent";
 import BookmarkStatsComponent from "@/components/chart/allRank/BookmarkStatsComponent";
 import WeeklyCommentComponent from "@/components/chart/allRank/WeeklyCommentComponent";
+import WeeklyPostComponent from "@/components/chart/allRank/WeeklyPostComponent";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function page() {
   const supabase = await createClient();
   const { data, error } = await supabase.from("category").select("*,posts(*,comments:comments_post_id_fkey (*))");
   const { data: weekCommentData, error: weekCommentError } = await supabase.rpc("get_hot_comments_of_week");
+  const { data: weekPostData, error: weekPostError } = await supabase.rpc("get_hot_posts_of_week");
 
   if (error) throw error;
   if (weekCommentError) throw weekCommentError;
+  if (weekPostError) throw weekPostError;
 
   const postStats = data.map(item => {
     return { id: item.id, name: item.name, count: item.posts.length, image: item.image_url };
@@ -55,6 +58,7 @@ export default async function page() {
         <BookmarkStatsComponent stats={categoryData} />
         <WeeklyCommentComponent stats={weekCommentData} />
       </div>
+      <WeeklyPostComponent stats={weekPostData} />
       <AllRankComponent title="게시글" stats={postStats} />
       <AllRankComponent title="훈수" stats={commentStats} />
       <AdoptStatsComponent stats={adoptStats} />

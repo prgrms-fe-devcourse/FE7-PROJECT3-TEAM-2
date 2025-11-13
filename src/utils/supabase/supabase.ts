@@ -440,6 +440,17 @@ export type Database = {
           user_id: string;
         }[];
       };
+      get_hot_posts_of_week: {
+        Args: never;
+        Returns: {
+          author_name: string;
+          category_name: string;
+          category_type: string;
+          post_id: string;
+          post_image: string;
+          title: string;
+        }[];
+      };
       get_top_keyword: {
         Args: never;
         Returns: {

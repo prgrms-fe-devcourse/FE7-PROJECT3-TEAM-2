@@ -19,7 +19,7 @@ export default function WeekCommentCard({ comment }: { comment: weekCommentDataT
       </div>
       <div className="flex flex-col gap-0.5 pt-1">
         <div className="relative max-w-[350px]">
-          <div className="rounded-lg bg-blue-500 p-3 pt-2 text-sm text-white before:absolute before:top-3 before:left-0.5 before:-ml-2 before:h-4 before:w-4 before:rotate-52 before:bg-blue-500 before:content-['']">
+          <div className="rounded-lg bg-blue-400 p-3 pt-2 text-sm text-white before:absolute before:top-3 before:left-0.5 before:-ml-2 before:h-4 before:w-4 before:rotate-52 before:bg-blue-400 before:content-['']">
             {comment.content}
           </div>
         </div>

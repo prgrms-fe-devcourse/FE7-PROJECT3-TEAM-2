@@ -31,6 +31,15 @@ type weekCommentDataType = {
   user_id: string;
 };
 
+type WeekPostDataType = {
+  author_name: string;
+  category_name: string;
+  category_type: string;
+  post_id: string;
+  post_image: string;
+  title: string;
+};
+
 interface categoryStatsType {
   avg_comments: number;
   category_id: string;
