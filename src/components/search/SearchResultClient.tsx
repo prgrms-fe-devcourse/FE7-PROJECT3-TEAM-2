@@ -54,9 +54,9 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
               <Image
                 src={user.avatar_image || "/profile_sample.svg"}
                 alt={`${user.name}의 프로필 사진`}
-                width={177}
-                height={155}
-                className="rounded-sm"
+                width={192}
+                height={192}
+                className="m-1.5 h-48 min-h-48 w-48 min-w-48 rounded-sm"
               />
             </div>
           </div>
