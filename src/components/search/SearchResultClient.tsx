@@ -40,6 +40,12 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
         </div>
       </div>
 
+      {data.length === 0 && (
+        <div className="flex h-100 w-full items-center justify-center">
+          <p className="text-content">검색 결과가 존재하지 않습니다.</p>
+        </div>
+      )}
+
       {searchType === "post" && <ResultPosts data={data as PostWithProfile[]} textHighlight={textHighlight} />}
 
       {searchType === "user" &&
