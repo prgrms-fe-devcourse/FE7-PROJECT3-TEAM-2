@@ -17,7 +17,7 @@ export default function UserNavBar() {
             프로필
           </Toggle>
         </Link>
-        <Link href="/user/archive">
+        <Link href="/user/archive/mypost">
           <Toggle
             size="sm"
             isToggle={location === "archive" ? true : false}
