@@ -92,13 +92,6 @@ export type Database = {
             foreignKeyName: "bookmark_post_id_fkey";
             columns: ["post_id"];
             isOneToOne: false;
-            referencedRelation: "post_card";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "bookmark_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
             referencedRelation: "posts";
             referencedColumns: ["id"];
           },
@@ -159,6 +152,13 @@ export type Database = {
             foreignKeyName: "comment_reactions_comment_id_fkey";
             columns: ["comment_id"];
             isOneToOne: false;
+            referencedRelation: "comment_detail";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comment_reactions_comment_id_fkey";
+            columns: ["comment_id"];
+            isOneToOne: false;
             referencedRelation: "comments";
             referencedColumns: ["id"];
           },
@@ -194,13 +194,6 @@ export type Database = {
           user_id?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: "comments_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
-            referencedRelation: "post_card";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "comments_post_id_fkey";
             columns: ["post_id"];
@@ -307,6 +300,13 @@ export type Database = {
             foreignKeyName: "posts_adopted_comment_id_fkey";
             columns: ["adopted_comment_id"];
             isOneToOne: false;
+            referencedRelation: "comment_detail";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "posts_adopted_comment_id_fkey";
+            columns: ["adopted_comment_id"];
+            isOneToOne: false;
             referencedRelation: "comments";
             referencedColumns: ["id"];
           },
@@ -400,23 +400,21 @@ export type Database = {
       };
     };
     Views: {
-      post_card: {
+      comment_detail: {
         Row: {
-          adopted_comment_id: string | null;
-          category: Json | null;
           content: string | null;
           created_at: string | null;
           id: string | null;
-          post_image: string | null;
           profiles: Json | null;
-          title: string | null;
+          reactions: Json | null;
+          user_id: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "posts_adopted_comment_id_fkey";
-            columns: ["adopted_comment_id"];
+            foreignKeyName: "comments_user_id_fkey";
+            columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "comments";
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
         ];

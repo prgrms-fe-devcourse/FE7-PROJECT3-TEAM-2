@@ -38,24 +38,34 @@ export async function updatePost({ id, updateData }: { id: string; updateData: P
 export async function getPosts(category: string) {
   const supabase = await createClient();
   if (category === "all") {
-    const { data, error } = await supabase.from("post_card").select("*").order("created_at", { ascending: false });
-
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*,category!inner(id, name, type), profiles(id, name, avatar_image)")
+      .order("created_at", { ascending: false });
     if (!error) {
-      return data as PostCardType[];
+      return data;
     } else return null;
   } else {
     const { data, error } = await supabase
-      .from("post_card")
-      .select("*")
-      .eq("category->>type", category)
+      .from("posts")
+      .select("*,category!inner(id, name, type), profiles(id, name, avatar_image)")
+      .eq("category.type", category)
       .order("created_at", { ascending: false });
-
     if (!error) {
-      return data as PostCardType[];
+      return data;
     } else return null;
   }
 }
 
-// export async function getDetailPost() {
+export async function getDetailPost(postId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*, profiles(id, name, avatar_image)")
+    .eq("id", postId)
+    .maybeSingle();
 
-// }
+  if (!error) {
+    return data;
+  } else return null;
+}
