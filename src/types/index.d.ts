@@ -15,7 +15,7 @@ export type PostCardType = Omit<PostCardViewType, "category" | "profiles"> & {
   profiles: {
     id: string;
     name: string;
-    avatar_url?: string | null;
+    avatar_image?: string | null;
   };
 };
 export type CommentType = Database["public"]["Tables"]["comments"]["Row"];

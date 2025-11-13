@@ -2,9 +2,13 @@ import { twMerge } from "tailwind-merge";
 import MessageBubble from "@/components/comment/MessageBubble";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import PostCard from "@/components/post/PostCard";
+import { getDetailPost } from "@/services/post";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function PostPage({ params }: { params: Promise<{ postId: string }> }) {
+  const supabase = await createClient();
   const { postId } = await params;
+  const postData = await getDetailPost(postId);
   const commentDataSample = [
     {
       id: "1",
@@ -25,12 +29,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   return (
     <>
       <ResponsiveContainer className="bg-bg-sub flex w-full flex-col overflow-hidden max-sm:border-none">
-        <PostCard
-          userName="나"
-          title="이거 썸 맞나요?"
-          content="이거 썸 맞나요?"
-          className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
-        />
+        <PostCard postData={postData} className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0" />
         <div className="flex h-full flex-col justify-between px-6 py-5">
           <div className={twMerge("comments flex h-full flex-col", !commentDataSample && "justify-center")}>
             {" "}

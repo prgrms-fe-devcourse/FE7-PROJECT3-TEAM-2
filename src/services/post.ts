@@ -56,6 +56,11 @@ export async function getPosts(category: string) {
   }
 }
 
-// export async function getDetailPost() {
+export async function getDetailPost(postId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("post_card").select("*").eq("id", postId).maybeSingle();
 
-// }
+  if (!error) {
+    return data as PostCardType;
+  } else return null;
+}
