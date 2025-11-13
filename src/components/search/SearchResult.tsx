@@ -20,5 +20,5 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
     data = users || [];
   }
 
-  return <SearchResultClient searchType={searchType} data={data} />;
+  return <SearchResultClient searchType={searchType} data={data} queryParam={queryParam} />;
 }
