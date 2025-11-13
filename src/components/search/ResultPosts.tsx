@@ -11,6 +11,9 @@ export default function ResultPosts({ data }: { data: PostWithProfile[] }) {
   const handleClick = (id: string, category?: string) => {
     router.push(`/posts/${category}/post/${id}`);
   };
+  if (data.length < 1) {
+    return null;
+  }
   return data.map(post => (
     <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">

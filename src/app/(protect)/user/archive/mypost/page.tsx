@@ -11,12 +11,18 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: posts } = await supabase
+  const { data: category } = await supabase.from("category").select("id").eq("type", sort).single();
+
+  let data = supabase
     .from("posts")
     .select("*, category(type), profiles(name)")
     .eq("user_id", user?.id ?? "")
-    .order(sort === "category" ? "category_id" : "created_at", { ascending: false });
+    .order("created_at", { ascending: false });
 
+  if (category && sort !== "all") {
+    data = data.eq("category_id", category.id);
+  }
+  const { data: posts } = await data;
   return (
     <>
       <div className="flex justify-end">

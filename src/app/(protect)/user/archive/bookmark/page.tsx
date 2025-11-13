@@ -11,17 +11,25 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: posts } = await supabase
+  const { data: category } = await supabase.from("category").select("id").eq("type", sort).single();
+
+  let data = supabase
     .from("bookmark")
     .select("posts(*, category(type), profiles(name))")
     .eq("user_id", user?.id ?? "")
-    .order(sort === "category" ? "category_id" : "created_at", { ascending: false, foreignTable: "posts" });
+    .order("created_at", { ascending: false, foreignTable: "posts" });
+
+  if (category && sort !== "all") {
+    data = data.eq("posts.category_id", category.id);
+  }
+
+  const { data: posts } = await data;
 
   const flatPosts =
     posts?.map(p => ({
       ...p.posts,
     })) ?? [];
-  console.log(posts);
+
   return (
     <>
       <div className="flex justify-end">
@@ -30,9 +38,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           <SortSelect sort={sort} />
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <ResultPosts data={flatPosts as PostWithProfile[]} />
-      </div>
+      {flatPosts[0].id && (
+        <div className="flex flex-col gap-2">
+          <ResultPosts data={flatPosts as PostWithProfile[]} />
+        </div>
+      )}
     </>
   );
 }
