@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import { Stamp, ThumbsDown, ThumbsUp } from "lucide-react";
 import Image from "next/image";
-import { CommentType } from "@/types";
+import { CommentDetailType } from "@/types";
 import formatDate from "@/utils/formatDate";
 import CommentReactionBtn from "./CommentReactionBtn";
 import Badge from "../common/Badge";
@@ -30,10 +30,18 @@ const TextVariants = cva("max-w-[40%] px-5 py-3 rounded-2xl text-sm", {
   },
 });
 
-export default function MessageBubble({ data }: { data: CommentType }) {
-  const currentUserId = "123";
-  const { content, created_at, id, post_id, user_id } = data;
-  const isMine = currentUserId !== user_id;
+export default function MessageBubble({
+  data,
+  currentUserId,
+  adoptedId,
+}: {
+  data: CommentDetailType;
+  currentUserId: string;
+  adoptedId: string;
+}) {
+  const { content, created_at, id, comment_reactions, user_id, profiles } = data;
+  const isAdopted = id === adoptedId;
+  const isMine = currentUserId === user_id;
 
   return (
     <div className={BubbleVariants({ isMine })}>
@@ -51,14 +59,14 @@ export default function MessageBubble({ data }: { data: CommentType }) {
         <div className="flex w-full flex-col gap-1">
           <div className="flex items-center justify-start gap-2">
             <Image
-              src="/profile_sample.svg"
+              src={profiles.avatar_image ?? "/profile_sample.svg"}
               alt="comment user profile image"
               width={32}
               height={32}
               className="rounded-sm"
             />
             {/* <CircleProfileImage src="/profile_sample.svg" alt="comment user profile image" size="md" rounded="lg" /> */}
-            <span className="text-sm">{user_id}</span>
+            <span className="text-sm">{profiles.name}</span>
             <div className="flex flex-col">
               <Badge text="LV.31" size="xs" className="mb-1 bg-amber-400 px-1" />
               <Badge text="연애프로 패널급" size="xs" className="bg-pink-600 px-1 text-white" />
@@ -77,9 +85,11 @@ export default function MessageBubble({ data }: { data: CommentType }) {
             <CommentReactionBtn buttonType="disLike" text="1">
               <ThumbsDown size={8} />
             </CommentReactionBtn>
-            <CommentReactionBtn buttonType="adopt" text="1">
-              <Stamp size={8} />
-            </CommentReactionBtn>
+            {isAdopted && (
+              <CommentReactionBtn buttonType="adopt" text="1">
+                <Stamp size={8} />
+              </CommentReactionBtn>
+            )}
           </div>
         </div>
       )}
