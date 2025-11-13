@@ -1,4 +1,4 @@
-import { FormState, PostCardType, PostInsertType, PostUpdateType } from "@/types";
+import { FormState, PostCardType, PostDetailType, PostInsertType, PostUpdateType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export async function createPost(postData: PostInsertType): Promise<[FormState, PostInsertType | null]> {
@@ -43,7 +43,7 @@ export async function getPosts(category: string) {
       .select("*,category!inner(id, name, type), profiles(id, name, avatar_image)")
       .order("created_at", { ascending: false });
     if (!error) {
-      return data;
+      return data as PostCardType[];
     } else return null;
   } else {
     const { data, error } = await supabase
@@ -52,7 +52,7 @@ export async function getPosts(category: string) {
       .eq("category.type", category)
       .order("created_at", { ascending: false });
     if (!error) {
-      return data;
+      return data as PostCardType[];
     } else return null;
   }
 }
@@ -66,6 +66,6 @@ export async function getDetailPost(postId: string) {
     .maybeSingle();
 
   if (!error) {
-    return data;
+    return data as PostDetailType;
   } else return null;
 }
