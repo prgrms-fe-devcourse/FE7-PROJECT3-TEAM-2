@@ -1,14 +1,21 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import Badge from "@/components/common/Badge";
 import BaseImage from "@/components/common/image/BaseImage";
 import { categoryColor } from "@/utils/category";
 
 export default function WeekPostCard({ post }: { post: WeekPostDataType }) {
+  const router = useRouter();
   const image = post.post_image
     ? post.post_image
     : "https://lfkxloulmqeonuzaudtt.supabase.co/storage/v1/object/public/user_upload_image/default_image.png";
 
   return (
-    <div className="col-span-1 w-full rounded-lg border border-gray-200 p-1">
+    <div
+      className="col-span-1 w-full cursor-pointer rounded-lg border border-gray-200 p-1 transition hover:scale-101"
+      onClick={() => router.push(`/posts/${post.category_type}/post/${post.post_id}`)}
+    >
       <BaseImage src={image} alt="post_img" className="h-[250px] max-h-[200px] w-full" />
       <div className="flex flex-col gap-1.5 p-2">
         <span className="text-text-title text-sm font-semibold">{post.title}</span>
