@@ -1,4 +1,4 @@
-export const categoryColor: Record<Category, string> = {
+export const categoryColor: Record<Category | string, string> = {
   연애: "#FF6B81",
   "기술/IT": "#4ECDC4",
   "제테크/소비": "#FFD93D",

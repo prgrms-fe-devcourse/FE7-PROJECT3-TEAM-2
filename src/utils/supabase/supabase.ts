@@ -423,6 +423,32 @@ export type Database = {
       };
     };
     Functions: {
+      get_category_full_statistics: {
+        Args: never;
+        Returns: {
+          adopted_posts: number;
+          avg_comments: number;
+          badge_counts: Json;
+          category_id: string;
+          category_name: string;
+          image_url: string;
+          percent_with_badge: number;
+          topkeywords: string[];
+          topusers: Json;
+          total_point: number;
+          total_posts: number;
+          total_users: number;
+          users_with_badge: number;
+        }[];
+      };
+      get_category_total_points: {
+        Args: never;
+        Returns: {
+          category_id: string;
+          name: string;
+          total_point: number;
+        }[];
+      };
       get_top_keyword: {
         Args: never;
         Returns: {
