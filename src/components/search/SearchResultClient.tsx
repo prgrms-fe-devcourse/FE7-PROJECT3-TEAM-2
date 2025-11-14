@@ -66,7 +66,7 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
             setIsOpen(!isOpen);
           }}
         >
-          <p>{arrangeType === "date" ? "날짜순" : "이름순"}</p>
+          <p>{arrangeType === "date" ? "날짜 순" : "이름 순"}</p>
           <div className="cursor-pointer">
             <ChevronDown size={12} />
           </div>
