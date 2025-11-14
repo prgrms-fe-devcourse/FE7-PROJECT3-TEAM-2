@@ -13,6 +13,7 @@ export const cardVariants = cva("flex w-full cursor-pointer justify-between gap-
 export default function SearchResultClient({ searchType, data, queryParam }: SearchResultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [arrangeType, setArrangeType] = useState("date");
+  const [arrangedData, setArrangedData] = useState(data);
 
   const textHighlight = (text: string) => {
     if (!queryParam) return text;
@@ -31,7 +32,24 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
   const arrangeHandler = (type: string) => {
     setArrangeType(type);
     setIsOpen(!isOpen);
-    // 정렬구현
+
+    if (searchType === "post") {
+      const newDataPost = [...arrangedData] as PostWithProfile[];
+      if (type === "date") {
+        newDataPost.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      } else if (type === "name") {
+        newDataPost.sort((a, b) => a.title.localeCompare(b.title ?? ""));
+      }
+      setArrangedData(newDataPost);
+    } else if (searchType === "user") {
+      const newDataUser = [...arrangedData] as Profile[];
+      if (type === "date") {
+        newDataUser.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      } else if (type === "name") {
+        newDataUser.sort((a, b) => a.name.localeCompare(b.name ?? ""));
+      }
+      setArrangedData(newDataUser);
+    }
   };
 
   return (
@@ -66,17 +84,16 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
           </div>
         )}
       </div>
-
       {data.length === 0 && (
         <div className="flex h-100 w-full items-center justify-center">
           <p className="text-content">검색 결과가 존재하지 않습니다.</p>
         </div>
       )}
 
-      {searchType === "post" && <ResultPosts data={data as PostWithProfile[]} textHighlight={textHighlight} />}
+      {searchType === "post" && <ResultPosts data={arrangedData as PostWithProfile[]} textHighlight={textHighlight} />}
 
       {searchType === "user" &&
-        (data as Profile[]).map(user => (
+        (arrangedData as Profile[]).map(user => (
           <div key={user.id} className={cardVariants()}>
             <div className="flex flex-col gap-6 p-6">
               <p>{textHighlight(user.name)}</p>
