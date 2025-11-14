@@ -18,7 +18,7 @@ export default function LoginForm() {
         </label>
         <input
           type="email"
-          className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+          className="dark:bg-bg-sub h-14 rounded-lg border border-gray-200 px-3 outline-none dark:border-none"
           name="email"
           id="login_id"
           placeholder="example@mail.com"
@@ -32,7 +32,7 @@ export default function LoginForm() {
         </label>
         <input
           type="password"
-          className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+          className="dark:bg-bg-sub h-14 rounded-lg border border-gray-200 px-3 outline-none dark:border-none"
           name="password"
           id="login_password"
         />
