@@ -19,10 +19,8 @@ export default function AdoptRatioChart({ label, percentage, color = "#007F5F" }
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {/* 상단 라벨 */}
-      <span className="mb-2 text-sm font-semibold text-gray-400">{label}</span>
+      <span className="mb-1 text-sm font-semibold text-gray-400">{label}</span>
 
-      {/* 원형 게이지 */}
       <div className="relative">
         <RadialBarChart
           width={100}
@@ -36,11 +34,10 @@ export default function AdoptRatioChart({ label, percentage, color = "#007F5F" }
           endAngle={-270}
           data={data}
         >
-          {/* 배경 원 */}
           <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
           <RadialBar
             background={{
-              fill: "#f0f1f3", // 회색 배경 원
+              fill: "#f0f1f3",
             }}
             dataKey="value"
             cornerRadius={50}
@@ -48,7 +45,6 @@ export default function AdoptRatioChart({ label, percentage, color = "#007F5F" }
           />
         </RadialBarChart>
 
-        {/* 가운데 % 텍스트 */}
         <span className="absolute inset-0 flex items-center justify-center text-[15px] font-semibold text-gray-800">
           {percentage}%
         </span>
