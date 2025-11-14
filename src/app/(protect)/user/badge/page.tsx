@@ -12,12 +12,13 @@ export default function page() {
             <Award size={12} />
             <p>대표 뱃지</p>
           </div>
-
-          <div className="flex flex-wrap justify-center gap-52 max-xl:gap-25 max-lg:gap-16 max-sm:gap-6">
-            <BadgeDetail badgeTitle="basic_welcome" />
-            <BadgeDetail badgeTitle="basic_welcome" />
-            <BadgeDetail badgeTitle="basic_welcome" />
-            <BadgeDetail badgeTitle="basic_welcome" />
+          <div className="flex justify-center">
+            <div className="flex flex-wrap justify-center gap-52 max-[800px]:max-w-[337px] max-xl:gap-25 max-lg:gap-16 max-sm:max-w-full max-sm:gap-6">
+              <BadgeDetail badgeTitle="basic_welcome" />
+              <BadgeDetail badgeTitle="basic_welcome" />
+              <BadgeDetail badgeTitle="basic_welcome" />
+              <BadgeDetail badgeTitle="basic_welcome" />
+            </div>
           </div>
         </div>
       </ResponsiveContainer>
