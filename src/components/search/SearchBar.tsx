@@ -1,13 +1,14 @@
 "use client";
 
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 
 export default function SearchBar({ searchType }: { searchType: string }) {
   const route = useRouter();
   const [query, setQuery] = useState("");
+  const queryChange = useSearchParams();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,6 +16,12 @@ export default function SearchBar({ searchType }: { searchType: string }) {
 
     route.push(`/search/${searchType}?query=${encodeURIComponent(query)}`);
   };
+
+  useEffect(() => {
+    const q = queryChange.get("query") ?? "";
+    if (q !== query) setQuery(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryChange]);
 
   return (
     <div className="flex w-full flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">

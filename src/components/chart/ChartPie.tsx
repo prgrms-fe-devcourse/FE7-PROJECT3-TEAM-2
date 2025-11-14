@@ -28,8 +28,8 @@ export default function ChartPie({
               height={100}
               cx="50%"
               cy="50%"
-              innerRadius="58%"
-              outerRadius="80%"
+              innerRadius="73%"
+              outerRadius="100%"
               paddingAngle={2}
               stroke="#fff"
             >

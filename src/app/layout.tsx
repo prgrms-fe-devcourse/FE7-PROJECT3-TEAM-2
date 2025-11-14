@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import ToastProvider from "@/components/common/toast/ToastProvider";
 import Header from "@/components/layout/Header";
 import Nav from "@/components/layout/Nav";
 import "../css/index.css";
@@ -30,6 +31,7 @@ export default function RootLayout({
             <Nav />
             <main className="scrollbar-hide flex h-[calc(100vh-var(--header-height))] flex-1 rounded-br-[30px] sm:overflow-y-scroll">
               {children}
+              <ToastProvider />
             </main>
           </div>
         </div>
