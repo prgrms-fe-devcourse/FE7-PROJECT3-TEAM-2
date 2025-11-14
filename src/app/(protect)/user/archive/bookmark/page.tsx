@@ -38,7 +38,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           <SortSelect sort={sort} />
         </div>
       </div>
-      {flatPosts[0].id && (
+
+      {flatPosts[0]?.id && (
         <div className="flex flex-col gap-2">
           <ResultPosts data={flatPosts as PostWithProfile[]} />
         </div>
