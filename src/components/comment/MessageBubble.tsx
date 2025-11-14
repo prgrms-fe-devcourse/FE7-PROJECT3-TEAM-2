@@ -54,7 +54,7 @@ export default function MessageBubble({
             </div>
 
             <div className={TextVariants({ isMine })}>
-              <p>{content}</p>
+              <p className="whitespace-pre-wrap">{content}</p>
             </div>
           </div>
           <div className="comment-btns flex justify-end gap-2">
@@ -81,8 +81,7 @@ export default function MessageBubble({
               width={32}
               height={32}
               className="rounded-sm"
-            />
-            {/* <CircleProfileImage src="/profile_sample.svg" alt="comment user profile image" size="md" rounded="lg" /> */}
+            />{" "}
             <span className="text-sm">{profiles.name}</span>
             <div className="flex flex-col">
               <Badge text="LV.31" size="xs" className="mb-1 bg-amber-400 px-1" />
@@ -91,7 +90,7 @@ export default function MessageBubble({
           </div>
           <div className="flex items-end gap-2">
             <div className={TextVariants({ isMine })}>
-              <p>{content}</p>
+              <p className="whitespace-pre-wrap">{content}</p>
             </div>
             <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
           </div>
