@@ -60,15 +60,17 @@ interface PostCardButtonProps extends VariantProps<typeof containerVariants> {
 export default function PostCardButton({ device, postData, className }: PostCardButtonProps) {
   const { category, created_at, id, profiles, title } = postData;
   const color = categoryColor[category.name];
-  const path = usePathname().split("/")[4];
+  const path = usePathname().split("/");
+  const categoryType = path[2];
+  const postId = path[4];
 
   dayjs.extend(relativeTime);
   dayjs.locale("ko");
 
   return (
     <Link
-      href={`/posts/${category?.type}/post/${id}`}
-      className={twMerge(containerVariants({ device }), path === postData.id && "bg-main-50", className)}
+      href={`/posts/${categoryType}/post/${id}`}
+      className={twMerge(containerVariants({ device }), postId === postData.id && "bg-main-50", className)}
     >
       <div className="post-card-btn_info space-y-2.5">
         <PostCardBookMark />

@@ -8,7 +8,7 @@ export default async function CategoryLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
   const supabase = await createClient();
