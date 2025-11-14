@@ -1,9 +1,10 @@
-import { twMerge } from "tailwind-merge";
-import MessageBubble from "@/components/comment/MessageBubble";
+import CommentForm from "@/components/comment/CommentForm";
+import CommentList from "@/components/comment/CommentList";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import PostCard from "@/components/post/PostCard";
-import { getComments } from "@/services/comment";
+import { createComment, getComments } from "@/services/comment";
 import { getDetailPost } from "@/services/post";
+import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function PostPage({ params }: { params: Promise<{ postId: string }> }) {
@@ -12,8 +13,50 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
     data: { user },
   } = await supabase.auth.getUser();
   const { postId } = await params;
-  const postData = await getDetailPost(postId);
   const commentData = await getComments(postId);
+  const postData = await getDetailPost(postId);
+
+  async function writeComment(prevState: FormState, formData: FormData): Promise<FormState> {
+    "use server";
+
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (!user || userError) {
+      return {
+        success: false,
+        error: "로그인이 필요합니다.",
+      };
+    }
+
+    const content = formData.get("content")?.toString() ?? "";
+
+    if (!content.trim()) {
+      return {
+        success: false,
+        error: "내용을 입력해주세요.",
+      };
+    }
+
+    const [state] = await createComment({
+      user_id: user.id,
+      content: content,
+      post_id: postId,
+    });
+
+    if (!state.success) return state;
+
+    // 뱃지, 경험치
+
+    return {
+      success: true,
+      error: null,
+    };
+  }
+
   return (
     <>
       <ResponsiveContainer className="bg-bg-sub scrollbar-hide flex w-full flex-col overflow-scroll max-sm:border-none">
@@ -23,29 +66,12 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
           className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
         />
         <div className="flex h-full flex-col justify-between px-6 py-5">
-          <div
-            className={twMerge(
-              "comments scrollbar-hide flex h-full flex-col gap-4 overflow-scroll",
-              commentData?.length === 0 && "justify-center"
-            )}
-          >
-            {commentData?.length !== 0 && commentData ? (
-              commentData.map(comment => (
-                <MessageBubble
-                  key={comment.id}
-                  data={comment}
-                  currentUserId={user?.id ?? ""}
-                  adoptedId={postData?.adopted_comment_id ?? ""}
-                />
-              ))
-            ) : (
-              <p className="text-text-light text-center text-sm">등록된 댓글이 없습니다.</p>
-            )}
-          </div>
-          <div className="comment-input-container bg-bg-main mt-5 flex items-center rounded-lg px-5 py-4">
-            <input type="text" name="" id="" className="bg-bg-sub mr-3 flex-3/4 rounded-sm px-2 py-1 outline-0" />
-            <button className="bg-main cursor-pointer rounded-sm px-3 py-1.5 text-xs text-white">보내기</button>
-          </div>
+          <CommentList
+            userId={user?.id ?? ""}
+            commentData={commentData ?? []}
+            adoptedCommentId={postData?.adopted_comment_id ?? ""}
+          />
+          <CommentForm action={writeComment} />
         </div>
       </ResponsiveContainer>
     </>

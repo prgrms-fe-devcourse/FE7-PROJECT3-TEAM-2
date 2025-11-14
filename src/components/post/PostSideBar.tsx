@@ -22,7 +22,7 @@ export default function PostSideBar({ isLogin, postData }: { isLogin: boolean; p
   return (
     <div
       className={twMerge(
-        "category-side flex min-w-[270px] flex-col items-center gap-2 max-sm:w-full max-sm:px-6 max-sm:pb-6",
+        "category-side flex max-h-screen min-w-[270px] flex-col items-center gap-2 max-sm:w-full max-sm:px-6 max-sm:pb-6",
         isPostDetail && "max-[1100px]:hidden"
       )}
     >
