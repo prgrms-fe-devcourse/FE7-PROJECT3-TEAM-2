@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { PostWithProfile } from "@/types/search";
 import { cardVariants } from "./SearchResultClient";
@@ -9,18 +12,23 @@ export default function ResultPosts({
   textHighlight,
 }: {
   data: PostWithProfile[];
-  textHighlight: (text: string) => string | React.ReactElement[];
+  textHighlight?: (text: string) => string | React.ReactElement[];
 }) {
+  const router = useRouter();
+  const handleClick = (id: string, category?: string) => {
+    router.push(`/posts/${category}/post/${id}`);
+  };
+
   return data.map(post => (
-    <div key={post.id} className={cardVariants()}>
+    <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex gap-2 text-xs">
           <p>{post.profiles?.name}</p>
           <p className="text-text-light">{post.created_at}</p>
         </div>
         <div className="flex flex-col gap-2.5 text-sm">
-          <p className="font-bold">{textHighlight(post.title)}</p>
-          <p className="text-text-light">{textHighlight(post.content ?? "")}</p>
+          <p className="font-bold">{textHighlight ? textHighlight(post.title) : post.title}</p>
+          <p className="text-text-light">{textHighlight ? textHighlight(post.content ?? "") : (post.content ?? "")}</p>
         </div>
         <Badge size="sm" className="bg-pink-600 px-2 py-1 text-white" text="HOT" />
       </div>

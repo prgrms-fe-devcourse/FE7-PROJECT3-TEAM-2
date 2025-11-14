@@ -23,7 +23,7 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
     <>
       <div className="p-6">
         <div className="mb-3 flex items-center gap-3">
-          <CircleProfileImage src={profile?.avatar_image ?? ""} size="lg" />
+          <CircleProfileImage src={profile?.avatar_image ?? "/profile_sample.svg"} size="lg" />
           <div className="flex flex-col gap-2">
             <Badge size="sm" text={`LV.${profile?.level}`} className="bg-main text-white" />
             <p className="font-medium">{profile?.name}</p>

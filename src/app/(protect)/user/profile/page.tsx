@@ -71,7 +71,7 @@ export default async function page() {
       };
     }
 
-    if (phoneNumber.length !== 11) {
+    if (phoneNumber.length !== 11 && phoneNumber.length !== 0) {
       return {
         success: false,
         error: "올바른 전화번호를 입력해주세요.",
