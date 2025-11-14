@@ -1,8 +1,8 @@
 "use client";
 
-import { UserRoundPen } from "lucide-react";
+import { SquarePen, UserRoundPen } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { FormState, ProfileType } from "@/types";
 import { Button } from "../common/Button";
 import CircleProfileImage from "../common/image/CircleProfileImage";
@@ -15,6 +15,8 @@ type UserInfoModalFormProps = {
 export default function UserInfoModalForm({ profile, setModal, action }: UserInfoModalFormProps) {
   const [state, formAction, isPending] = useActionState(action, { success: false, error: null });
   const router = useRouter();
+  const [preview, setPreview] = useState(profile?.avatar_image);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     if (state.error) {
@@ -34,6 +36,24 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
     event.stopPropagation();
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || file.size === 0) return;
+
+    if (file.size > 1024 * 1024 * 3) {
+      alert("이미지 파일은 3MB 이하만 업로드 가능합니다.");
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 파일만 업로드할 수 있습니다.");
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+  };
+
   return (
     <>
       <div className="fixed inset-0 z-11 flex h-full w-full justify-center bg-gray-500/50 py-20" onMouseDown={setModal}>
@@ -43,7 +63,25 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
           onMouseDown={preventOffModal}
         >
           <div className="mb-3 flex items-center gap-3">
-            <CircleProfileImage src={profile?.avatar_image ?? ""} size="lg" />
+            <label htmlFor="avatarImageUpload" className="relative">
+              <div className="rounded-lg bg-gray-100">
+                <CircleProfileImage src={preview ?? "/profile_sample.svg"} size="lg" className="brightness-90" />
+              </div>
+              <div className="absolute inset-3.5 flex cursor-pointer items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition ease-in-out hover:brightness-120">
+                <div className="z-20">
+                  <SquarePen size={16} color="#ffffff" />
+                </div>
+              </div>
+            </label>
+
+            <input
+              type="file"
+              id="avatarImageUpload"
+              name="avatarImage"
+              className="hidden"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
             <div className="flex flex-col gap-2">
               <label className="text-text-sub">
                 닉네임<span className="text-red-400">*</span>

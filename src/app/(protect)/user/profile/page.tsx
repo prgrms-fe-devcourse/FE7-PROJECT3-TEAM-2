@@ -102,6 +102,40 @@ export default async function page() {
     const email = formData.get("email")?.toString() ?? "";
     const phoneNumber = formData.get("phoneNumber")?.toString().replaceAll(" ", "").replaceAll(/[\D]/gi, "") ?? "";
     const bio = formData.get("bio")?.toString() ?? "";
+    const avatarImage = formData.get("avatarImage") as File | null;
+    let avatarImageUrl: string = "";
+
+    if (avatarImage && avatarImage.size > 0) {
+      // 파일 확장자 추출
+      const ext = avatarImage.name.split(".").pop();
+      // 고유한 파일명 생성 (user.id + timestamp)
+      const filePath = `avatars/${user.id}_${Date.now()}.${ext}`;
+
+      // 업로드
+      const { error } = await supabase.storage
+        .from("user_upload_image")
+        .upload(filePath, avatarImage, { upsert: true });
+
+      if (error) {
+        return {
+          success: false,
+          error: "이미지 업로드 실패",
+        };
+      } else {
+        const { data } = supabase.storage.from("user_upload_image").getPublicUrl(filePath);
+        avatarImageUrl = data.publicUrl;
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("avatar_image")
+          .eq("user_id", user.id)
+          .single();
+
+        if (profile?.avatar_image) {
+          await supabase.storage.from("user_upload_image").remove([profile?.avatar_image]);
+        }
+      }
+    }
 
     if (!name || !email) {
       return {
@@ -116,8 +150,10 @@ export default async function page() {
         error: "올바른 전화번호를 입력해주세요.",
       };
     }
-
-    return updateProfile(user.id, name, email, phoneNumber, bio);
+    if (!avatarImage || avatarImage.size === 0) {
+      return updateProfile(user.id, name, email, phoneNumber, bio);
+    }
+    return updateProfile(user.id, name, email, phoneNumber, bio, avatarImageUrl);
   }
 
   return (
