@@ -13,7 +13,7 @@ export default function Category({ categorys }: { categorys: CategoryType[] }) {
   const { category: categoryId, postId } = useParams();
 
   return (
-    <div className={twMerge("category mb-6 flex gap-6 max-sm:m-6", isPostDetail && "max-sm:hidden")}>
+    <div className={twMerge("category bg-bg-main flex gap-6 p-6", isPostDetail && "max-sm:hidden")}>
       <Link href={postId ? `/posts/all/post/${postId}` : "/posts/all"} className="group relative">
         <div
           className={twMerge(

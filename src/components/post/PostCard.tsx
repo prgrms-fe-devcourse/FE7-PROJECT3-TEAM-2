@@ -77,7 +77,7 @@ export default function PostCard({ device, postData, commentCount, className }: 
           </div>
           <div className="post-card_detail flex flex-col gap-3">
             <p className="post-card_post-title text-text-title text-base font-bold">{title}</p>
-            <p className="post-card_post-content text-text-sub text-sm">{content}</p>
+            <p className="post-card_post-content text-text-sub text-sm whitespace-pre-wrap">{content}</p>
             {post_image && (
               <div className={thumbnailVariants({ device })} onClick={() => setIsOpen(true)}>
                 <BaseImage

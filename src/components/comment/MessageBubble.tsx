@@ -18,11 +18,11 @@ const BubbleVariants = cva("flex items-end gap-2 w-full", {
   },
 });
 
-const TextVariants = cva("max-w-[40%] px-5 py-3 rounded-2xl text-sm", {
+const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm", {
   variants: {
     isMine: {
-      true: "bg-main text-white",
-      false: "bg-white text-gray-900 border-2 border-gray-100",
+      true: "bg-main text-white rounded-tr-none",
+      false: "bg-white text-gray-900 border-2 border-gray-100 rounded-tl-none",
     },
   },
   defaultVariants: {
@@ -54,14 +54,13 @@ export default function MessageBubble({
             </div>
 
             <div className={TextVariants({ isMine })}>
-              <p>{content}</p>
+              <p className="whitespace-pre-wrap">{content}</p>
             </div>
           </div>
           <div className="comment-btns flex justify-end gap-2">
             <CommentReactionBtn buttonType="like" reactions={reactions.like}>
               <ThumbsUp size={8} />
             </CommentReactionBtn>
-
             <CommentReactionBtn buttonType="disLike" reactions={reactions.disLike}>
               <ThumbsDown size={8} />
             </CommentReactionBtn>
@@ -81,17 +80,18 @@ export default function MessageBubble({
               width={32}
               height={32}
               className="rounded-sm"
-            />
-            {/* <CircleProfileImage src="/profile_sample.svg" alt="comment user profile image" size="md" rounded="lg" /> */}
-            <span className="text-sm">{profiles.name}</span>
-            <div className="flex flex-col">
-              <Badge text="LV.31" size="xs" className="mb-1 bg-amber-400 px-1" />
-              <Badge text="연애프로 패널급" size="xs" className="bg-pink-600 px-1 text-white" />
+            />{" "}
+            <div className="flex flex-col justify-center gap-0.5">
+              <span className="text-sm">{profiles.name}</span>
+              <div className="flex gap-1">
+                <Badge text="LV.31" size="xs" className="bg-amber-400 px-1 py-0.5" />
+                <Badge text="연애프로 패널급" size="xs" className="bg-pink-600 px-1 py-0.5 text-white" />
+              </div>
             </div>
           </div>
           <div className="flex items-end gap-2">
             <div className={TextVariants({ isMine })}>
-              <p>{content}</p>
+              <p className="whitespace-pre-wrap">{content}</p>
             </div>
             <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
           </div>
