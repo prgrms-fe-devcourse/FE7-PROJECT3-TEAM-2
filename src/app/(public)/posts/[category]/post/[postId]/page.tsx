@@ -16,15 +16,19 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   const commentData = await getComments(postId);
   return (
     <>
-      <ResponsiveContainer className="bg-bg-sub flex w-full flex-col overflow-hidden max-sm:border-none">
+      <ResponsiveContainer className="bg-bg-sub scrollbar-hide flex w-full flex-col overflow-scroll max-sm:border-none">
         <PostCard
           commentCount={commentData?.length ?? 0}
           postData={postData}
           className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
         />
         <div className="flex h-full flex-col justify-between px-6 py-5">
-          <div className={twMerge("comments flex h-full flex-col", commentData?.length === 0 && "justify-center")}>
-            {" "}
+          <div
+            className={twMerge(
+              "comments scrollbar-hide flex h-full flex-col gap-4 overflow-scroll",
+              commentData?.length === 0 && "justify-center"
+            )}
+          >
             {commentData?.length !== 0 && commentData ? (
               commentData.map(comment => (
                 <MessageBubble

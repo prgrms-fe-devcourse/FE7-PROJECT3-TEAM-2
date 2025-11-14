@@ -7,7 +7,7 @@ export default async function PostsLayout({ children }: { children: React.ReactN
 
   if (data) {
     return (
-      <div className="flex w-full flex-col p-6 max-sm:p-0">
+      <div className="flex w-full flex-col">
         <Category categorys={data} />
         {children}
       </div>

@@ -72,10 +72,12 @@ export default function PostCardButton({ device, postData, className }: PostCard
       href={`/posts/${categoryType}/post/${id}`}
       className={twMerge(containerVariants({ device }), postId === postData.id && "bg-main-50", className)}
     >
-      <div className="post-card-btn_info space-y-2.5">
+      <div className="post-card-btn_info space-y-2">
         <PostCardBookMark />
         <div className={userTextVariants({ device })}>
-          <span className="mr-2">{profiles?.name}</span>
+          <span className="mr-2">
+            {profiles?.name.length >= 10 ? profiles?.name.slice(0, 10) + "..." : profiles?.name}
+          </span>
           <span className="text-text-light">{dayjs(created_at).fromNow()}</span>
         </div>
         <p className={titleVariants({ device })}>{title}</p>
