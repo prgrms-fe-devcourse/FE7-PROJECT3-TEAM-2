@@ -24,8 +24,6 @@ export default function CommentList({
     const channel = supabase
       .channel(`comments-room-${postId}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, payload => {
-        console.log("New change:", payload);
-
         if (payload.eventType === "INSERT") {
           const getComment = async (commentId: string) => {
             const { data, error } = await supabase
