@@ -3,7 +3,7 @@
 import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PostWithProfile, Profile, SearchResultProps } from "@/types/search";
 import ResultPosts from "./ResultPosts";
 import Badge from "../common/Badge";
@@ -48,6 +48,10 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
     }
   };
 
+  useEffect(() => {
+    setArrangedData(data);
+  }, [data]);
+
   return (
     <div className="flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
       <div className="relative flex justify-between">
@@ -80,6 +84,7 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
           </div>
         )}
       </div>
+
       {data.length === 0 && (
         <div className="flex h-100 w-full items-center justify-center">
           <p className="text-content">검색 결과가 존재하지 않습니다.</p>
