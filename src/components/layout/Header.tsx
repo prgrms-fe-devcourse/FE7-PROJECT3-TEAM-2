@@ -6,7 +6,7 @@ import CircleProfileImage from "../common/image/CircleProfileImage";
 
 export default function Header() {
   return (
-    <header className="flex h-(--header-height) items-center justify-between rounded-none border-b border-gray-300 bg-white p-(--global-padding) px-5 pr-3 sm:rounded-t-[30px] sm:px-10">
+    <header className="bg-bg-sub flex h-(--header-height) items-center justify-between rounded-none border-b border-gray-300 p-(--global-padding) px-5 pr-3 sm:px-10 2xl:rounded-t-[30px] dark:border-neutral-800">
       <div className="flex cursor-pointer gap-5">
         <CircleProfileImage src={logoImg} className="bg-bg-sub border-2 border-[#12659E]" size="sm" />
         <div className="text-center">
