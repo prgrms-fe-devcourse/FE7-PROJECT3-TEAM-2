@@ -3,7 +3,7 @@
 import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PostWithProfile, Profile, SearchResultProps } from "@/types/search";
 import ResultPosts from "./ResultPosts";
 import Badge from "../common/Badge";
@@ -13,6 +13,7 @@ export const cardVariants = cva("flex w-full cursor-pointer justify-between gap-
 export default function SearchResultClient({ searchType, data, queryParam }: SearchResultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [arrangeType, setArrangeType] = useState("date");
+  const [arrangedData, setArrangedData] = useState(data);
 
   const textHighlight = (text: string) => {
     if (!queryParam) return text;
@@ -31,8 +32,25 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
   const arrangeHandler = (type: string) => {
     setArrangeType(type);
     setIsOpen(!isOpen);
-    // 정렬구현
+
+    if (searchType === "post") {
+      const newDataPost = [...arrangedData] as PostWithProfile[];
+      if (type === "name") {
+        newDataPost.sort((a, b) => a.title.localeCompare(b.title ?? ""));
+      }
+      setArrangedData(newDataPost);
+    } else if (searchType === "user") {
+      const newDataUser = [...arrangedData] as Profile[];
+      if (type === "name") {
+        newDataUser.sort((a, b) => a.name.localeCompare(b.name ?? ""));
+      }
+      setArrangedData(newDataUser);
+    }
   };
+
+  useEffect(() => {
+    setArrangedData(data);
+  }, [data]);
 
   return (
     <div className="flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
@@ -48,7 +66,7 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
             setIsOpen(!isOpen);
           }}
         >
-          <p>{arrangeType === "date" ? "날짜순" : "이름순"}</p>
+          <p>{arrangeType === "date" ? "날짜 순" : "이름 순"}</p>
           <div className="cursor-pointer">
             <ChevronDown size={12} />
           </div>
@@ -73,10 +91,10 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
         </div>
       )}
 
-      {searchType === "post" && <ResultPosts data={data as PostWithProfile[]} textHighlight={textHighlight} />}
+      {searchType === "post" && <ResultPosts data={arrangedData as PostWithProfile[]} textHighlight={textHighlight} />}
 
       {searchType === "user" &&
-        (data as Profile[]).map(user => (
+        (arrangedData as Profile[]).map(user => (
           <div key={user.id} className={cardVariants()}>
             <div className="flex flex-col gap-6 p-6">
               <p>{textHighlight(user.name)}</p>

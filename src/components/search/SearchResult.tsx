@@ -13,10 +13,15 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
     const { data: posts } = await supabase
       .from("posts")
       .select("*, profiles(name)")
-      .or(`title.ilike.%${queryParam}%, content.ilike.%${queryParam}%`);
+      .or(`title.ilike.%${queryParam}%, content.ilike.%${queryParam}%`)
+      .order("created_at", { ascending: false });
     data = posts || [];
   } else {
-    const { data: users } = await supabase.from("profiles").select("*").ilike("name", `%${queryParam}%`);
+    const { data: users } = await supabase
+      .from("profiles")
+      .select("*")
+      .ilike("name", `%${queryParam}%`)
+      .order("created_at", { ascending: false });
     data = users || [];
   }
 
