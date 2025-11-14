@@ -2,25 +2,22 @@
 
 import { Moon, Sun } from "lucide-react";
 import { motion, Variants } from "motion/react";
-import { useState } from "react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function ThemeSwitch() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") return "light";
-    const isDark =
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    return isDark ? "dark" : "light";
-  });
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const setThemeValue = (nextTheme: "light" | "dark") => {
-    document.documentElement.classList.toggle("dark", nextTheme === "dark");
-    document.cookie = `theme=${nextTheme}; path=/; max-age=31536000`;
-    setTheme(nextTheme);
-  };
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const toggleTheme = () => {
-    setThemeValue(theme === "dark" ? "light" : "dark");
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const thumbVariants: Variants = {
@@ -40,17 +37,20 @@ export default function ThemeSwitch() {
       transition: { ease: "easeInOut" },
     },
   };
-  if (!theme) return null;
+
   return (
-    <motion.div className="flex h-11.5 cursor-pointer items-center rounded-lg bg-gray-200 p-1" onClick={toggleTheme}>
+    <motion.div
+      className="flex h-8 cursor-pointer items-center rounded-lg bg-gray-200 p-1 dark:bg-neutral-700"
+      onClick={toggleTheme}
+    >
       <motion.div
         initial={{ translateX: "4px" }}
         animate={theme === "light" ? "unChecked" : "checked"}
         whileTap="tap"
-        className="flex h-9 w-20 items-center justify-center rounded-lg bg-white text-[10px] font-medium text-gray-600 shadow-sm"
+        className="flex h-6 w-20 items-center justify-center rounded-lg bg-white text-[10px] font-medium text-gray-600 shadow-sm"
         variants={thumbVariants}
       >
-        {theme === "light" ? <Sun /> : <Moon className="text-white" />}
+        {theme === "light" ? <Sun size={12} /> : <Moon className="text-white" size={12} />}
       </motion.div>
     </motion.div>
   );
