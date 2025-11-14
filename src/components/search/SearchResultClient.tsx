@@ -35,17 +35,13 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
 
     if (searchType === "post") {
       const newDataPost = [...arrangedData] as PostWithProfile[];
-      if (type === "date") {
-        newDataPost.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-      } else if (type === "name") {
+      if (type === "name") {
         newDataPost.sort((a, b) => a.title.localeCompare(b.title ?? ""));
       }
       setArrangedData(newDataPost);
     } else if (searchType === "user") {
       const newDataUser = [...arrangedData] as Profile[];
-      if (type === "date") {
-        newDataUser.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-      } else if (type === "name") {
+      if (type === "name") {
         newDataUser.sort((a, b) => a.name.localeCompare(b.name ?? ""));
       }
       setArrangedData(newDataUser);
