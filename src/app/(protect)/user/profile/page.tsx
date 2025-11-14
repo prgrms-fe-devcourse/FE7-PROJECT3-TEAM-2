@@ -85,19 +85,19 @@ export default async function page() {
     <div className="mt-6.5 w-full pb-5 text-xs">
       <UserInfo profile={profile} action={updateProfileAction} />
       <Divider />
-      <div className="my-6 flex flex-wrap justify-center gap-3 text-xs">
-        <ResponsiveContainer className="flex flex-col gap-12 p-6 max-sm:gap-14 max-sm:rounded-3xl">
+      <div className="my-6 flex flex-wrap justify-center gap-3 text-xs max-lg:flex-col">
+        <ResponsiveContainer className="flex flex-col flex-wrap gap-12 p-6 max-sm:gap-14 max-sm:rounded-3xl">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-1">
               <UserRound size={12} />
               <p>연결 관리</p>
             </div>
-            <div className="flex gap-6">
-              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2 max-sm:min-w-25">
+            <div className="flex justify-center gap-6">
+              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
                 <p>팔로우</p>
                 <p className="text-base">{followsCount}</p>
               </div>
-              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2 max-sm:min-w-25">
+              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
                 <p>팔로잉</p>
                 <p className="text-base">{followersCount}</p>
               </div>
@@ -108,12 +108,12 @@ export default async function page() {
               <ActivityIcon size={12} />
               <p>내 활동</p>
             </div>
-            <div className="flex gap-6">
-              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2 max-sm:min-w-25">
+            <div className="flex justify-center gap-6">
+              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
                 <p>게시물</p>
                 <p className="text-base">{postsCount}</p>
               </div>
-              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2 max-sm:min-w-25">
+              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
                 <p>채택 수</p>
                 <p className="text-base"></p>
               </div>
@@ -129,12 +129,13 @@ export default async function page() {
               </div>
               <p className="text-text-light">대표로 설정한 4개의 뱃지만 표시</p>
             </div>
-
-            <div className="flex flex-wrap justify-center gap-16 max-sm:grid max-sm:grid-cols-2 max-sm:gap-1">
-              <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-              <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-              <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-              <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
+            <div className="flex justify-center">
+              <div className="flex flex-wrap justify-center gap-16 max-[1146px]:max-w-[273px] max-[1146px]:gap-8 max-sm:grid max-sm:grid-cols-2 max-sm:gap-6">
+                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
+                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
+                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
+                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
+              </div>
             </div>
             <Link href="badge" className="text-main flex items-center justify-end gap-2 px-3 py-1.5 text-xs">
               <ArrowRightToLineIcon size={10} />
