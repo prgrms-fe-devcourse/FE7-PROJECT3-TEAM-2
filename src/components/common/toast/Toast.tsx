@@ -6,9 +6,6 @@ import "./toast.css";
 
 export type ToastType = "SUCCESS" | "ERROR" | "INFO";
 
-// const notify = (message: string, type: ToastType) => Toast({ message, type });
-// notify("프로필이 수정되었습니다!", "SUCCESS");
-
 export default function Toast({ message, type }: { message: string; type: ToastType }) {
   switch (type) {
     case "SUCCESS":
