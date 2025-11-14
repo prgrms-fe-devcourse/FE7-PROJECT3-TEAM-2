@@ -36,8 +36,12 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
 
   return (
     <>
-      <div className="fixed inset-0 flex h-full w-full justify-center bg-gray-500/50 py-20" onMouseDown={setModal}>
-        <form action={formAction} className="bg-bg-main h-fit w-[70%] rounded-3xl p-12" onMouseDown={preventOffModal}>
+      <div className="fixed inset-0 z-11 flex h-full w-full justify-center bg-gray-500/50 py-20" onMouseDown={setModal}>
+        <form
+          action={formAction}
+          className="bg-bg-main z-12 h-fit w-[70%] rounded-3xl p-12"
+          onMouseDown={preventOffModal}
+        >
           <div className="mb-3 flex items-center gap-3">
             <CircleProfileImage src={profile?.avatar_image ?? ""} size="lg" />
             <div className="flex flex-col gap-2">

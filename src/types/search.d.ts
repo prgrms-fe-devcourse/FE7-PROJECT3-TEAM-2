@@ -13,4 +13,7 @@ export type PostWithProfile = Post & {
   profiles?: {
     name?: string;
   };
+  category?: {
+    type: string;
+  };
 };
