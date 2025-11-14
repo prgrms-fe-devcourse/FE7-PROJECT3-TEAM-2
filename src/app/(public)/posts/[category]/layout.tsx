@@ -19,7 +19,7 @@ export default async function CategoryLayout({
   const postData = await getPosts(category);
 
   return (
-    <div className="posts-area flex h-full w-full gap-6 p-6 pt-0 max-sm:px-6 max-sm:pb-6">
+    <div className="posts-area flex h-full w-full gap-6 p-6 pt-0 max-sm:p-0">
       <PostSideBar isLogin={!!user} postData={postData ?? []} />
       {children}
       <ProfileSlide userId="123" />

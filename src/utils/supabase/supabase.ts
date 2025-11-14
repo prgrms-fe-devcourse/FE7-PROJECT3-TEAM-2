@@ -415,7 +415,18 @@ export type Database = {
           total_point: number;
         }[];
       };
-      get_comment_details: {
+      get_detail_comment: {
+        Args: { p_comment_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_detail_comments: {
         Args: { p_post_id: string };
         Returns: {
           content: string;

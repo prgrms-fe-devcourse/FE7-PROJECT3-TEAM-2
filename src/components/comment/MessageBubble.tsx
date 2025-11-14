@@ -1,3 +1,5 @@
+"use client";
+
 import { cva } from "class-variance-authority";
 import { Stamp, ThumbsDown, ThumbsUp } from "lucide-react";
 import Image from "next/image";
