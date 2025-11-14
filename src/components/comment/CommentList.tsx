@@ -8,10 +8,12 @@ import MessageBubble from "./MessageBubble";
 
 export default function CommentList({
   userId,
+  postId,
   commentData,
   adoptedCommentId,
 }: {
   userId: string;
+  postId: string;
   commentData: CommentDetailType[];
   adoptedCommentId: string;
 }) {
@@ -20,7 +22,7 @@ export default function CommentList({
 
   useEffect(() => {
     const channel = supabase
-      .channel("comments-room")
+      .channel(`comments-room-${postId}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, payload => {
         console.log("New change:", payload);
 
