@@ -8,6 +8,7 @@ import CategoryRanking from "@/components/user/CategoryRanking";
 import UserInfo from "@/components/user/UserInfo";
 import { updateProfile } from "@/services/profile/updateProfile";
 import { FormState } from "@/types";
+import { Profile } from "@/types/search";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function page() {
@@ -20,28 +21,66 @@ export default async function page() {
     redirect("/auth/login");
   }
 
-  const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+  let followCount: number = 0;
+  let followerCount: number = 0;
+  let postCount: number = 0;
+  let adoptedCommentCount: number = 0;
+  let profile: Profile | null = null;
 
-  const { count: followsCount } = await supabase
-    .from("follow")
-    .select("*", { count: "exact", head: true })
-    .eq("follower_id", user.id);
+  const getProfile = async () => {
+    const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+    profile = data;
+    if (error) {
+      console.error(error);
+    }
+  };
 
-  const { count: followersCount } = await supabase
-    .from("follow")
-    .select("*", { count: "exact", head: true })
-    .eq("following_id", user.id);
+  const getFollowCount = async () => {
+    const { count, error } = await supabase
+      .from("follow")
+      .select("*", { count: "exact", head: true })
+      .eq("follower_id", user.id);
+    if (error) {
+      console.error(error);
+    }
+    followCount = count ?? 0;
+  };
 
-  const { count: postsCount } = await supabase
-    .from("posts")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", user.id);
+  const getFollowerCount = async () => {
+    const { count, error } = await supabase
+      .from("follow")
+      .select("*", { count: "exact", head: true })
+      .eq("following_id", user.id);
+    if (error) {
+      console.error(error);
+    }
+    followerCount = count ?? 0;
+  };
 
-  // const { data: adoptedComments } = await supabase
-  //   .from("comments")
-  //   .select("posts!inner(adopted_comment_id)")
-  //   .eq("user_id", user.id);
-  // console.log(adoptedComments);
+  const getPostCount = async () => {
+    const { count, error } = await supabase
+      .from("posts")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id);
+    if (error) {
+      console.error(error);
+    }
+    postCount = count ?? 0;
+  };
+
+  const getAdoptedCommentCount = async () => {
+    const { data, error } = await supabase
+      .from("comments")
+      .select("id, posts:post_id(adopted_comment_id)")
+      .eq("user_id", user.id);
+    if (error) {
+      console.error(error);
+    }
+    adoptedCommentCount =
+      data?.filter(d => d.posts.adopted_comment_id && d.id === d.posts?.adopted_comment_id).length ?? 0;
+  };
+
+  await Promise.all([getProfile(), getFollowCount(), getFollowerCount(), getPostCount(), getAdoptedCommentCount()]);
 
   async function updateProfileAction(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -95,11 +134,11 @@ export default async function page() {
             <div className="flex justify-center gap-6">
               <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
                 <p>팔로우</p>
-                <p className="text-base">{followsCount}</p>
+                <p className="text-base">{followCount}</p>
               </div>
               <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
                 <p>팔로잉</p>
-                <p className="text-base">{followersCount}</p>
+                <p className="text-base">{followerCount}</p>
               </div>
             </div>
           </div>
@@ -111,11 +150,11 @@ export default async function page() {
             <div className="flex justify-center gap-6">
               <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
                 <p>게시물</p>
-                <p className="text-base">{postsCount}</p>
+                <p className="text-base">{postCount}</p>
               </div>
               <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
                 <p>채택 수</p>
-                <p className="text-base"></p>
+                <p className="text-base">{adoptedCommentCount}</p>
               </div>
             </div>
           </div>
