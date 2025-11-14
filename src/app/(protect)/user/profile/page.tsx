@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Divider } from "@/components/common/Divider";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import BadgeDetail from "@/components/user/BadgeDetail";
+// import BadgeDetail from "@/components/user/BadgeDetail";
 import CategoryRanking from "@/components/user/CategoryRanking";
 import UserInfo from "@/components/user/UserInfo";
 import { updateProfile } from "@/services/profile/updateProfile";
@@ -131,10 +131,10 @@ export default async function page() {
             </div>
             <div className="flex justify-center">
               <div className="flex flex-wrap justify-center gap-16 max-[1146px]:max-w-[273px] max-[1146px]:gap-8 max-sm:grid max-sm:grid-cols-2 max-sm:gap-6">
+                {/* <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
                 <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
                 <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
+                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" /> */}
               </div>
             </div>
             <Link href="badge" className="text-main flex items-center justify-end gap-2 px-3 py-1.5 text-xs">
