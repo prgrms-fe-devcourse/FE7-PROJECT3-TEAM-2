@@ -430,7 +430,7 @@ export type Database = {
         Args: never;
         Returns: {
           avatar_image: string;
-          category_id: string;
+          category_type: string;
           comment_id: string;
           content: string;
           dislike_count: number;
@@ -438,6 +438,17 @@ export type Database = {
           name: string;
           post_id: string;
           user_id: string;
+        }[];
+      };
+      get_hot_posts_of_week: {
+        Args: never;
+        Returns: {
+          author_name: string;
+          category_name: string;
+          category_type: string;
+          post_id: string;
+          post_image: string;
+          title: string;
         }[];
       };
       get_top_keyword: {

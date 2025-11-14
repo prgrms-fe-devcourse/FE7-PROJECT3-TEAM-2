@@ -1,36 +1,33 @@
 import AdoptStatsComponent from "@/components/chart/allRank/AdoptStatsComponent";
 import AllRankComponent from "@/components/chart/allRank/AllRankComponent";
-import WeeklyHotPostComponent from "@/components/chart/allRank/WeeklyHotPostComponent";
-import WeeklyPostByCategoryComponent from "@/components/chart/allRank/WeeklyPostByCategoryComponent";
+import BookmarkStatsComponent from "@/components/chart/allRank/BookmarkStatsComponent";
+import WeeklyCommentComponent from "@/components/chart/allRank/WeeklyCommentComponent";
+import WeeklyPostComponent from "@/components/chart/allRank/WeeklyPostComponent";
+import { createClient } from "@/utils/supabase/server";
 
-export default function page() {
-  const postStats = [
-    { id: 1, name: "연애", count: 12, image: "" },
-    { id: 2, name: "기술/IT", count: 6, image: "" },
-    { id: 3, name: "제테크/소비", count: 24, image: "" },
-    { id: 4, name: "음식/요리", count: 24, image: "" },
-    { id: 5, name: "생활", count: 24, image: "" },
-    { id: 6, name: "게임", count: 44, image: "" },
-    { id: 7, name: "일상/고민", count: 54, image: "" },
-    { id: 8, name: "패션", count: 24, image: "" },
-    { id: 9, name: "운동", count: 24, image: "" },
-    { id: 10, name: "공부/자기계발", count: 24, image: "" },
-    { id: 11, name: "여행", count: 24, image: "" },
-  ];
+export default async function page() {
+  const supabase = await createClient();
+  const [
+    { data: categoryData, error: categoryError },
+    { data: weekCommentData, error: weekCommentError },
+    { data: weekPostData, error: weekPostError },
+  ] = await Promise.all([
+    supabase.from("category").select("*, posts(*, comments:comments_post_id_fkey(*))"),
+    supabase.rpc("get_hot_comments_of_week"),
+    supabase.rpc("get_hot_posts_of_week"),
+  ]);
 
-  const commentStats = [
-    { id: 1, name: "연애", count: 12, image: "" },
-    { id: 2, name: "기술/IT", count: 6, image: "" },
-    { id: 3, name: "제테크/소비", count: 24, image: "" },
-    { id: 4, name: "음식/요리", count: 24, image: "" },
-    { id: 5, name: "생활", count: 24, image: "" },
-    { id: 6, name: "게임", count: 44, image: "" },
-    { id: 7, name: "일상/고민", count: 54, image: "" },
-    { id: 8, name: "패션", count: 24, image: "" },
-    { id: 9, name: "운동", count: 24, image: "" },
-    { id: 10, name: "공부/자기계발", count: 24, image: "" },
-    { id: 11, name: "여행", count: 24, image: "" },
-  ];
+  if (categoryError) throw categoryError;
+  if (weekCommentError) throw weekCommentError;
+  if (weekPostError) throw weekPostError;
+
+  const postStats = categoryData.map(item => {
+    return { id: item.id, name: item.name, count: item.posts.length, image: item.image_url };
+  });
+  const commentStats = categoryData.map(item => {
+    const count = item.posts.reduce((acc, cur) => acc + (cur.comments?.length || 0), 0);
+    return { id: item.id, name: item.name, count, image: item.image_url };
+  });
 
   const adoptStats = [
     { name: "연애", 훈수: 100, 채택: 50 },
@@ -46,7 +43,7 @@ export default function page() {
     { name: "여행", 훈수: 100, 채택: 37 },
   ];
 
-  const categoryData = [
+  const categoryData2 = [
     { name: "연애", value: 25 },
     { name: "기술/IT", value: 18 },
     { name: "제테크/소비", value: 10 },
@@ -62,10 +59,11 @@ export default function page() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
-        <WeeklyPostByCategoryComponent stats={categoryData} />
-        <WeeklyHotPostComponent />
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2">
+        <BookmarkStatsComponent stats={categoryData2} />
+        <WeeklyCommentComponent stats={weekCommentData} />
       </div>
+      <WeeklyPostComponent stats={weekPostData} />
       <AllRankComponent title="게시글" stats={postStats} />
       <AllRankComponent title="훈수" stats={commentStats} />
       <AdoptStatsComponent stats={adoptStats} />
