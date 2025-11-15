@@ -10,19 +10,27 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
   let data: Post[] | Profile[] = [];
 
   if (searchType === "post") {
-    const { data: posts } = await supabase
+    const { data: posts, error } = await supabase
       .from("posts")
       .select("*, profiles(name)")
       .or(`title.ilike.%${queryParam}%, content.ilike.%${queryParam}%`)
       .order("created_at", { ascending: false });
     data = posts || [];
+    if (error) {
+      console.error("Search error:", error.message);
+      return <div>훈수를 찾는 중에 오류가 발생했습니다.</div>;
+    }
   } else {
-    const { data: users } = await supabase
+    const { data: users, error } = await supabase
       .from("profiles")
       .select("*")
       .ilike("name", `%${queryParam}%`)
       .order("created_at", { ascending: false });
     data = users || [];
+    if (error) {
+      console.error("Search error:", error.message);
+      return <div>훈수자를 찾는 중에 오류가 발생했습니다.</div>;
+    }
   }
 
   return <SearchResultClient searchType={searchType} data={data} queryParam={queryParam} />;
