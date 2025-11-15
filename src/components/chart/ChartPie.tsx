@@ -6,12 +6,14 @@ import { categoryColor } from "@/utils/category";
 export default function ChartPie({
   stats,
   height = 250,
+  innerRadius = 73,
 }: {
   stats: {
     name: string;
     value: number;
   }[];
   height?: number;
+  innerRadius?: number;
 }) {
   const totalPosts = stats.reduce((acc, cur) => acc + cur.value, 0);
 
@@ -28,7 +30,7 @@ export default function ChartPie({
               height={100}
               cx="50%"
               cy="50%"
-              innerRadius="73%"
+              innerRadius={`${innerRadius}%`}
               outerRadius="100%"
               paddingAngle={2}
               stroke="#fff"
@@ -52,17 +54,6 @@ export default function ChartPie({
           <p className="text-xs text-gray-500">총</p>
           <p className="text-lg font-bold">{totalPosts}개</p>
         </div>
-      </div>
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-3 px-3 py-1 text-xs">
-        {stats.map((data, index) => {
-          const fillColor = categoryColor[data.name];
-          return (
-            <div key={index} className="flex items-center gap-1">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: fillColor }}></span>
-              <span className="text-text-light">{data.name}</span>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { Bar, BarChart, Cell, ResponsiveContainer as RsponsiveContain, Tooltip, XAxis } from "recharts";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import { categoryColor } from "@/utils/category";
+import ChartCardTtile from "../ChartCardTtile";
 
 export default function AdoptStatsComponent({
   stats,
@@ -17,10 +18,7 @@ export default function AdoptStatsComponent({
     <ResponsiveContainer className="w-full px-5 py-6">
       {
         <div className="flex flex-col">
-          <div className="mb-6 flex flex-col gap-2">
-            <span className="text-text-title text-lg font-semibold">채택 통계</span>
-            <span className="text-text-light text-xs font-semibold">훈수별 채택</span>
-          </div>
+          <ChartCardTtile title="채택" subTitle="훈수별 채택" />
           <div className="mx-auto h-[400px] w-11/12">
             <RsponsiveContain width="100%" height={400}>
               <BarChart

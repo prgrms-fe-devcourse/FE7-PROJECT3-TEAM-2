@@ -1,5 +1,7 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import ChartCardTtile from "../ChartCardTtile";
 import ChartPie from "../ChartPie";
+import PieChartKey from "../PieChartKey";
 
 export default function BookmarkStatsComponent({
   stats,
@@ -11,13 +13,11 @@ export default function BookmarkStatsComponent({
 }) {
   return (
     <ResponsiveContainer className="min-h-0 w-full px-5 py-6">
-      <div className="flex flex-col">
-        <div className="flex flex-col gap-2">
-          <span className="text-text-title text-lg font-semibold">북마크</span>
-          <span className="text-text-light text-xs font-semibold">카테고리별</span>
-        </div>
+      <ChartCardTtile title="북마크" subTitle="카테고리별" />
+      <div className="flex h-full flex-col gap-10 pt-5">
+        <ChartPie stats={stats} />
+        <PieChartKey stats={stats} />
       </div>
-      <ChartPie stats={stats} />
     </ResponsiveContainer>
   );
 }
