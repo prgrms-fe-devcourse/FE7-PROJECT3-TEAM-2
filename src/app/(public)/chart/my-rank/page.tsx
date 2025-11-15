@@ -5,5 +5,5 @@ import { getUser } from "@/services/profile/user";
 export default async function Page() {
   const user = await getUser();
   if (!user) redirect("/login");
-  return <MyRankComponent />;
+  return <MyRankComponent user={user} />;
 }

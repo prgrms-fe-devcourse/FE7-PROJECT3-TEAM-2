@@ -3,7 +3,7 @@ import WeekPostCard from "./WeekPostCard";
 
 export default function WeeklyPostComponent({ stats }: { stats: WeekPostDataType[] }) {
   return (
-    <ResponsiveContainer className="w-full px-6 py-7">
+    <ResponsiveContainer className="w-full px-5 py-6">
       <div className="flex flex-col">
         <div className="mb-6 flex flex-col gap-2">
           <span className="text-text-title text-lg font-semibold">이 주의 불타는 게시글</span>

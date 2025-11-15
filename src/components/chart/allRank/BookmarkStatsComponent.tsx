@@ -10,7 +10,7 @@ export default function BookmarkStatsComponent({
   }[];
 }) {
   return (
-    <ResponsiveContainer className="min-h-0 w-full px-6 py-7">
+    <ResponsiveContainer className="min-h-0 w-full px-5 py-6">
       <div className="flex flex-col">
         <div className="flex flex-col gap-2">
           <span className="text-text-title text-lg font-semibold">북마크</span>
