@@ -17,3 +17,9 @@ export type PostWithProfile = Post & {
     type: string;
   };
 };
+
+export type TopKeyword = {
+  category_name: string;
+  keyword: string;
+  keyword_count: number;
+};
