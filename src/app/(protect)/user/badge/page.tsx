@@ -9,58 +9,41 @@ import { createClient } from "@/utils/supabase/server";
 export default async function page() {
   const supabase = await createClient();
 
-  let badgeCategory: CategoryType[] | null = [];
-  let userId: string = "";
-  let categoryBadgeList: Record<string, BadgeType[] | null>;
-  let basicBadgeList: BadgeType[] | null = [];
-  let haveBadge:
-    | {
-        badge_id: string;
-      }[]
-    | null = [];
+  const [{ data: userData }, { data: badgeCategoryData }, { data: basicBadgeListData }] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from("category").select("*"),
+    supabase.from("badge").select("*").is("category_id", null).order("desc"),
+  ]);
 
-  const getBadgeCategory = async () => {
-    const { data, error } = await supabase.from("category").select("*");
-    if (error) {
-      console.error(error);
-    }
-    badgeCategory = data;
-  };
+  const userId = userData.user ? userData.user.id : null;
+  const badgeCategory: CategoryType[] | null = badgeCategoryData ?? null;
+  const basicBadgeList = basicBadgeListData ?? null;
 
-  const getUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
-      userId = user.id;
-    }
-  };
-
-  const getBasicBadgeList = async () => {
-    const { data } = await supabase.from("badge").select("*").is("category_id", null).order("desc");
-    basicBadgeList = data;
-  };
-
-  const getCategoryBadgeList = async () => {
+  const getCategoryBadgeList = async (): Promise<Record<string, BadgeType[] | null>> => {
     const badge: Record<string, BadgeType[] | null> = {};
 
     await Promise.all(
       (badgeCategory ?? []).map(async (c: { id: string; name: string | null }) => {
-        const { data } = await supabase.from("badge").select("*").eq("category_id", c.id).order("desc");
+        const { data } = await supabase
+          .from("badge")
+          .select("*")
+          .eq("category_id", c.id)
+          .order("desc", { ascending: true });
         badge[c.id] = data;
       })
     );
-    categoryBadgeList = badge;
-  };
-  const getHaveBadge = async () => {
-    const { data } = await supabase.from("user_badge").select("badge_id").eq("user_id", userId);
-    haveBadge = data;
+    return badge;
   };
 
-  await Promise.all([getBadgeCategory(), getUser(), getBasicBadgeList()]);
-  await Promise.all([getCategoryBadgeList(), getHaveBadge()]);
+  const [categoryBadgeListData, { data: haveBadgeData }] = await Promise.all([
+    getCategoryBadgeList(),
+    userId
+      ? supabase.from("user_badge").select("badge_id").eq("user_id", userId)
+      : Promise.resolve({ data: [] as { badge_id: string }[] }),
+  ]);
 
-  const flatHaveBadge = (haveBadge ?? []).reduce<string[]>((arr, b) => [...arr, b.badge_id], []);
+  const categoryBadgeList = categoryBadgeListData ?? {};
+  const flatHaveBadge = (haveBadgeData ?? []).reduce<string[]>((arr, b) => [...arr, b.badge_id], []);
 
   return (
     <div className="mt-6.5 flex w-full flex-col gap-3.5 text-xs">
