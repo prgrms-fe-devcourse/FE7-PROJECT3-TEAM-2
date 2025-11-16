@@ -7,7 +7,7 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
 
   if (!queryParam) return null;
 
-  let data: Post[] | Profile[] = [];
+  let searchData: Post[] | Profile[] = [];
 
   if (searchType === "post") {
     const { data: posts, error } = await supabase
@@ -15,7 +15,7 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
       .select("*, profiles(name)")
       .or(`title.ilike.%${queryParam}%, content.ilike.%${queryParam}%`)
       .order("created_at", { ascending: false });
-    data = posts || [];
+    searchData = posts || [];
     if (error) {
       console.error("Search error:", error.message);
       return <div>훈수를 찾는 중에 오류가 발생했습니다.</div>;
@@ -26,12 +26,12 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
       .select("*")
       .ilike("name", `%${queryParam}%`)
       .order("created_at", { ascending: false });
-    data = users || [];
+    searchData = users || [];
     if (error) {
       console.error("Search error:", error.message);
       return <div>훈수자를 찾는 중에 오류가 발생했습니다.</div>;
     }
   }
 
-  return <SearchResultClient searchType={searchType} data={data} queryParam={queryParam} />;
+  return <SearchResultClient searchType={searchType} searchData={searchData} queryParam={queryParam} />;
 }

@@ -4,8 +4,18 @@ import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
+import { TopKeyword } from "@/types/search";
+import SearchRecommend from "./SearchRecommend";
 
-export default function SearchBar({ searchType }: { searchType: string }) {
+export default function SearchBar({
+  searchType,
+  isSearched,
+  TopData,
+}: {
+  searchType: string;
+  isSearched: boolean;
+  TopData: TopKeyword[];
+}) {
   const route = useRouter();
   const [query, setQuery] = useState("");
   const queryChange = useSearchParams();
@@ -54,6 +64,8 @@ export default function SearchBar({ searchType }: { searchType: string }) {
           <Search size={16} color="white" />
         </Button>
       </form>
+
+      {!isSearched && searchType === "post" && <SearchRecommend TopData={TopData} />}
     </div>
   );
 }

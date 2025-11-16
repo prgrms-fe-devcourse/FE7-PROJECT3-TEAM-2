@@ -10,10 +10,10 @@ import Badge from "../common/Badge";
 
 export const cardVariants = cva("flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-gray-200");
 
-export default function SearchResultClient({ searchType, data, queryParam }: SearchResultProps) {
+export default function SearchResultClient({ searchType, searchData, queryParam }: SearchResultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [arrangeType, setArrangeType] = useState("date");
-  const [arrangedData, setArrangedData] = useState(data);
+  const [arrangedData, setArrangedData] = useState(searchData);
 
   const textHighlight = (text: string) => {
     if (!queryParam) return text;
@@ -49,15 +49,15 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
   };
 
   useEffect(() => {
-    setArrangedData(data);
-  }, [data]);
+    setArrangedData(searchData);
+  }, [searchData]);
 
   return (
     <div className="flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
       <div className="relative flex justify-between">
         <div className="flex text-xs">
           <p className="text-content">검색 결과&nbsp;</p>
-          <p className="text-main">{data.length}</p>
+          <p className="text-main">{searchData.length}</p>
           <p className="text-content">건</p>
         </div>
         <button
@@ -85,13 +85,15 @@ export default function SearchResultClient({ searchType, data, queryParam }: Sea
         )}
       </div>
 
-      {data.length === 0 && (
+      {searchData.length === 0 && (
         <div className="flex h-100 w-full items-center justify-center">
           <p className="text-content">검색 결과가 존재하지 않습니다.</p>
         </div>
       )}
 
-      {searchType === "post" && <ResultPosts data={arrangedData as PostWithProfile[]} textHighlight={textHighlight} />}
+      {searchType === "post" && (
+        <ResultPosts searchData={arrangedData as PostWithProfile[]} textHighlight={textHighlight} />
+      )}
 
       {searchType === "user" &&
         (arrangedData as Profile[]).map(user => (

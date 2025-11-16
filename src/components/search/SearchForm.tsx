@@ -2,7 +2,6 @@ import { cva } from "class-variance-authority";
 import { createClient } from "@/utils/supabase/server";
 import SearchBar from "./SearchBar";
 import SearchIntro from "./SearchIntro";
-import SearchRecommend from "./SearchRecommend";
 import SearchResult from "./SearchResult";
 
 const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
@@ -40,11 +39,9 @@ export default async function SearchForm({
     <div className={searchFormVariants({ searched: isSearched })}>
       {!isSearched && <SearchIntro />}
 
-      <SearchBar searchType={searchType} />
+      <SearchBar searchType={searchType} isSearched={isSearched} TopData={TopData} />
 
       {isSearched && <SearchResult searchType={searchType} queryParam={queryParam} />}
-
-      {!isSearched && searchType === "post" && <SearchRecommend TopData={TopData} />}
     </div>
   );
 }

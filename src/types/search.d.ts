@@ -5,7 +5,7 @@ export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 export type SearchResultProps = {
   searchType: string;
-  data: Post[] | Profile[];
+  searchData: Post[] | Profile[];
   queryParam: string;
 };
 
