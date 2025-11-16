@@ -25,6 +25,7 @@ export type PostDetailType = Omit<PostType, "category"> & {
   };
 };
 export type CommentType = Database["public"]["Tables"]["comments"]["Row"];
+export type CommentInserType = Database["public"]["Tables"]["comments"]["Insert"];
 export type CommentDetailType = Omit<
   Database["public"]["Functions"]["get_comment_details"]["Returns"],
   "profiles",
