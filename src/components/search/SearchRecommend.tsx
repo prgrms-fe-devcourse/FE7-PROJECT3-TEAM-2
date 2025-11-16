@@ -1,13 +1,13 @@
 "use client";
 
-import { TopKeyword } from "@/types/search";
+import { SearchRecommendProps } from "@/types/search";
 import { categoryColor } from "@/utils/category";
 
-export default function SearchRecommend({ TopData }: { TopData: TopKeyword[] }) {
+export default function SearchRecommend({ TopData, query, setQuery }: SearchRecommendProps) {
   const TopOneData = Array.from(new Map(TopData.map(item => [item.category_name, item])).values());
 
-  const dataChoiceHandler = () => {
-    console.log(TopData);
+  const dataChoiceHandler = (keyword: string) => {
+    setQuery(keyword);
   };
 
   return (
@@ -17,7 +17,7 @@ export default function SearchRecommend({ TopData }: { TopData: TopKeyword[] }) 
         {TopOneData.map(item => (
           <button
             key={`${item.category_name}-${item.keyword}`}
-            onClick={dataChoiceHandler}
+            onClick={() => dataChoiceHandler(item.keyword)}
             style={{
               backgroundColor: categoryColor[item.category_name] || "#999999",
             }}

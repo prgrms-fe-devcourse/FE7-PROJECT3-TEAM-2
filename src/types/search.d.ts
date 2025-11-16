@@ -9,6 +9,18 @@ export type SearchResultProps = {
   queryParam: string;
 };
 
+export type SearchBarProps = {
+  searchType: string;
+  isSearched: boolean;
+  TopData: TopKeyword[];
+};
+
+export type SearchRecommendProps = {
+  TopData: TopKeyword[];
+  query: string;
+  setQuery: (value: string) => void;
+};
+
 export type PostWithProfile = Post & {
   profiles?: {
     name?: string;
