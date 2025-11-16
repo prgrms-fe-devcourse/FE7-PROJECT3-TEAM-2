@@ -37,7 +37,7 @@ export default function CommentList({
           };
           getComment(payload.new.id);
         } else if (payload.eventType === "DELETE") {
-          //   setComments(prev => prev.filter(c => c.id !== payload.old.id));
+          setComments(prev => prev.filter(c => c.id !== payload.old.id));
         } else if (payload.eventType === "UPDATE") {
           //   setComments(prev => prev.map(c => (c.id === payload.new.id ? payload.new : c)));
         }
