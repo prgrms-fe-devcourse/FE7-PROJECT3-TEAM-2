@@ -1,8 +1,11 @@
-import { Award, Book } from "lucide-react";
+import { Book } from "lucide-react";
+import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Divider } from "@/components/common/Divider";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import BadgeDetail from "@/components/user/BadgeDetail";
+import DisplayedBadge from "@/components/user/DisplayedBadge";
+import { updateDisplayedBadge } from "@/services/profile/updateDisplayedBadge";
 import { BadgeType, CategoryType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -45,24 +48,32 @@ export default async function page() {
   const categoryBadgeList = categoryBadgeListData ?? {};
   const flatHaveBadge = (haveBadgeData ?? []).reduce<string[]>((arr, b) => [...arr, b.badge_id], []);
 
+  async function updateDisplayBadgeAction(displayedBadgeList: string) {
+    "use server";
+
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (!user || userError) {
+      console.error(userError);
+      return;
+    }
+    const res = await updateDisplayedBadge(user.id, displayedBadgeList);
+    if (res.success) {
+      alert(res.message);
+    } else {
+      console.error(res.message);
+      alert("대표 뱃지 업데이트를 실패했습니다");
+    }
+    redirect("/user/badge");
+  }
+
   return (
     <div className="mt-6.5 flex w-full flex-col gap-3.5 text-xs">
-      <ResponsiveContainer className="flex-1 p-6 max-sm:border-none max-sm:px-0">
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-1">
-            <Award size={12} />
-            <p>대표 뱃지</p>
-          </div>
-          <div className="flex justify-center">
-            <div className="flex flex-wrap justify-center gap-52 max-[800px]:max-w-[337px] max-xl:gap-25 max-lg:gap-16 max-sm:max-w-full max-sm:gap-6">
-              {/* <BadgeDetail badgeTitle="basic_welcome" />
-              <BadgeDetail badgeTitle="basic_welcome" />
-              <BadgeDetail badgeTitle="basic_welcome" />
-              <BadgeDetail badgeTitle="basic_welcome" /> */}
-            </div>
-          </div>
-        </div>
-      </ResponsiveContainer>
+      <DisplayedBadge userId={userId} action={updateDisplayBadgeAction} />
       <ResponsiveContainer className="flex-1 p-6 max-sm:border-none max-sm:px-0">
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-1">

@@ -36,27 +36,30 @@ export type Database = {
       badge: {
         Row: {
           badge_image: string | null;
-          category_id: string;
+          category_id: string | null;
           desc: string;
           id: string;
           name: string;
           point: number | null;
+          type: string | null;
         };
         Insert: {
           badge_image?: string | null;
-          category_id: string;
+          category_id?: string | null;
           desc: string;
           id?: string;
           name: string;
           point?: number | null;
+          type?: string | null;
         };
         Update: {
           badge_image?: string | null;
-          category_id?: string;
+          category_id?: string | null;
           desc?: string;
           id?: string;
           name?: string;
           point?: number | null;
+          type?: string | null;
         };
         Relationships: [
           {
@@ -317,6 +320,7 @@ export type Database = {
           avatar_image: string | null;
           bio: string | null;
           created_at: string;
+          displayed_badge: string | null;
           email: string;
           exp: number | null;
           id: string;
@@ -328,6 +332,7 @@ export type Database = {
           avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
+          displayed_badge?: string | null;
           email: string;
           exp?: number | null;
           id: string;
@@ -339,6 +344,7 @@ export type Database = {
           avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
+          displayed_badge?: string | null;
           email?: string;
           exp?: number | null;
           id?: string;
@@ -415,7 +421,18 @@ export type Database = {
           total_point: number;
         }[];
       };
-      get_comment_details: {
+      get_detail_comment: {
+        Args: { p_comment_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_detail_comments: {
         Args: { p_post_id: string };
         Returns: {
           content: string;
@@ -462,6 +479,16 @@ export type Database = {
       grant_badges_and_update_exp: {
         Args: { p_category_id: string; p_user_id: string };
         Returns: {
+          badge_name: string;
+          leveled_up: boolean;
+          new_exp: number;
+          new_level: number;
+        }[];
+      };
+      process_badges: {
+        Args: { p_action: string; p_category_id: string; p_user_id: string };
+        Returns: {
+          added_exp: number;
           badge_name: string;
           leveled_up: boolean;
           new_exp: number;
