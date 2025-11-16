@@ -8,7 +8,6 @@ import CategoryRanking from "@/components/user/CategoryRanking";
 import UserInfo from "@/components/user/UserInfo";
 import { updateProfile } from "@/services/profile/updateProfile";
 import { FormState } from "@/types";
-import { Profile } from "@/types/search";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function page() {
@@ -21,66 +20,26 @@ export default async function page() {
     redirect("/auth/login");
   }
 
-  let followCount: number = 0;
-  let followerCount: number = 0;
-  let postCount: number = 0;
-  let adoptedCommentCount: number = 0;
-  let profile: Profile | null = null;
+  const [
+    { data: profileData },
+    { count: followCnt },
+    { count: followerCnt },
+    { count: postCnt },
+    { data: adoptedComments },
+  ] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    supabase.from("follow").select("*", { count: "exact", head: true }).eq("follower_id", user.id),
+    supabase.from("follow").select("*", { count: "exact", head: true }).eq("following_id", user.id),
+    supabase.from("posts").select("*", { count: "exact", head: true }).eq("user_id", user.id),
+    supabase.from("comments").select("id, posts:post_id(adopted_comment_id)").eq("user_id", user.id),
+  ]);
 
-  const getProfile = async () => {
-    const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-    profile = data;
-    if (error) {
-      console.error(error);
-    }
-  };
-
-  const getFollowCount = async () => {
-    const { count, error } = await supabase
-      .from("follow")
-      .select("*", { count: "exact", head: true })
-      .eq("follower_id", user.id);
-    if (error) {
-      console.error(error);
-    }
-    followCount = count ?? 0;
-  };
-
-  const getFollowerCount = async () => {
-    const { count, error } = await supabase
-      .from("follow")
-      .select("*", { count: "exact", head: true })
-      .eq("following_id", user.id);
-    if (error) {
-      console.error(error);
-    }
-    followerCount = count ?? 0;
-  };
-
-  const getPostCount = async () => {
-    const { count, error } = await supabase
-      .from("posts")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id);
-    if (error) {
-      console.error(error);
-    }
-    postCount = count ?? 0;
-  };
-
-  const getAdoptedCommentCount = async () => {
-    const { data, error } = await supabase
-      .from("comments")
-      .select("id, posts:post_id(adopted_comment_id)")
-      .eq("user_id", user.id);
-    if (error) {
-      console.error(error);
-    }
-    adoptedCommentCount =
-      data?.filter(d => d.posts.adopted_comment_id && d.id === d.posts?.adopted_comment_id).length ?? 0;
-  };
-
-  await Promise.all([getProfile(), getFollowCount(), getFollowerCount(), getPostCount(), getAdoptedCommentCount()]);
+  const profile = profileData ?? null;
+  const followCount = followCnt ?? 0;
+  const followerCount = followerCnt ?? 0;
+  const postCount = postCnt ?? 0;
+  const adoptedCommentCount =
+    adoptedComments?.filter(d => d.posts?.adopted_comment_id && d.id === d.posts?.adopted_comment_id).length ?? 0;
 
   async function updateProfileAction(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -108,8 +67,8 @@ export default async function page() {
     if (avatarImage && avatarImage.size > 0) {
       // 파일 확장자 추출
       const ext = avatarImage.name.split(".").pop();
-      // 고유한 파일명 생성 (user.id + timestamp)
-      const filePath = `avatars/${user.id}_${Date.now()}.${ext}`;
+      // user당 하나 주어지는 name...을 원하지만, 파일 확장자에 따라 여러개 생길 수 있음
+      const filePath = `avatars/${user.id}.${ext}`;
 
       // 업로드
       const { error } = await supabase.storage
@@ -117,23 +76,14 @@ export default async function page() {
         .upload(filePath, avatarImage, { upsert: true });
 
       if (error) {
+        console.error("Upload error:", error);
         return {
           success: false,
           error: "이미지 업로드 실패",
         };
       } else {
         const { data } = supabase.storage.from("user_upload_image").getPublicUrl(filePath);
-        avatarImageUrl = data.publicUrl;
-
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("avatar_image")
-          .eq("user_id", user.id)
-          .single();
-
-        if (profile?.avatar_image) {
-          await supabase.storage.from("user_upload_image").remove([profile?.avatar_image]);
-        }
+        avatarImageUrl = `${data.publicUrl}?t=${Date.now()}`;
       }
     }
 
@@ -169,11 +119,11 @@ export default async function page() {
             </div>
             <div className="flex justify-center gap-6">
               <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
-                <p>팔로우</p>
+                <p>팔로잉</p>
                 <p className="text-base">{followCount}</p>
               </div>
               <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
-                <p>팔로잉</p>
+                <p>팔로워</p>
                 <p className="text-base">{followerCount}</p>
               </div>
             </div>

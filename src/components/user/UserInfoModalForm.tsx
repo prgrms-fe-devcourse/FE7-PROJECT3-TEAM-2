@@ -40,8 +40,8 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
     const file = e.target.files?.[0];
     if (!file || file.size === 0) return;
 
-    if (file.size > 1024 * 1024 * 3) {
-      alert("이미지 파일은 3MB 이하만 업로드 가능합니다.");
+    if (file.size > 1024 * 1024) {
+      alert("이미지 파일은 1MB 이하만 업로드 가능합니다.");
       return;
     }
 
