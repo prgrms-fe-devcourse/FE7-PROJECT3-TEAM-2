@@ -1,3 +1,5 @@
+"use server";
+
 import { CommentInserType, FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -28,4 +30,37 @@ export async function createComment(commentData: CommentInserType): Promise<[For
   }
 
   return [{ success: true, error: null }, data];
+}
+
+export async function updateComment(commentId: string, content: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("comments").update({ content: content }).eq("id", commentId);
+
+  if (error) {
+    console.log("댓글 수정 실패");
+    return { success: false, error: error.message };
+  } else console.log("댓글 수정 성공");
+
+  return { success: true, error: null };
+}
+
+export async function updateContent(prevState: FormState, formData: FormData): Promise<FormState> {
+  const id = formData.get("id")?.toString() ?? "";
+  const content = formData.get("content")?.toString() ?? "";
+
+  if (!content.trim()) {
+    return {
+      success: false,
+      error: "내용을 입력해주세요.",
+    };
+  }
+
+  const state = await updateComment(id, content);
+
+  if (!state?.success) return state;
+
+  return {
+    success: true,
+    error: null,
+  };
 }
