@@ -8,10 +8,10 @@ import { cardVariants } from "./SearchResultClient";
 import Badge from "../common/Badge";
 
 export default function ResultPosts({
-  data,
+  searchData,
   textHighlight,
 }: {
-  data: PostWithProfile[];
+  searchData: PostWithProfile[];
   textHighlight?: (text: string) => string | React.ReactElement[];
 }) {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function ResultPosts({
     router.push(`/posts/${category}/post/${id}`);
   };
 
-  return data.map(post => (
+  return searchData.map(post => (
     <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex gap-2 text-xs">
