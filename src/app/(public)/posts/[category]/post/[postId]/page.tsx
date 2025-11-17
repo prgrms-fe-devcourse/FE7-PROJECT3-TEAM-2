@@ -2,7 +2,7 @@ import CommentForm from "@/components/comment/CommentForm";
 import CommentList from "@/components/comment/CommentList";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import PostCard from "@/components/post/PostCard";
-import { createComment, getComments } from "@/services/comment";
+import { createComment, getComments } from "@/services/comment.server";
 import { getDetailPost } from "@/services/post";
 import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";

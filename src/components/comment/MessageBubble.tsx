@@ -3,8 +3,11 @@
 import { cva } from "class-variance-authority";
 import { Stamp, ThumbsDown, ThumbsUp } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import { deleteComment } from "@/services/comment.client";
 import { CommentDetailType } from "@/types";
 import formatDate from "@/utils/formatDate";
+import { CommentModifyForm } from "./CommentModifyForm";
 import CommentReactionBtn from "./CommentReactionBtn";
 import Badge from "../common/Badge";
 
@@ -45,20 +48,49 @@ export default function MessageBubble({
   const isAdopted = id === adoptedId;
   const isMine = currentUserId === user_id;
 
+  const [isUpdate, setIsUpdate] = useState(false);
+  const handleUpdate = () => {
+    setIsUpdate(false);
+  };
+
   return (
     <div className={BubbleVariants({ isMine })}>
       {isMine ? (
         <div className="flex w-full flex-col gap-1">
-          <div className="flex items-end justify-end gap-2">
-            <div className="flex flex-col items-end">
-              <button className="text-text-sub text-[8px]">수정 삭제</button>{" "}
-              <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
-            </div>
+          {isUpdate ? (
+            <CommentModifyForm handleUpdate={handleUpdate} id={id} content={content} />
+          ) : (
+            <div className="flex items-end justify-end gap-2">
+              <div className="flex flex-col items-end">
+                <div className="text-text-light flex gap-0.5 text-[9px]">
+                  <button
+                    onClick={() => {
+                      setIsUpdate(prev => !prev);
+                    }}
+                    className="hover:text-main cursor-pointer"
+                  >
+                    수정
+                  </button>
+                  <span>|</span>
+                  <button
+                    className="hover:text-main cursor-pointer"
+                    onClick={async () => {
+                      await deleteComment(id);
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
 
-            <div className={TextVariants({ isMine })}>
-              <p className="whitespace-pre-wrap">{content}</p>
+                <span className="text-text-sub cursor-default text-[9px]">{formatDate(created_at)}</span>
+              </div>
+
+              <div className={TextVariants({ isMine })}>
+                <p className="whitespace-pre-wrap">{content}</p>
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="comment-btns flex justify-end gap-2">
             <CommentReactionBtn buttonType="like" reactions={reactions.like}>
               <ThumbsUp size={8} />
@@ -95,7 +127,7 @@ export default function MessageBubble({
             <div className={TextVariants({ isMine })}>
               <p className="whitespace-pre-wrap">{content}</p>
             </div>
-            <span className="text-text-sub text-[8px]">{formatDate(created_at)}</span>
+            <span className="text-text-sub text-[9px]">{formatDate(created_at)}</span>
           </div>
           <div className="comment-btns flex gap-2">
             <CommentReactionBtn buttonType="like" reactions={reactions.like}>
