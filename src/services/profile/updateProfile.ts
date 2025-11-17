@@ -1,12 +1,20 @@
 import { createClient } from "@/utils/supabase/server";
 
-export async function updateProfile(userId: string, name: string, email: string, phoneNumber: string, bio: string) {
+export async function updateProfile(
+  userId: string,
+  name: string,
+  email: string,
+  phoneNumber: string,
+  bio: string,
+  avatarImage?: string | null
+) {
   const supabase = await createClient();
-  const { error: updateErrors } = await supabase
+  const { data, error: updateErrors } = await supabase
     .from("profiles")
-    .update({ name, email, phone_number: phoneNumber, bio })
+    .update({ name, email, phone_number: phoneNumber, bio, avatar_image: avatarImage })
     .eq("id", userId);
 
+  console.log(data);
   if (updateErrors) {
     return {
       success: false,

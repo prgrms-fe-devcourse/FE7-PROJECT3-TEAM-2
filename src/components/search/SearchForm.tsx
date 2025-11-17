@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
+import { createClient } from "@/utils/supabase/server";
 import SearchBar from "./SearchBar";
 import SearchIntro from "./SearchIntro";
-import SearchRecommend from "./SearchRecommend";
 import SearchResult from "./SearchResult";
 
 const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
@@ -17,18 +17,31 @@ const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px]", {
   },
 });
 
-export default function SearchForm({ searchType, queryParam }: { searchType: string; queryParam: string | null }) {
+export default async function SearchForm({
+  searchType,
+  queryParam,
+}: {
+  searchType: string;
+  queryParam: string | null;
+}) {
   const isSearched = !!queryParam;
+
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.rpc("get_top_keyword");
+  const TopData = data ?? [];
+  if (error) {
+    console.error("Error:", error.message);
+    return <div>추천 훈수를 가져오는 중에 오류가 발생했습니다.</div>;
+  }
 
   return (
     <div className={searchFormVariants({ searched: isSearched })}>
       {!isSearched && <SearchIntro />}
 
-      <SearchBar searchType={searchType} />
+      <SearchBar searchType={searchType} isSearched={isSearched} TopData={TopData} />
 
       {isSearched && <SearchResult searchType={searchType} queryParam={queryParam} />}
-
-      {!isSearched && searchType === "post" && <SearchRecommend />}
     </div>
   );
 }

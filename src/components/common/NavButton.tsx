@@ -48,10 +48,10 @@ export const NavButton = ({ variant, active, children, className, icon_img, ...p
     >
       {isMain && (
         <motion.div
-          className="absolute top-0 left-0 z-0 h-full w-full origin-left bg-gray-200"
+          className="absolute top-0 left-0 z-0 h-full w-full origin-left bg-gray-200 dark:bg-gray-800"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: active ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
         />
       )}
 

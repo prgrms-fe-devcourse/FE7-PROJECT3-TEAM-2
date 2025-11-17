@@ -7,11 +7,15 @@ import { createClient } from "@/utils/supabase/client";
 import MessageBubble from "./MessageBubble";
 
 export default function CommentList({
+  isLogin,
+  isMyPost,
   userId,
   postId,
   commentData,
   adoptedCommentId,
 }: {
+  isLogin: boolean;
+  isMyPost: boolean;
   userId: string;
   postId: string;
   commentData: CommentDetailType[];
@@ -24,8 +28,6 @@ export default function CommentList({
     const channel = supabase
       .channel(`comments-room-${postId}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, payload => {
-        console.log("New change:", payload);
-
         if (payload.eventType === "INSERT") {
           const getComment = async (commentId: string) => {
             const { data, error } = await supabase
@@ -39,9 +41,19 @@ export default function CommentList({
           };
           getComment(payload.new.id);
         } else if (payload.eventType === "DELETE") {
-          //   setComments(prev => prev.filter(c => c.id !== payload.old.id));
+          setComments(prev => prev.filter(c => c.id !== payload.old.id));
         } else if (payload.eventType === "UPDATE") {
-          //   setComments(prev => prev.map(c => (c.id === payload.new.id ? payload.new : c)));
+          const getComment = async (commentId: string) => {
+            const { data, error } = await supabase
+              .rpc("get_detail_comment", {
+                p_comment_id: commentId,
+              })
+              .select();
+            if (!error) {
+              setComments(prev => prev.map(c => (c.id === payload.new.id ? data[0] : c)));
+            }
+          };
+          getComment(payload.new.id);
         }
       })
       .subscribe();
@@ -68,7 +80,10 @@ export default function CommentList({
         comments.map(comment => (
           <MessageBubble
             key={comment.id}
+            isMyPost={isMyPost}
+            isLogin={isLogin}
             data={comment}
+            postId={postId}
             currentUserId={userId ?? ""}
             adoptedId={adoptedCommentId ?? ""}
           />

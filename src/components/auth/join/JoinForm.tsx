@@ -27,7 +27,7 @@ export default function JoinForm() {
         </label>
         <input
           type="text"
-          className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+          className="dark:bg-bg-sub h-14 rounded-lg border border-gray-200 px-3 outline-none dark:border-none"
           name="name"
           id="name"
           placeholder="홍길동"
@@ -41,7 +41,7 @@ export default function JoinForm() {
         </label>
         <input
           type="email"
-          className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+          className="dark:bg-bg-sub h-14 rounded-lg border border-gray-200 px-3 outline-none dark:border-none"
           name="email"
           id="email"
           placeholder="example@email.com"
@@ -56,7 +56,7 @@ export default function JoinForm() {
           </label>
           <input
             type="password"
-            className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+            className="dark:bg-bg-sub h-14 rounded-lg border border-gray-200 px-3 outline-none dark:border-none"
             name="password"
             id="password"
           />
@@ -68,7 +68,7 @@ export default function JoinForm() {
           </label>
           <input
             type="password"
-            className="h-14 rounded-lg border border-gray-200 px-3 outline-none"
+            className="dark:bg-bg-sub h-14 rounded-lg border border-gray-200 px-3 outline-none dark:border-none"
             name="confirmPassword"
             id="confirmPassword"
           />

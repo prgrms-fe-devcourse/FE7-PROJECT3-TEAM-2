@@ -1,15 +1,31 @@
-import Badge from "@/components/common/Badge";
+"use client";
 
-export default function SearchRecommend() {
+import { SearchRecommendProps } from "@/types/search";
+import { categoryColor } from "@/utils/category";
+
+export default function SearchRecommend({ TopData, query, setQuery }: SearchRecommendProps) {
+  const TopOneData = Array.from(new Map(TopData.map(item => [item.category_name, item])).values());
+
+  const dataChoiceHandler = (keyword: string) => {
+    setQuery(keyword);
+  };
+
   return (
     <div className="flex w-full flex-col items-start gap-3 px-6">
       <p className="text-main text-[14px]">추천 검색어</p>
-      <div className="flex gap-3">
-        {/* 더미 */}
-        <Badge size="md" className="bg-pink-500 px-2 py-1 text-white" text="연애" />
-        <Badge size="md" className="bg-emerald-500 px-2 py-1 text-white" text="친구" />
-        <Badge size="md" className="bg-amber-500 px-2 py-1 text-white" text="비트코인" />
-        <Badge size="md" className="bg-cyan-500 px-2 py-1 text-white" text="인간관계" />
+      <div className="flex flex-wrap gap-3">
+        {TopOneData.map(item => (
+          <button
+            key={`${item.category_name}-${item.keyword}`}
+            onClick={() => dataChoiceHandler(item.keyword)}
+            style={{
+              backgroundColor: categoryColor[item.category_name] || "#999999",
+            }}
+            className="w-min-12 h-7 cursor-pointer rounded-sm px-2 py-1 text-sm text-white hover:bg-gray-200"
+          >
+            {item.keyword}
+          </button>
+        ))}
       </div>
     </div>
   );

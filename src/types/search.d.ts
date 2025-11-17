@@ -5,8 +5,20 @@ export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 export type SearchResultProps = {
   searchType: string;
-  data: Post[] | Profile[];
+  searchData: Post[] | Profile[];
   queryParam: string;
+};
+
+export type SearchBarProps = {
+  searchType: string;
+  isSearched: boolean;
+  TopData: TopKeyword[];
+};
+
+export type SearchRecommendProps = {
+  TopData: TopKeyword[];
+  query: string;
+  setQuery: (value: string) => void;
 };
 
 export type PostWithProfile = Post & {
@@ -16,4 +28,10 @@ export type PostWithProfile = Post & {
   category?: {
     type: string;
   };
+};
+
+export type TopKeyword = {
+  category_name: string;
+  keyword: string;
+  keyword_count: number;
 };

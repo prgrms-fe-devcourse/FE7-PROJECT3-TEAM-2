@@ -15,7 +15,7 @@ export default function WeekCommentCard({ comment }: { comment: weekCommentDataT
           alt="profile_img"
           className="h-12 w-12 border border-gray-200"
         />
-        <div className="text-xs">{comment.name}</div>
+        <div className="w-12 truncate text-center text-xs">{comment.name}</div>
       </div>
       <div className="mt-1 flex flex-col gap-0.5 pt-1">
         <div className="relative max-w-[350px]">
