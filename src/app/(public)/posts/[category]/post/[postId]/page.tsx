@@ -67,6 +67,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
         />
         <div className="flex h-full flex-col justify-between px-6 py-5">
           <CommentList
+            isLogin={!!user}
             userId={user?.id ?? ""}
             postId={postId}
             commentData={commentData ?? []}

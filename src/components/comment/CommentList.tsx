@@ -7,11 +7,13 @@ import { createClient } from "@/utils/supabase/client";
 import MessageBubble from "./MessageBubble";
 
 export default function CommentList({
+  isLogin,
   userId,
   postId,
   commentData,
   adoptedCommentId,
 }: {
+  isLogin: boolean;
   userId: string;
   postId: string;
   commentData: CommentDetailType[];
@@ -76,6 +78,7 @@ export default function CommentList({
         comments.map(comment => (
           <MessageBubble
             key={comment.id}
+            isLogin={isLogin}
             data={comment}
             currentUserId={userId ?? ""}
             adoptedId={adoptedCommentId ?? ""}
