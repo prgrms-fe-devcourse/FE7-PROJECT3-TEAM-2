@@ -4,7 +4,7 @@ import { ChevronLeft, ImagePlus } from "lucide-react";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { CategoryType, FormState } from "@/types";
+import { CategoryType, FormState, PostType } from "@/types";
 import CategoryDropdown from "./CategoryDropdown";
 import { Button } from "../common/Button";
 import ResponsiveContainer from "../common/ResponsiveContainer";
@@ -12,9 +12,11 @@ import ResponsiveContainer from "../common/ResponsiveContainer";
 export default function PostForm({
   categorys,
   action,
+  postData,
 }: {
   categorys: CategoryType[];
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
+  postData?: PostType | null;
 }) {
   const [state, formAction, isPending] = useActionState(action, {
     success: false,
@@ -23,7 +25,7 @@ export default function PostForm({
 
   const router = useRouter();
 
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(postData ? postData.post_image : "");
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -34,17 +36,23 @@ export default function PostForm({
     setPreview(url);
   };
 
+  const categoryType = Object.values(categorys).find(c => c.id === postData?.category_id)?.type ?? "";
+
   useEffect(() => {
     if (state.error) {
       alert(state.error);
     } else if (state.success && !state.error) {
-      alert("게시글이 성공적으로 등록되었습니다.");
-      redirect("/posts");
+      if (postData) {
+        alert("게시글이 성공적으로 수정되었습니다.");
+        redirect(`/posts/${categoryType}/post/${postData.id}`);
+      } else {
+        alert("게시글이 성공적으로 등록되었습니다.");
+        redirect("/posts");
+      }
     }
   }, [state]);
-
   return (
-    <ResponsiveContainer className="post-form bg-bg-main scrollbar-hide relative flex h-full w-full flex-col overflow-auto max-sm:border-none">
+    <ResponsiveContainer className="post-form bg-bg-main scrollbar-hide relative mx-5 mb-5 flex h-full flex-col overflow-auto max-sm:mx-0 max-sm:border-none">
       <form action={formAction} className="flex flex-col justify-between gap-6 px-6 py-5">
         <div className="post-form_rows flex flex-col gap-4">
           <div className="flex flex-col gap-1">
@@ -64,7 +72,7 @@ export default function PostForm({
           </div>
           <div className="post-form_row flex flex-col gap-1.5">
             <h2 className="text-text-title text-base">카테고리</h2>
-            <CategoryDropdown categorys={categorys} />
+            <CategoryDropdown categorys={categorys} selectCategoryId={postData?.category_id} />
           </div>
           <div className="post-form_row flex flex-col gap-1.5">
             <h2 className="text-text-title text-base">제목</h2>
@@ -72,6 +80,7 @@ export default function PostForm({
               type="text"
               placeholder="제목을 입력하세요"
               name="title"
+              defaultValue={postData ? postData.title : ""}
               className="text-text-sub focus:border-text-sub flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-3 py-4 outline-0 placeholder:text-gray-200 hover:cursor-auto"
             />
           </div>
@@ -81,6 +90,7 @@ export default function PostForm({
               placeholder="내용을 입력하세요"
               wrap="hard"
               name="content"
+              defaultValue={postData ? (postData.content ?? "") : ""}
               className="text-text-sub focus:border-text-sub flex h-60 w-full cursor-pointer resize-none items-center justify-between rounded-xl border border-gray-200 px-3 py-4 outline-0 placeholder:text-gray-200 hover:cursor-auto"
             />
           </div>
@@ -119,7 +129,7 @@ export default function PostForm({
             초기화
           </Button>
           <Button variant="primary" size="sm" className="max-sm:w-full" type="submit" disabled={isPending}>
-            {isPending ? "등록중..." : "등록"}
+            {postData ? (isPending ? "수정중..." : "수정") : isPending ? "등록중..." : "등록"}
           </Button>
         </div>
       </form>

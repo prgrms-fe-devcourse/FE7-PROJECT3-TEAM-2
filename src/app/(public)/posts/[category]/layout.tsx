@@ -1,6 +1,6 @@
 import PostSideBar from "@/components/post/PostSideBar";
 import ProfileSlide from "@/components/user/ProfileSlide";
-import { getPosts } from "@/services/post";
+import { getPosts } from "@/services/post.server";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function CategoryLayout({

@@ -68,7 +68,7 @@ export default function MessageBubble({
           ) : (
             <div className="flex items-end justify-end gap-2">
               <div className="flex flex-col items-end">
-                <div className="text-text-light flex gap-0.5 text-[9px]">
+                <div className="text-text-light flex gap-1 text-[9px]">
                   <button
                     onClick={() => {
                       setIsUpdate(prev => !prev);
