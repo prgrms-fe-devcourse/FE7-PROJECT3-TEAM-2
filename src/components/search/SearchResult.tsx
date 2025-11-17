@@ -12,7 +12,7 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
   if (searchType === "post") {
     const { data: posts, error } = await supabase
       .from("posts")
-      .select("*, profiles(name), category(type)")
+      .select("*, profiles(name), category(type, name)")
       .or(`title.ilike.%${queryParam}%, content.ilike.%${queryParam}%`)
       .order("created_at", { ascending: false });
     searchData = posts || [];

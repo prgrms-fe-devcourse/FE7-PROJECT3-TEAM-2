@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { PostWithProfile } from "@/types/search";
+import { categoryColor } from "@/utils/category";
 import { cardVariants } from "./SearchResultClient";
 import Badge from "../common/Badge";
 
@@ -36,7 +37,12 @@ export default function ResultPosts({
               {textHighlight ? textHighlight(post.content ?? "") : (post.content ?? "")}
             </p>
           </div>
-          <Badge size="sm" className="bg-pink-600 px-2 py-1 text-white" text="HOT" />
+          <Badge
+            size="sm"
+            className="px-2 py-1 text-white"
+            style={{ backgroundColor: categoryColor[post.category?.name ?? "#999999"] }}
+            text={post.category?.name ?? "전체"}
+          />
         </div>
         <div>
           {post.post_image && (
