@@ -1,15 +1,40 @@
+import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
-export async function updateDisplayedBadge(userId: string, displayedBadgeList: string) {
+export async function updateDisplayedBadge(userId: string, displayedBadgeList: (string | null)[]): Promise<FormState> {
   const supabase = await createClient();
-  const { error: updateErrors } = await supabase
-    .from("profiles")
-    .update({ displayed_badge: displayedBadgeList })
-    .eq("id", userId);
+  const { data: displayedBadge } = await supabase
+    .from("displayed_badge")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
 
-  if (updateErrors) {
-    return { success: false, message: updateErrors };
+  if (!displayedBadge) {
+    const { error: updateErrors } = await supabase.from("displayed_badge").insert({
+      user_id: userId,
+      first: displayedBadgeList[0],
+      second: displayedBadgeList[1],
+      third: displayedBadgeList[2],
+      fourth: displayedBadgeList[3],
+    });
+
+    if (updateErrors) {
+      return { success: false, error: "대표 배지 업데이트 실패" };
+    }
+  } else {
+    const { error: updateErrors } = await supabase
+      .from("displayed_badge")
+      .update({
+        first: displayedBadgeList[0],
+        second: displayedBadgeList[1],
+        third: displayedBadgeList[2],
+        fourth: displayedBadgeList[3],
+      })
+      .eq("user_id", userId);
+    if (updateErrors) {
+      return { success: false, error: "대표 배지 업데이트 실패" };
+    }
   }
 
-  return { success: true, message: "성공적으로 대표 뱃지를 업데이트 했습니다." };
+  return { success: true, error: null };
 }

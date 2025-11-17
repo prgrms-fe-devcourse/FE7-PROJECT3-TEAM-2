@@ -2,16 +2,19 @@
 
 import { Award, UserRoundPen } from "lucide-react";
 import { useState } from "react";
-// import BadgeDetail from "./BadgeDetail";
-import DisplayedBadgeModalForm from "./DisplayedBadgeModalForm";
+import { BadgeType, FormState } from "@/types";
+import BadgeDetail from "./BadgeDetail";
+import DisplayedBadgeModal from "./DisplayedBadgeModal";
 import { Button } from "../common/Button";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 
 type DisplayedBadgeProps = {
   userId: string | null;
-  action: (displayedBadgeUrl: string) => Promise<void>;
+  action: (displayedBadgeList: (string | null)[]) => Promise<FormState>;
+  displayedBadge: (BadgeType | null)[];
+  haveBadge: BadgeType[];
 };
-export default function DisplayedBadge({ userId, action }: DisplayedBadgeProps) {
+export default function DisplayedBadge({ userId, action, displayedBadge, haveBadge }: DisplayedBadgeProps) {
   const [modalStatus, setModalStatus] = useState(false);
   const onHandleModalStatus = () => {
     setModalStatus(prev => !prev);
@@ -25,8 +28,10 @@ export default function DisplayedBadge({ userId, action }: DisplayedBadgeProps) 
             <p>대표 뱃지</p>
           </div>
           <div className="flex justify-center">
-            <div className="flex flex-wrap justify-center gap-52 max-[800px]:max-w-[337px] max-xl:gap-25 max-lg:gap-16 max-sm:max-w-full max-sm:gap-6">
-              {/* <BadgeDetail /> */}
+            <div className="flex flex-wrap justify-center gap-52 max-xl:gap-25 max-lg:gap-16 max-sm:max-w-full max-sm:gap-6">
+              {!displayedBadge || displayedBadge.length === 0
+                ? [...Array(4)].map((_, i) => <BadgeDetail key={i} badgeData={null} />)
+                : displayedBadge.map((b, i) => <BadgeDetail key={i} badgeData={b ?? null} />)}
             </div>
           </div>
           <div className="flex justify-end">
@@ -37,7 +42,15 @@ export default function DisplayedBadge({ userId, action }: DisplayedBadgeProps) 
           </div>
         </div>
       </ResponsiveContainer>
-      {modalStatus && <DisplayedBadgeModalForm userId={userId} setModal={onHandleModalStatus} action={action} />}
+      {modalStatus && (
+        <DisplayedBadgeModal
+          userId={userId}
+          setModal={onHandleModalStatus}
+          action={action}
+          displayedBadge={displayedBadge}
+          haveBadge={haveBadge}
+        />
+      )}
     </>
   );
 }
