@@ -125,7 +125,6 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
 
     return <PostForm categorys={data ?? []} action={writePost} />;
   } else if (page === "edit") {
-    console.log(123);
     async function editPost(prevState: FormState, formData: FormData): Promise<FormState> {
       "use server";
 
@@ -165,6 +164,21 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
       if (!state.success) return state;
 
       if (imgFile && imgFile.size > 0) {
+        // 기존 이미지 삭제
+        const originalUrl = formData.get("original_image")?.toString() ?? "";
+        const filePath = originalUrl.replace(
+          "https://lfkxloulmqeonuzaudtt.supabase.co/storage/v1/object/public/user_upload_image/",
+          ""
+        );
+        const { error: removeImageError } = await supabase.storage.from("user_upload_image").remove([filePath]);
+
+        if (removeImageError)
+          return {
+            success: false,
+            error: "기존 이미지 삭제 실패",
+          };
+
+        // 수정 이미지 추가
         const fileExt = imgFile.name.split(".").pop();
         const fileName = `${user.id}${crypto.randomUUID()}.${fileExt}`;
 

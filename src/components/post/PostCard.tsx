@@ -112,7 +112,7 @@ export default function PostCard({ userId, device, postData, commentCount, class
                     onClick={async () => {
                       const ok = confirm("정말 삭제하시겠습니까?");
                       if (!ok) return;
-                      await deletePost(postData.id);
+                      await deletePost(postData.id, post_image ?? "");
                       redirect("/posts");
                     }}
                   >

@@ -114,6 +114,7 @@ export default function PostForm({
               className="hidden"
               onChange={handleFileChange}
             />
+            <input type="hidden" name="original_image" value={postData?.post_image ?? ""} />
           </div>
         </div>
         <div className="post-form_btns flex justify-end gap-3">
