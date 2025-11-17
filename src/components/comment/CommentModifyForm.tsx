@@ -47,7 +47,7 @@ export function CommentModifyForm({
 
       <div className="bg-main max-w-[45%] rounded-2xl rounded-tr-none px-3 py-2 text-sm text-white">
         <input type="hidden" name="id" value={id} />
-        <textarea defaultValue={content} name="content" className="resize-none" />
+        <input defaultValue={content} name="content" className="outline-0" />
       </div>
     </form>
   );
