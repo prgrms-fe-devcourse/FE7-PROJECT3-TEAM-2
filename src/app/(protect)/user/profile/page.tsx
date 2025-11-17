@@ -20,28 +20,26 @@ export default async function page() {
     redirect("/auth/login");
   }
 
-  const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+  const [
+    { data: profileData },
+    { count: followCnt },
+    { count: followerCnt },
+    { count: postCnt },
+    { data: adoptedComments },
+  ] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    supabase.from("follow").select("*", { count: "exact", head: true }).eq("follower_id", user.id),
+    supabase.from("follow").select("*", { count: "exact", head: true }).eq("following_id", user.id),
+    supabase.from("posts").select("*", { count: "exact", head: true }).eq("user_id", user.id),
+    supabase.from("comments").select("id, posts:post_id(adopted_comment_id)").eq("user_id", user.id),
+  ]);
 
-  const { count: followsCount } = await supabase
-    .from("follow")
-    .select("*", { count: "exact", head: true })
-    .eq("follower_id", user.id);
-
-  const { count: followersCount } = await supabase
-    .from("follow")
-    .select("*", { count: "exact", head: true })
-    .eq("following_id", user.id);
-
-  const { count: postsCount } = await supabase
-    .from("posts")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", user.id);
-
-  // const { data: adoptedComments } = await supabase
-  //   .from("comments")
-  //   .select("posts!inner(adopted_comment_id)")
-  //   .eq("user_id", user.id);
-  // console.log(adoptedComments);
+  const profile = profileData ?? null;
+  const followCount = followCnt ?? 0;
+  const followerCount = followerCnt ?? 0;
+  const postCount = postCnt ?? 0;
+  const adoptedCommentCount =
+    adoptedComments?.filter(d => d.posts?.adopted_comment_id && d.id === d.posts?.adopted_comment_id).length ?? 0;
 
   async function updateProfileAction(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -63,6 +61,31 @@ export default async function page() {
     const email = formData.get("email")?.toString() ?? "";
     const phoneNumber = formData.get("phoneNumber")?.toString().replaceAll(" ", "").replaceAll(/[\D]/gi, "") ?? "";
     const bio = formData.get("bio")?.toString() ?? "";
+    const avatarImage = formData.get("avatarImage") as File | null;
+    let avatarImageUrl: string = "";
+
+    if (avatarImage && avatarImage.size > 0) {
+      // 파일 확장자 추출
+      const ext = avatarImage.name.split(".").pop();
+      // user당 하나 주어지는 name...을 원하지만, 파일 확장자에 따라 여러개 생길 수 있음
+      const filePath = `avatars/${user.id}.${ext}`;
+
+      // 업로드
+      const { error } = await supabase.storage
+        .from("user_upload_image")
+        .upload(filePath, avatarImage, { upsert: true });
+
+      if (error) {
+        console.error("Upload error:", error);
+        return {
+          success: false,
+          error: "이미지 업로드 실패",
+        };
+      } else {
+        const { data } = supabase.storage.from("user_upload_image").getPublicUrl(filePath);
+        avatarImageUrl = `${data.publicUrl}?t=${Date.now()}`;
+      }
+    }
 
     if (!name || !email) {
       return {
@@ -77,8 +100,10 @@ export default async function page() {
         error: "올바른 전화번호를 입력해주세요.",
       };
     }
-
-    return updateProfile(user.id, name, email, phoneNumber, bio);
+    if (!avatarImage || avatarImage.size === 0) {
+      return updateProfile(user.id, name, email, phoneNumber, bio);
+    }
+    return updateProfile(user.id, name, email, phoneNumber, bio, avatarImageUrl);
   }
 
   return (
@@ -94,12 +119,12 @@ export default async function page() {
             </div>
             <div className="flex justify-center gap-6">
               <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
-                <p>팔로우</p>
-                <p className="text-base">{followsCount}</p>
+                <p>팔로잉</p>
+                <p className="text-base">{followCount}</p>
               </div>
               <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
-                <p>팔로잉</p>
-                <p className="text-base">{followersCount}</p>
+                <p>팔로워</p>
+                <p className="text-base">{followerCount}</p>
               </div>
             </div>
           </div>
@@ -111,11 +136,11 @@ export default async function page() {
             <div className="flex justify-center gap-6">
               <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
                 <p>게시물</p>
-                <p className="text-base">{postsCount}</p>
+                <p className="text-base">{postCount}</p>
               </div>
               <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
                 <p>채택 수</p>
-                <p className="text-base"></p>
+                <p className="text-base">{adoptedCommentCount}</p>
               </div>
             </div>
           </div>
