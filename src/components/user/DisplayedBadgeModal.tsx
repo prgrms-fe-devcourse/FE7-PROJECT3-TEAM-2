@@ -1,7 +1,6 @@
 "use client";
 
 import { Award, UserRoundPen } from "lucide-react";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BadgeType, FormState } from "@/types";
@@ -11,14 +10,12 @@ import { Divider } from "../common/Divider";
 import Toast from "../common/toast/Toast";
 
 type DisplayedBadgeModalFormProps = {
-  userId: string | null;
   setModal: () => void;
   action: (displayedBadgeList: string[]) => Promise<FormState>;
   displayedBadge: (BadgeType | null)[];
   haveBadge: BadgeType[];
 };
 export default function DisplayedBadgeModal({
-  userId,
   setModal,
   action,
   displayedBadge,

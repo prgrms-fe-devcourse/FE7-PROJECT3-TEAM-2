@@ -86,7 +86,6 @@ export default async function page() {
   return (
     <div className="mt-6.5 flex w-full flex-col gap-3.5 text-xs">
       <DisplayedBadge
-        userId={userId}
         action={updateDisplayBadgeAction}
         displayedBadge={displayedBadgeList}
         haveBadge={(haveBadgeData ?? []).reduce((list, b) => [...list, b.badge], [])}

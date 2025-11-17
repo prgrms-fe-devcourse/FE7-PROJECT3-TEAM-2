@@ -9,12 +9,11 @@ import { Button } from "../common/Button";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 
 type DisplayedBadgeProps = {
-  userId: string | null;
   action: (displayedBadgeList: (string | null)[]) => Promise<FormState>;
   displayedBadge: (BadgeType | null)[];
   haveBadge: BadgeType[];
 };
-export default function DisplayedBadge({ userId, action, displayedBadge, haveBadge }: DisplayedBadgeProps) {
+export default function DisplayedBadge({ action, displayedBadge, haveBadge }: DisplayedBadgeProps) {
   const [modalStatus, setModalStatus] = useState(false);
   const onHandleModalStatus = () => {
     setModalStatus(prev => !prev);
@@ -44,7 +43,6 @@ export default function DisplayedBadge({ userId, action, displayedBadge, haveBad
       </ResponsiveContainer>
       {modalStatus && (
         <DisplayedBadgeModal
-          userId={userId}
           setModal={onHandleModalStatus}
           action={action}
           displayedBadge={displayedBadge}
