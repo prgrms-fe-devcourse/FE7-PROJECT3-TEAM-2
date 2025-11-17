@@ -3,11 +3,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Divider } from "@/components/common/Divider";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import BadgeDetail from "@/components/user/BadgeDetail";
 // import BadgeDetail from "@/components/user/BadgeDetail";
 import CategoryRanking from "@/components/user/CategoryRanking";
 import UserInfo from "@/components/user/UserInfo";
 import { updateProfile } from "@/services/profile/updateProfile";
-import { FormState } from "@/types";
+import { BadgeType, FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function page() {
@@ -26,12 +27,23 @@ export default async function page() {
     { count: followerCnt },
     { count: postCnt },
     { data: adoptedComments },
+    { data: displayedBadge },
   ] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
     supabase.from("follow").select("*", { count: "exact", head: true }).eq("follower_id", user.id),
     supabase.from("follow").select("*", { count: "exact", head: true }).eq("following_id", user.id),
     supabase.from("posts").select("*", { count: "exact", head: true }).eq("user_id", user.id),
     supabase.from("comments").select("id, posts:post_id(adopted_comment_id)").eq("user_id", user.id),
+    supabase
+      .from("displayed_badge")
+      .select(
+        `badge_first:badge!displayed_badge_first_fkey(*),
+        badge_second:badge!displayed_badge_second_fkey(*),
+        badge_third:badge!displayed_badge_third_fkey(*),
+        badge_fourth:badge!displayed_badge_fourth_fkey(*)`
+      )
+      .eq("user_id", user.id)
+      .single(),
   ]);
 
   const profile = profileData ?? null;
@@ -40,6 +52,12 @@ export default async function page() {
   const postCount = postCnt ?? 0;
   const adoptedCommentCount =
     adoptedComments?.filter(d => d.posts?.adopted_comment_id && d.id === d.posts?.adopted_comment_id).length ?? 0;
+  const displayedBadgeList: (BadgeType | null)[] = [
+    displayedBadge?.badge_first ?? null,
+    displayedBadge?.badge_second ?? null,
+    displayedBadge?.badge_third ?? null,
+    displayedBadge?.badge_fourth ?? null,
+  ];
 
   async function updateProfileAction(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -156,10 +174,17 @@ export default async function page() {
             </div>
             <div className="flex justify-center">
               <div className="flex flex-wrap justify-center gap-16 max-[1146px]:max-w-[273px] max-[1146px]:gap-8 max-sm:grid max-sm:grid-cols-2 max-sm:gap-6">
-                {/* <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" />
-                <BadgeDetail badgeTitle="basic_welcome" className="shrink-0" /> */}
+                {!displayedBadgeList || displayedBadgeList.length === 0
+                  ? [...Array(4)].map((_, i) => (
+                      <div key={i}>
+                        <BadgeDetail badgeData={null} />
+                      </div>
+                    ))
+                  : displayedBadgeList.map((b, i) => (
+                      <div key={i}>
+                        <BadgeDetail badgeData={b} />
+                      </div>
+                    ))}
               </div>
             </div>
             <Link href="badge" className="text-main flex items-center justify-end gap-2 px-3 py-1.5 text-xs">

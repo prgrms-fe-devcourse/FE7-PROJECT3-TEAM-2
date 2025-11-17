@@ -11,7 +11,7 @@ import Toast from "../common/toast/Toast";
 
 type DisplayedBadgeModalFormProps = {
   setModal: () => void;
-  action: (displayedBadgeList: string[]) => Promise<FormState>;
+  action: (displayedBadgeList: (string | null)[]) => Promise<FormState>;
   displayedBadge: (BadgeType | null)[];
   haveBadge: BadgeType[];
 };
@@ -39,7 +39,7 @@ export default function DisplayedBadgeModal({
 
   const handleSave = async () => {
     setIsPending(true);
-    const displayedBadgeId = displayedBadgeList?.reduce((list, d) => [...list, d?.id ?? null], []);
+    const displayedBadgeId: (string | null)[] = displayedBadgeList.map(b => b?.id ?? null);
     const res = await action(displayedBadgeId);
     if (res.success) {
       Toast({ message: "성공적으로 업데이트", type: "SUCCESS" });
@@ -74,7 +74,7 @@ export default function DisplayedBadgeModal({
       return newList;
     });
   };
-  const getIndex = (list: BadgeType[]) => {
+  const getIndex = (list: (BadgeType | null)[]) => {
     if (!list || list.length === 0) return 0;
     const index = list.findIndex(b => !b || !b.id);
     return index !== -1 ? index : null;
