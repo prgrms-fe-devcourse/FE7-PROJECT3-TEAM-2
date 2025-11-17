@@ -29,3 +29,15 @@ export async function deleteReaction(userId: string, commentId: string) {
 
   return await supabase.from("comment_reactions").delete().eq("comment_id", commentId).eq("user_id", userId);
 }
+
+export async function hasAdoptedComment(postId: string) {
+  const supabase = createClient();
+
+  return await supabase.from("posts").select("adopted_comment_id").eq("id", postId).maybeSingle();
+}
+
+export async function adoptComment(postId: string, commentId: string | null) {
+  const supabase = createClient();
+
+  return await supabase.from("posts").update({ adopted_comment_id: commentId }).eq("id", postId).select();
+}

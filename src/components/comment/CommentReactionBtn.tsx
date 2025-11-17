@@ -3,17 +3,22 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { addReaction, deleteReaction, selectReaction } from "@/services/comment.client";
-import { createClient } from "@/utils/supabase/client";
+import {
+  addReaction,
+  adoptComment,
+  deleteReaction,
+  hasAdoptedComment,
+  selectReaction,
+} from "@/services/comment.client";
 
 const buttonVariants = cva(
   `flex items-center justify-center rounded-xs bg-gray-300 p-0.5 text-gray-500 cursor-pointer`,
   {
     variants: {
       buttonType: {
-        like: "bg-main text-white ",
-        disLike: "bg-rose-600 text-white ",
-        adopt: "bg-emerald-600 text-white ",
+        like: "bg-main text-white",
+        disLike: "bg-rose-600 text-white",
+        adopt: "bg-emerald-600 text-white",
       },
     },
   }
@@ -47,8 +52,11 @@ interface CommentReactionBtnProps
     VariantProps<typeof buttonVariants> {
   isLogin: boolean;
   isMine: boolean;
+  isMyPost?: boolean;
+  isAdopted?: boolean;
   currentUserId: string;
   commentId: string;
+  postId?: string;
   reactions?: { count: number };
   className?: string;
 }
@@ -56,7 +64,10 @@ interface CommentReactionBtnProps
 export default function CommentReactionBtn({
   isLogin,
   isMine,
+  isMyPost,
+  isAdopted,
   currentUserId,
+  postId,
   commentId,
   children,
   buttonType,
@@ -66,11 +77,57 @@ export default function CommentReactionBtn({
 }: CommentReactionBtnProps) {
   const [count, setCount] = useState(reactions?.count ?? 0);
   const [isActive, setIsActive] = useState(!!reactions);
-  // const [isActive, setIsActive] = useState(() => count > 0);
+  const [adoptedState, setAdoptedState] = useState(isAdopted);
 
   useEffect(() => {
     setIsActive(count > 0);
   }, [count]);
+
+  const handleAdopt = async () => {
+    if (!isLogin) {
+      alert("로그인이 필요한 기능입니다.");
+      return;
+    }
+
+    if (!isMyPost) {
+      alert("자신이 올린 게시물의 훈수만 채택할 수 있습니다.");
+      return;
+    }
+
+    if (isMine) {
+      alert("자신의 훈수는 채택할 수 없습니다.");
+      return;
+    }
+
+    const { data } = await hasAdoptedComment(postId ?? "");
+
+    if (!data?.adopted_comment_id) {
+      setAdoptedState(true);
+      const { error } = await adoptComment(postId ?? "", commentId);
+
+      if (error) {
+        console.error(`댓글 채택 에러: `, error.message);
+        setAdoptedState(false);
+        return;
+      }
+    } else {
+      if (data?.adopted_comment_id !== commentId) {
+        alert("이미 채택한 훈수가 있습니다.");
+        return;
+      }
+
+      if (adoptedState) {
+        setAdoptedState(false);
+        const { error } = await adoptComment(postId ?? "", null);
+
+        if (error) {
+          console.error(`댓글 채택 취소 에러: `, error.message);
+          setAdoptedState(true);
+          return;
+        }
+      }
+    }
+  };
 
   const handleReaction = async (type: string) => {
     if (!isLogin) {
@@ -123,10 +180,12 @@ export default function CommentReactionBtn({
       <button
         onClick={() => {
           if (buttonType === "like" || buttonType === "disLike") handleReaction(buttonType);
+          else if (buttonType === "adopt") handleAdopt();
         }}
         className={twMerge(
           hasReactionVariants({ buttonType }),
-          isActive || buttonType === "adopt" ? buttonVariants({ buttonType }) : "",
+          isActive || isAdopted ? buttonVariants({ buttonType }) : "",
+          adoptedState ? buttonVariants({ buttonType }) : "",
           className
         )}
         {...props}
@@ -140,7 +199,7 @@ export default function CommentReactionBtn({
           isActive || buttonType === "adopt" ? textVariants({ buttonType }) : ""
         )}
       >
-        {buttonType === "adopt" ? "채택" : isActive && `${count}`}
+        {buttonType === "adopt" && adoptedState ? "채택" : isActive && `${count}`}
       </span>
     </div>
   );

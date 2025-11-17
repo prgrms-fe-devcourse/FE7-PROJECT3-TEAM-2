@@ -37,12 +37,16 @@ const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm", {
 
 export default function MessageBubble({
   isLogin,
+  isMyPost,
   data,
+  postId,
   currentUserId,
   adoptedId,
 }: {
   isLogin: boolean;
+  isMyPost: boolean;
   data: CommentDetailType;
+  postId: string;
   currentUserId: string;
   adoptedId: string;
 }) {
@@ -117,6 +121,8 @@ export default function MessageBubble({
               <CommentReactionBtn
                 isLogin={isLogin}
                 isMine={isMine}
+                isMyPost={isMyPost}
+                isAdopted={isAdopted}
                 currentUserId={currentUserId}
                 commentId={id}
                 buttonType="adopt"
@@ -171,16 +177,34 @@ export default function MessageBubble({
             >
               <ThumbsDown size={8} />
             </CommentReactionBtn>
-            {isAdopted && (
+            {isAdopted ? (
               <CommentReactionBtn
                 isLogin={isLogin}
                 isMine={isMine}
+                isMyPost={isMyPost}
+                isAdopted={isAdopted}
                 currentUserId={currentUserId}
+                postId={postId}
                 commentId={id}
                 buttonType="adopt"
               >
                 <Stamp size={8} />
               </CommentReactionBtn>
+            ) : (
+              isMyPost && (
+                <CommentReactionBtn
+                  isLogin={isLogin}
+                  isMine={isMine}
+                  isMyPost={isMyPost}
+                  isAdopted={isAdopted}
+                  currentUserId={currentUserId}
+                  postId={postId}
+                  commentId={id}
+                  buttonType="adopt"
+                >
+                  <Stamp size={8} />
+                </CommentReactionBtn>
+              )
             )}
           </div>
         </div>

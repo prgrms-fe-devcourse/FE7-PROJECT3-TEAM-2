@@ -8,12 +8,14 @@ import MessageBubble from "./MessageBubble";
 
 export default function CommentList({
   isLogin,
+  isMyPost,
   userId,
   postId,
   commentData,
   adoptedCommentId,
 }: {
   isLogin: boolean;
+  isMyPost: boolean;
   userId: string;
   postId: string;
   commentData: CommentDetailType[];
@@ -78,8 +80,10 @@ export default function CommentList({
         comments.map(comment => (
           <MessageBubble
             key={comment.id}
+            isMyPost={isMyPost}
             isLogin={isLogin}
             data={comment}
+            postId={postId}
             currentUserId={userId ?? ""}
             adoptedId={adoptedCommentId ?? ""}
           />
