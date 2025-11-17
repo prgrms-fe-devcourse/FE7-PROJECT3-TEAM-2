@@ -7,6 +7,7 @@ export default function ChartPie({
   stats,
   height = 250,
   innerRadius = 73,
+  labelEndText = "개",
 }: {
   stats: {
     name: string;
@@ -14,11 +15,12 @@ export default function ChartPie({
   }[];
   height?: number;
   innerRadius?: number;
+  labelEndText?: string;
 }) {
   const totalPosts = stats.reduce((acc, cur) => acc + cur.value, 0);
 
   return (
-    <div className="h-fit">
+    <div className="h-fit min-w-[180px]">
       <div className="relative h-full min-h-[100px] w-full min-w-0">
         <RsponsiveContain width="100%" height={height}>
           <PieChart>
@@ -46,13 +48,16 @@ export default function ChartPie({
                 backgroundColor: "#fff",
                 border: "1px solid #ddd",
               }}
-              formatter={(value, name) => [`${value}개`, name]}
+              formatter={(value, name) => [`${value}${labelEndText}`, name]}
             />
           </PieChart>
         </RsponsiveContain>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
           <p className="text-xs text-gray-500">총</p>
-          <p className="text-lg font-bold">{totalPosts}개</p>
+          <p className="text-lg font-bold">
+            {totalPosts}
+            {labelEndText}
+          </p>
         </div>
       </div>
     </div>

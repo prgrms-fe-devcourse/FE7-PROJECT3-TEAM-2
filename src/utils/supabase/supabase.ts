@@ -206,6 +206,69 @@ export type Database = {
           },
         ];
       };
+      displayed_badge: {
+        Row: {
+          first: string | null;
+          fourth: string | null;
+          id: number;
+          second: string | null;
+          third: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          first?: string | null;
+          fourth?: string | null;
+          id?: number;
+          second?: string | null;
+          third?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          first?: string | null;
+          fourth?: string | null;
+          id?: number;
+          second?: string | null;
+          third?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "displayed_badge_first_fkey";
+            columns: ["first"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_fourth_fkey";
+            columns: ["fourth"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_second_fkey";
+            columns: ["second"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_third_fkey";
+            columns: ["third"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_user_id_fkey1";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       follow: {
         Row: {
           created_at: string;
@@ -320,7 +383,6 @@ export type Database = {
           avatar_image: string | null;
           bio: string | null;
           created_at: string;
-          displayed_badge: string | null;
           email: string;
           exp: number | null;
           id: string;
@@ -332,7 +394,6 @@ export type Database = {
           avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
-          displayed_badge?: string | null;
           email: string;
           exp?: number | null;
           id: string;
@@ -344,7 +405,6 @@ export type Database = {
           avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
-          displayed_badge?: string | null;
           email?: string;
           exp?: number | null;
           id?: string;
@@ -482,6 +542,13 @@ export type Database = {
           category_name: string;
           comments_count: number;
           posts_count: number;
+        }[];
+      };
+      get_user_badge_points: {
+        Args: { p_user_id: string };
+        Returns: {
+          badge_points: number;
+          category_name: string;
         }[];
       };
       grant_badges_and_update_exp: {

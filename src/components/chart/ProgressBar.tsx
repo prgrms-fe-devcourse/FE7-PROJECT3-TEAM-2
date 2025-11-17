@@ -20,7 +20,7 @@ export default function ProgressBar({ percent, count, color, className }: Progre
   return (
     <div
       className={twMerge(
-        "flex h-4 w-11/12 overflow-hidden rounded-full bg-gray-200",
+        "flex h-4 w-full overflow-hidden rounded-full bg-gray-200 md:w-11/12",
         className,
         !count && "bg-gray-300"
       )}
