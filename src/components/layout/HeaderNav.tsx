@@ -61,7 +61,7 @@ export default function HeaderNav() {
                 stiffness: 240,
                 damping: 20,
               }}
-              className="fixed top-(--header-height) left-0 z-10 flex w-full flex-col gap-2 bg-white p-(--global-padding) shadow-md"
+              className="fixed top-(--header-height) left-0 z-10 flex w-full flex-col gap-2 bg-white p-(--global-padding) shadow-md dark:bg-neutral-900"
             >
               {navData.map(nav => (
                 <li

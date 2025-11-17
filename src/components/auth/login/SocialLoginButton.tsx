@@ -1,4 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
+import { HTMLMotionProps, motion } from "motion/react";
 import { twMerge } from "tailwind-merge";
 import github from "@/assets/icons/github.svg";
 import google from "@/assets/icons/google.svg";
@@ -46,19 +47,21 @@ const socialLoginButtonVariants = cva(
   }
 );
 
-interface SocialLoginButtonProps
-  extends VariantProps<typeof socialLoginButtonVariants>,
-    React.ComponentPropsWithoutRef<"button"> {
+interface SocialLoginButtonProps extends VariantProps<typeof socialLoginButtonVariants>, HTMLMotionProps<"button"> {
   social: SocialLoginType;
 }
 
 export default function SocialLoginButton({ size = "md", social, ...props }: SocialLoginButtonProps) {
   return (
-    <button className={twMerge(socialLoginButtonVariants({ size, social }))} {...props}>
+    <motion.button
+      whileTap={{ scale: 0.95 }}
+      className={twMerge(socialLoginButtonVariants({ size, social }))}
+      {...props}
+    >
       <div>
         <BaseImage src={socialLoginMap[social].img} alt="social_login_icon" className="h-7 w-7" />
       </div>
       <span className="hidden sm:inline">{socialLoginMap[social].label}</span>
-    </button>
+    </motion.button>
   );
 }
