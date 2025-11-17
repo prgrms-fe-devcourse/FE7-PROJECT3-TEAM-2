@@ -13,7 +13,7 @@ export default function WeekPostCard({ post }: { post: WeekPostDataType }) {
 
   return (
     <div
-      className="col-span-1 w-full cursor-pointer rounded-lg border border-gray-200 p-1 transition hover:scale-101"
+      className="border-border-main col-span-1 w-full cursor-pointer rounded-lg border p-1 transition hover:scale-101"
       onClick={() => router.push(`/posts/${post.category_type}/post/${post.post_id}`)}
     >
       <BaseImage src={image} alt="post_img" className="h-[250px] max-h-[200px] w-full" />
@@ -24,7 +24,7 @@ export default function WeekPostCard({ post }: { post: WeekPostDataType }) {
           <Badge
             text={post.category_name}
             size={"sm"}
-            className="text-white"
+            className="text-text-title"
             style={{ backgroundColor: categoryColor[post.category_name] }}
           />
         </div>

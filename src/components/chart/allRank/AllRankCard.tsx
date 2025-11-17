@@ -13,7 +13,7 @@ export default function AllRankCard({ category, title }: { category: AllStatsCar
           </span>{" "}
           {title}
         </div>
-        <div className="text-2xl text-black">{category.count}</div>
+        <div className="text-text-title text-2xl">{category.count}</div>
         <div className="text-text-title text-xs">{category.percent}%</div>
       </div>
       <div className="flex w-full justify-end">

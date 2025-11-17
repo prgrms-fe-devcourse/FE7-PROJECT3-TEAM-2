@@ -16,6 +16,8 @@
   /* 기본 테마(라이트 모드) 색상 정의 */
   --color-bg-main: #ffffff;
   --color-bg-sub: #f0f2f5;
+  --color-border-main: #e5e7eb;
+  --color-border-sub: #d1d5dc;
   --color-text-title: #0f172b;
   --color-text-content: #1d293d;
   --color-text-sub: #4a5565;
@@ -26,6 +28,8 @@
 .dark {
   --color-bg-main: #121212;
   --color-bg-sub: #202225;
+  --color-border-main: #374151;
+  --color-border-sub: #4b5563;
   --color-text-title: #f1f5ff;
   --color-text-content: #e2e8f5;
   --color-text-sub: #a8b1c1;

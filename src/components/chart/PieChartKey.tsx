@@ -15,7 +15,7 @@ export default function PieChartKey({
         return (
           <div key={index} className="flex items-center gap-1">
             <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: fillColor }}></span>
-            <span className="text-text-light">{data.name}</span>
+            <span className="text-text-sub">{data.name}</span>
           </div>
         );
       })}
