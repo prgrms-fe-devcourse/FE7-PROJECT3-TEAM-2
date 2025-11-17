@@ -7,14 +7,9 @@ import BaseImage from "@/components/common/image/BaseImage";
 export default function WeekCommentCard({ comment }: { comment: weekCommentDataType }) {
   const router = useRouter();
   return (
-    <div className="relative flex w-full gap-3 rounded-lg border border-gray-300 px-4 py-5">
+    <div className="border-border-sub relative flex w-full gap-3 rounded-lg border px-4 py-5">
       <div className="flex flex-col items-center justify-center gap-0.5">
-        <BaseImage
-          src={comment.avatar_image}
-          rounded="lg"
-          alt="profile_img"
-          className="h-12 w-12 border border-gray-200"
-        />
+        <BaseImage src={comment.avatar_image} rounded="lg" alt="profile_img" className="h-12 w-12" />
         <div className="w-12 truncate text-center text-xs">{comment.name}</div>
       </div>
       <div className="mt-1 flex flex-col gap-0.5 pt-1">

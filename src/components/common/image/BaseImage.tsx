@@ -15,7 +15,7 @@ interface BaseImageProps {
   className?: string;
 }
 
-const BaseImageVariants = cva("relative overflow-hidden", {
+const BaseImageVariants = cva("relative overflow-hidden border-none", {
   variants: {
     rounded: {
       full: "rounded-full",

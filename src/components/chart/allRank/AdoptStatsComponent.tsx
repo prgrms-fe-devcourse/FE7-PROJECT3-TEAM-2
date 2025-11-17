@@ -28,7 +28,13 @@ export default function AdoptStatsComponent({
                 barCategoryGap="25%"
                 margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
               >
-                <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 14 }} axisLine={false} tickLine={false} />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fontSize: 15 }}
+                  className="text-text-title"
+                  axisLine={false}
+                  tickLine={false}
+                />
                 <Tooltip
                   cursor={false}
                   contentStyle={{

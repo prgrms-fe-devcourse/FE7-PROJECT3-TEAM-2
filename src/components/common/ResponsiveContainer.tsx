@@ -9,7 +9,7 @@ export default function ResponsiveContainer({ className, children }: ResponsiveC
   return (
     <div
       className={twMerge(
-        "bg-bg-main rounded-md border border-gray-200 sm:rounded-lg md:rounded-xl lg:rounded-[18px] xl:rounded-3xl",
+        "bg-bg-main border-border-main rounded-md border sm:rounded-lg md:rounded-xl lg:rounded-[18px] xl:rounded-3xl",
         className
       )}
     >

@@ -35,7 +35,7 @@ export default function ChartPie({
               innerRadius={`${innerRadius}%`}
               outerRadius="100%"
               paddingAngle={2}
-              stroke="#fff"
+              stroke="none"
             >
               {stats.map((data, index) => {
                 const fillColor = categoryColor[data.name];
@@ -53,7 +53,7 @@ export default function ChartPie({
           </PieChart>
         </RsponsiveContain>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-          <p className="text-xs text-gray-500">총</p>
+          <p className="text-text-title text-xs">총</p>
           <p className="text-lg font-bold">
             {totalPosts}
             {labelEndText}
