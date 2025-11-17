@@ -1,7 +1,7 @@
 "use client";
 
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { SearchBarProps, TopKeyword } from "@/types/search";
@@ -32,7 +32,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
           <Button
             variant={searchType === "post" ? "primary" : "secondary"}
             className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
-            onClick={() => route.push("/search/post")}
+            onClick={() => route.push(`/search/post?query=${query}`)}
           >
             <PanelsLeftBottomIcon size={12} />
             게시물 검색
@@ -40,7 +40,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
           <Button
             variant={searchType === "user" ? "primary" : "secondary"}
             className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
-            onClick={() => route.push("/search/user")}
+            onClick={() => route.push(`/search/user?query=${query}`)}
           >
             <User size={12} />
             사용자 검색
