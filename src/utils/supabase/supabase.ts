@@ -36,27 +36,30 @@ export type Database = {
       badge: {
         Row: {
           badge_image: string | null;
-          category_id: string;
+          category_id: string | null;
           desc: string;
           id: string;
           name: string;
           point: number | null;
+          type: string | null;
         };
         Insert: {
           badge_image?: string | null;
-          category_id: string;
+          category_id?: string | null;
           desc: string;
           id?: string;
           name: string;
           point?: number | null;
+          type?: string | null;
         };
         Update: {
           badge_image?: string | null;
-          category_id?: string;
+          category_id?: string | null;
           desc?: string;
           id?: string;
           name?: string;
           point?: number | null;
+          type?: string | null;
         };
         Relationships: [
           {
@@ -317,6 +320,7 @@ export type Database = {
           avatar_image: string | null;
           bio: string | null;
           created_at: string;
+          displayed_badge: string | null;
           email: string;
           exp: number | null;
           id: string;
@@ -328,6 +332,7 @@ export type Database = {
           avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
+          displayed_badge?: string | null;
           email: string;
           exp?: number | null;
           id: string;
@@ -339,6 +344,7 @@ export type Database = {
           avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
+          displayed_badge?: string | null;
           email?: string;
           exp?: number | null;
           id?: string;
@@ -470,9 +476,27 @@ export type Database = {
           keyword_count: number;
         }[];
       };
+      get_user_activity_category: {
+        Args: { p_user_id: string };
+        Returns: {
+          category_name: string;
+          comments_count: number;
+          posts_count: number;
+        }[];
+      };
       grant_badges_and_update_exp: {
         Args: { p_category_id: string; p_user_id: string };
         Returns: {
+          badge_name: string;
+          leveled_up: boolean;
+          new_exp: number;
+          new_level: number;
+        }[];
+      };
+      process_badges: {
+        Args: { p_action: string; p_category_id: string; p_user_id: string };
+        Returns: {
+          added_exp: number;
           badge_name: string;
           leveled_up: boolean;
           new_exp: number;

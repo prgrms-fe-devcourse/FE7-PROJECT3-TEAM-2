@@ -1,14 +1,23 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
+import MyActivityComponent from "./MyActivityComponent";
 import ChartCardTtile from "../ChartCardTtile";
 import ChartPie from "../ChartPie";
 import PieChartKey from "../PieChartKey";
 
-export default function MyRankComponent({ user }: { user: User }) {
+export default async function MyRankComponent({ user }: { user: User }) {
   const stats = [
     { name: "게임", value: 12951 },
     { name: "생활", value: 14120 },
   ];
+
+  const supabase = await createClient();
+  const { data: myActivityData, error: myActivityError } = await supabase.rpc("get_user_activity_category", {
+    p_user_id: user.id,
+  });
+
+  if (myActivityError) throw myActivityError;
 
   return (
     <div className="flex flex-col gap-3">
@@ -45,43 +54,7 @@ export default function MyRankComponent({ user }: { user: User }) {
       </ResponsiveContainer>
       <ResponsiveContainer className="min-h-0 w-full px-5 py-6">
         <ChartCardTtile title="활동" subTitle="게시글 수 / 훈수" />
-        <div className="mt-4 flex max-h-[400px] w-full flex-col gap-5 overflow-y-auto">
-          {Array.from({ length: 12 }, (_, index) => (
-            <div key={index}>
-              <div className="mb-2.5 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-gray-800 dark:text-white">게임</h3>
-              </div>
-              <div
-                className="flex h-4 w-full overflow-hidden rounded-full bg-none"
-                role="progressbar"
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              >
-                <div
-                  className="flex flex-col justify-center overflow-hidden rounded-full bg-blue-600 text-center text-xs whitespace-nowrap text-white transition duration-500"
-                  style={{ width: "45%" }}
-                >
-                  25개
-                </div>
-              </div>
-              <div
-                className="mt-1 flex h-4 w-full overflow-hidden rounded-full bg-none"
-                role="progressbar"
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              >
-                <div
-                  className="flex flex-col justify-center overflow-hidden rounded-full bg-blue-600 text-center text-xs whitespace-nowrap text-white transition duration-500"
-                  style={{ width: "25%" }}
-                >
-                  48개
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <MyActivityComponent stats={myActivityData} />
       </ResponsiveContainer>
     </div>
   );
