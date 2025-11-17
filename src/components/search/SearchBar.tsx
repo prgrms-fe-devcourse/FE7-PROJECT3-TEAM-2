@@ -1,7 +1,7 @@
 "use client";
 
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { SearchBarProps, TopKeyword } from "@/types/search";
@@ -30,17 +30,17 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
       <div className="flex w-full flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
         <div className="flex items-start gap-3">
           <Button
-            variant={searchType === "post" ? "primary" : "secondary"}
+            variant={searchType === "post" ? "primary" : "tertiary"}
             className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
-            onClick={() => route.push("/search/post")}
+            onClick={() => route.push(`/search/post?query=${query}`)}
           >
             <PanelsLeftBottomIcon size={12} />
             게시물 검색
           </Button>
           <Button
-            variant={searchType === "user" ? "primary" : "secondary"}
+            variant={searchType === "user" ? "primary" : "tertiary"}
             className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
-            onClick={() => route.push("/search/user")}
+            onClick={() => route.push(`/search/user?query=${query}`)}
           >
             <User size={12} />
             사용자 검색
