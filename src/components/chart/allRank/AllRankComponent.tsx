@@ -1,5 +1,6 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import AllRankCard from "./AllRankCard";
+import ChartCardTtile from "../ChartCardTtile";
 
 export default function AllRankComponent({ title, stats }: { title: string; stats: AllStatsType[] }) {
   const total = stats.reduce((acc, cur) => acc + cur.count, 0);
@@ -9,16 +10,15 @@ export default function AllRankComponent({ title, stats }: { title: string; stat
   }));
 
   return (
-    <ResponsiveContainer className="w-full px-6 py-7">
+    <ResponsiveContainer className="w-full px-5 py-6">
       {
         <div className="flex flex-col">
-          <div className="mb-6 flex flex-col gap-2">
-            <span className="text-text-title text-lg font-semibold">{title === "게시글" ? "게시글 수" : "훈수"}</span>
-            <span className="text-text-light text-xs font-semibold">
-              카테고리별 {title === "게시글" ? "게시글 수" : "훈수"}
-            </span>
-          </div>
-          <div className="md:w- mx-auto grid w-7/8 grid-cols-2 gap-5 sm:w-7/8 sm:grid-cols-2 md:grid-cols-2 lg:w-6/7 lg:grid-cols-3 xl:w-5/6 xl:grid-cols-4 2xl:w-4/5 2xl:grid-cols-5">
+          <ChartCardTtile
+            title={title === "게시글" ? "게시글 수" : "훈수"}
+            subTitle={`카테고리별 ${title === "게시글" ? "게시글 수" : "훈수"}`}
+          />
+
+          <div className="md:w- mx-auto mt-5 grid w-7/8 grid-cols-2 gap-5 sm:w-7/8 sm:grid-cols-2 md:grid-cols-2 lg:w-6/7 lg:grid-cols-3 xl:w-5/6 xl:grid-cols-4 2xl:w-4/5 2xl:grid-cols-5">
             <ResponsiveContainer className="bg-main col-span-1 p-6">
               <div className="mb-2 flex flex-col gap-1">
                 <div className="text-xs text-gray-200">전체 {title}</div>

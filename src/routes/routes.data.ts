@@ -57,6 +57,10 @@ export const navData: NavDataType[] = [
         label: "분야별 랭킹",
         pathname: "category-rank",
       },
+      {
+        label: "내 랭킹",
+        pathname: "my-rank",
+      },
     ],
   },
 ];

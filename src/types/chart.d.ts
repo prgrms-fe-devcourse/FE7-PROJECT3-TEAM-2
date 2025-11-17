@@ -40,6 +40,14 @@ type WeekPostDataType = {
   title: string;
 };
 
+type MyTypeDataType = {
+  total_point: number;
+  category_name: string;
+  posts_count: number;
+  comments_count: number;
+  badge_point: number | undefined;
+};
+
 interface categoryStatsType {
   avg_comments: number;
   category_id: string;
