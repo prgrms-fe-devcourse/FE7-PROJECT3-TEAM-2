@@ -36,11 +36,17 @@ const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm", {
 });
 
 export default function MessageBubble({
+  isLogin,
+  isMyPost,
   data,
+  postId,
   currentUserId,
   adoptedId,
 }: {
+  isLogin: boolean;
+  isMyPost: boolean;
   data: CommentDetailType;
+  postId: string;
   currentUserId: string;
   adoptedId: string;
 }) {
@@ -75,7 +81,7 @@ export default function MessageBubble({
                   <button
                     className="hover:text-main cursor-pointer"
                     onClick={async () => {
-                      await deleteComment(id);
+                      await deleteComment(currentUserId, id);
                     }}
                   >
                     삭제
@@ -90,16 +96,37 @@ export default function MessageBubble({
               </div>
             </div>
           )}
-
           <div className="comment-btns flex justify-end gap-2">
-            <CommentReactionBtn buttonType="like" reactions={reactions.like}>
+            <CommentReactionBtn
+              isLogin={isLogin}
+              isMine={isMine}
+              currentUserId={currentUserId}
+              commentId={id}
+              buttonType="like"
+              reactions={reactions.like}
+            >
               <ThumbsUp size={8} />
             </CommentReactionBtn>
-            <CommentReactionBtn buttonType="disLike" reactions={reactions.disLike}>
+            <CommentReactionBtn
+              isLogin={isLogin}
+              isMine={isMine}
+              currentUserId={currentUserId}
+              commentId={id}
+              buttonType="disLike"
+              reactions={reactions.disLike}
+            >
               <ThumbsDown size={8} />
             </CommentReactionBtn>
             {isAdopted && (
-              <CommentReactionBtn buttonType="adopt">
+              <CommentReactionBtn
+                isLogin={isLogin}
+                isMine={isMine}
+                isMyPost={isMyPost}
+                isAdopted={isAdopted}
+                currentUserId={currentUserId}
+                commentId={id}
+                buttonType="adopt"
+              >
                 <Stamp size={8} />
               </CommentReactionBtn>
             )}
@@ -130,17 +157,54 @@ export default function MessageBubble({
             <span className="text-text-sub text-[9px]">{formatDate(created_at)}</span>
           </div>
           <div className="comment-btns flex gap-2">
-            <CommentReactionBtn buttonType="like" reactions={reactions.like}>
+            <CommentReactionBtn
+              isLogin={isLogin}
+              isMine={isMine}
+              currentUserId={currentUserId}
+              commentId={id}
+              buttonType="like"
+              reactions={reactions.like}
+            >
               <ThumbsUp size={8} />
             </CommentReactionBtn>
-
-            <CommentReactionBtn buttonType="disLike" reactions={reactions.disLike}>
+            <CommentReactionBtn
+              isLogin={isLogin}
+              isMine={isMine}
+              currentUserId={currentUserId}
+              commentId={id}
+              buttonType="disLike"
+              reactions={reactions.disLike}
+            >
               <ThumbsDown size={8} />
             </CommentReactionBtn>
-            {isAdopted && (
-              <CommentReactionBtn buttonType="adopt">
+            {isAdopted ? (
+              <CommentReactionBtn
+                isLogin={isLogin}
+                isMine={isMine}
+                isMyPost={isMyPost}
+                isAdopted={isAdopted}
+                currentUserId={currentUserId}
+                postId={postId}
+                commentId={id}
+                buttonType="adopt"
+              >
                 <Stamp size={8} />
               </CommentReactionBtn>
+            ) : (
+              isMyPost && (
+                <CommentReactionBtn
+                  isLogin={isLogin}
+                  isMine={isMine}
+                  isMyPost={isMyPost}
+                  isAdopted={isAdopted}
+                  currentUserId={currentUserId}
+                  postId={postId}
+                  commentId={id}
+                  buttonType="adopt"
+                >
+                  <Stamp size={8} />
+                </CommentReactionBtn>
+              )
             )}
           </div>
         </div>

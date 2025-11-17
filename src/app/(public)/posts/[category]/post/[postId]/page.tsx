@@ -15,6 +15,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   const { postId } = await params;
   const commentData = await getComments(postId);
   const postData = await getDetailPost(postId);
+  const isMyPost = user ? postData?.user_id === user.id : false;
 
   async function writeComment(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -67,6 +68,8 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
         />
         <div className="flex h-full flex-col justify-between px-6 py-5">
           <CommentList
+            isLogin={!!user}
+            isMyPost={isMyPost}
             userId={user?.id ?? ""}
             postId={postId}
             commentData={commentData ?? []}
