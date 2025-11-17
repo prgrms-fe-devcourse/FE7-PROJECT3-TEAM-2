@@ -42,7 +42,7 @@ export default function AdoptStatsComponent({
                 />
                 <Bar dataKey="채택" stackId="a" radius={[0, 0, 8, 8]} activeBar={false}>
                   {stats.map((data, i) => {
-                    const fillColor = categoryColor[data.name as Category] ?? "#CCCCCC";
+                    const fillColor = categoryColor[data.name] ?? "#CCCCCC";
                     return <Cell key={`cell-${i}`} fill={fillColor} />;
                   })}
                 </Bar>

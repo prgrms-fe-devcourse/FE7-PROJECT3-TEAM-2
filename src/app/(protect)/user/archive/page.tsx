@@ -1,24 +1,5 @@
-import { ArrowDownWideNarrow } from "lucide-react";
-import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import { redirect } from "next/navigation";
 
 export default function page() {
-  return (
-    <div className="mt-6.5 w-full pb-5 text-xs">
-      <ResponsiveContainer className="flex gap-3 p-6 max-sm:justify-between max-sm:border-none sm:flex-col">
-        <div className="flex items-center gap-4">
-          <p className="border-main border-b py-1">내 게시물</p>
-          <p className="text-text-light">북마크</p>
-        </div>
-        <div className="relative flex">
-          <div className="flex items-center gap-2 rounded-full border border-gray-200 px-3 py-2 max-sm:border-none max-sm:p-0">
-            <ArrowDownWideNarrow size={12} />
-            <select className="outline-none">
-              <option>카테고리</option>
-              <option>작성일</option>
-            </select>
-          </div>
-        </div>
-      </ResponsiveContainer>
-    </div>
-  );
+  return redirect("archive/mypost?sort=all");
 }

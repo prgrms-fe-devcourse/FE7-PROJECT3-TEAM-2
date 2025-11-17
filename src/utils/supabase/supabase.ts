@@ -92,13 +92,6 @@ export type Database = {
             foreignKeyName: "bookmark_post_id_fkey";
             columns: ["post_id"];
             isOneToOne: false;
-            referencedRelation: "post_card";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "bookmark_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
             referencedRelation: "posts";
             referencedColumns: ["id"];
           },
@@ -194,13 +187,6 @@ export type Database = {
           user_id?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: "comments_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
-            referencedRelation: "post_card";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "comments_post_id_fkey";
             columns: ["post_id"];
@@ -400,29 +386,82 @@ export type Database = {
       };
     };
     Views: {
-      post_card: {
-        Row: {
-          adopted_comment_id: string | null;
-          category: Json | null;
-          content: string | null;
-          created_at: string | null;
-          id: string | null;
-          post_image: string | null;
-          profiles: Json | null;
-          title: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "posts_adopted_comment_id_fkey";
-            columns: ["adopted_comment_id"];
-            isOneToOne: false;
-            referencedRelation: "comments";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
+      [_ in never]: never;
     };
     Functions: {
+      get_category_full_statistics: {
+        Args: never;
+        Returns: {
+          adopted_posts: number;
+          avg_comments: number;
+          badge_counts: Json;
+          category_id: string;
+          category_name: string;
+          image_url: string;
+          percent_with_badge: number;
+          topkeywords: string[];
+          topusers: Json;
+          total_point: number;
+          total_posts: number;
+          total_users: number;
+          users_with_badge: number;
+        }[];
+      };
+      get_category_total_points: {
+        Args: never;
+        Returns: {
+          category_id: string;
+          name: string;
+          total_point: number;
+        }[];
+      };
+      get_detail_comment: {
+        Args: { p_comment_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_detail_comments: {
+        Args: { p_post_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_hot_comments_of_week: {
+        Args: never;
+        Returns: {
+          avatar_image: string;
+          category_type: string;
+          comment_id: string;
+          content: string;
+          dislike_count: number;
+          like_count: number;
+          name: string;
+          post_id: string;
+          user_id: string;
+        }[];
+      };
+      get_hot_posts_of_week: {
+        Args: never;
+        Returns: {
+          author_name: string;
+          category_name: string;
+          category_type: string;
+          post_id: string;
+          post_image: string;
+          title: string;
+        }[];
+      };
       get_top_keyword: {
         Args: never;
         Returns: {

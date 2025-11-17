@@ -24,29 +24,39 @@ const textVariants = cva(`text-text-main`, {
 interface CommentReactionBtnProps
   extends React.ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
-  text?: string;
+  reactions?: { count: number };
   className?: string;
 }
 
 export default function CommentReactionBtn({
   children,
   buttonType,
-  text,
+  reactions,
   className,
   ...props
 }: CommentReactionBtnProps) {
-  const isActive = !!text;
+  const isActive = !!reactions;
   return (
     <div className="flex">
-      {" "}
-      <button className={twMerge(buttonVariants(), isActive && buttonVariants({ buttonType }), className)} {...props}>
+      <button
+        className={twMerge(
+          buttonVariants(),
+          isActive || buttonType === "adopt" ? buttonVariants({ buttonType }) : "",
+          className
+        )}
+        {...props}
+      >
         {children}
       </button>
-      {text && (
-        <span className={twMerge("ml-1 text-[8px]", textVariants(), isActive && textVariants({ buttonType }))}>
-          {buttonType === "adopt" ? "채택" : text}
-        </span>
-      )}
+      <span
+        className={twMerge(
+          "ml-1 text-[8px]",
+          textVariants(),
+          isActive || buttonType === "adopt" ? textVariants({ buttonType }) : ""
+        )}
+      >
+        {buttonType === "adopt" ? "채택" : isActive && reactions.count}
+      </span>
     </div>
   );
 }

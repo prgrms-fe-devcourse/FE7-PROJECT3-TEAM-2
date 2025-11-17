@@ -6,11 +6,11 @@ import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { PostType } from "@/types";
+import { PostCardType } from "@/types";
+import { categoryColor } from "@/utils/category";
 import PostCardBookMark from "./PostCardBookMark";
-import { postCardSampleDataType } from "./PostSideBar";
 import Badge from "../common/Badge";
 
 const containerVariants = cva(
@@ -53,30 +53,35 @@ const titleVariants = cva("post-card-btn_title font-bold", {
 });
 
 interface PostCardButtonProps extends VariantProps<typeof containerVariants> {
-  data: postCardSampleDataType;
+  postData: PostCardType;
   className?: string;
 }
 
-export default function PostCardButton({ device, data, className }: PostCardButtonProps) {
-  const [isClicked, setIsClicked] = useState(false);
-  const { id, createdAt, name, title, categoryName, categoryType } = data;
+export default function PostCardButton({ device, postData, className }: PostCardButtonProps) {
+  const { category, created_at, id, profiles, title } = postData;
+  const color = categoryColor[category.name];
+  const path = usePathname().split("/");
+  const categoryType = path[2];
+  const postId = path[4];
+
   dayjs.extend(relativeTime);
   dayjs.locale("ko");
 
   return (
     <Link
       href={`/posts/${categoryType}/post/${id}`}
-      className={twMerge(containerVariants({ device }), className, isClicked && "bg-main-50")}
-      onClick={() => setIsClicked(prev => !prev)}
+      className={twMerge(containerVariants({ device }), postId === postData.id && "bg-main-50", className)}
     >
-      <div className="post-card-btn_info space-y-2.5">
+      <div className="post-card-btn_info space-y-2">
         <PostCardBookMark />
         <div className={userTextVariants({ device })}>
-          <span className="mr-2">{name}</span>
-          <span className="text-text-light">{dayjs(createdAt).fromNow()}</span>
+          <span className="mr-2">
+            {profiles?.name.length >= 10 ? profiles?.name.slice(0, 10) + "..." : profiles?.name}
+          </span>
+          <span className="text-text-light">{dayjs(created_at).fromNow()}</span>
         </div>
         <p className={titleVariants({ device })}>{title}</p>
-        <Badge size="xs" text={categoryName} className="bg-rose-400 text-white" />
+        <Badge size="xs" text={category?.name} style={{ backgroundColor: color, color: "#fff" }} />
       </div>
       <div className="post-card-btn_detail-btn text-text-sub my-auto w-4.5">
         <ChevronRight size={18} />

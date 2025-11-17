@@ -1,22 +1,9 @@
-import test from "@/assets/images/navbar/profile.png";
 import { categoryColor } from "@/utils/category";
 import CircleProfileImage from "../../common/image/CircleProfileImage";
 import ResponsiveContainer from "../../common/ResponsiveContainer";
 
-export default function AllRankCard({
-  category,
-  title,
-}: {
-  category: {
-    percent: string;
-    id: number;
-    name: string;
-    count: number;
-    image: string;
-  };
-  title: string;
-}) {
-  const fillColor = categoryColor[category.name as Category] ?? "#CCCCCC";
+export default function AllRankCard({ category, title }: { category: AllStatsCardType; title: string }) {
+  const fillColor = categoryColor[category.name] ?? "#CCCCCC";
   return (
     <ResponsiveContainer className="col-span-1 p-6">
       <div className="mb-2 flex flex-col gap-1">
@@ -30,7 +17,13 @@ export default function AllRankCard({
         <div className="text-text-title text-xs">{category.percent}%</div>
       </div>
       <div className="flex w-full justify-end">
-        <CircleProfileImage src={test} alt="test" rounded="full" size="lg" className="cursor-none" />
+        <CircleProfileImage
+          src={category.image || ""}
+          alt="category_img"
+          rounded="full"
+          size="lg"
+          className="cursor-auto"
+        />
       </div>
     </ResponsiveContainer>
   );

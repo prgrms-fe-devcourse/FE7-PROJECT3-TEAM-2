@@ -44,7 +44,7 @@ export default function PostForm({
   }, [state]);
 
   return (
-    <ResponsiveContainer className="post-form bg-bg-main relative flex h-full w-full flex-col overflow-y-scroll max-sm:border-none">
+    <ResponsiveContainer className="post-form bg-bg-main scrollbar-hide relative flex h-full w-full flex-col overflow-auto max-sm:border-none">
       <form action={formAction} className="flex flex-col justify-between gap-6 px-6 py-5">
         <div className="post-form_rows flex flex-col gap-4">
           <div className="flex flex-col gap-1">
