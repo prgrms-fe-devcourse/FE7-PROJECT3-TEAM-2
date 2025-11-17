@@ -30,7 +30,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
       <div className="flex w-full flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
         <div className="flex items-start gap-3">
           <Button
-            variant={searchType === "post" ? "primary" : "secondary"}
+            variant={searchType === "post" ? "primary" : "tertiary"}
             className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
             onClick={() => route.push(`/search/post?query=${query}`)}
           >
@@ -38,7 +38,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
             게시물 검색
           </Button>
           <Button
-            variant={searchType === "user" ? "primary" : "secondary"}
+            variant={searchType === "user" ? "primary" : "tertiary"}
             className="min-h-[30px] min-w-[98px] px-3 py-2 text-xs"
             onClick={() => route.push(`/search/user?query=${query}`)}
           >
