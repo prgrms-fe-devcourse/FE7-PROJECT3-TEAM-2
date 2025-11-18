@@ -2,7 +2,7 @@
 
 import dayjs from "dayjs";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { PostWithProfile } from "@/types/search";
 import { categoryColor } from "@/utils/category";
@@ -17,14 +17,17 @@ export default function ResultPosts({
   textHighlight?: (text: string) => string | React.ReactElement[];
 }) {
   const router = useRouter();
+  const path = usePathname().split("/");
+  const pathType = path[1];
+
   const handleClick = (id: string, category?: string) => {
     router.push(`/posts/${category}/post/${id}`);
   };
 
-  if (!searchData || searchData.length === 0)
+  if (pathType === "user" && (!searchData || searchData.length === 0))
     return <p className="flex justify-center py-3 text-sm">첫 훈수 요청을 해보세요.</p>;
 
-  return searchData.map(post => (
+  return searchData?.map(post => (
     <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex gap-2 text-xs">
