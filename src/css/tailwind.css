@@ -8,6 +8,11 @@
   --global-padding: 24px;
 }
 
+.recharts-surface,
+.recharts-wrapper {
+  outline: none !important;
+}
+
 @theme {
   /* 공통 색상 정의 */
   --color-main: #2b7fff;
