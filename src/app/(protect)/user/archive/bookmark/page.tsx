@@ -33,14 +33,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
   return (
     <>
       <div className="flex justify-end">
-        <div className="flex items-center gap-2 rounded-full border border-gray-200 px-3 py-2 max-sm:border-none max-sm:p-0">
+        <div className="border-border-main flex items-center gap-2 rounded-full border px-3 py-2 max-sm:border-none max-sm:p-0">
           <ArrowDownWideNarrow size={12} />
           <SortSelect sort={sort} />
         </div>
       </div>
       {flatPosts[0]?.id && (
         <div className="flex flex-col gap-2">
-          <ResultPosts data={flatPosts as PostWithProfile[]} />
+          <ResultPosts searchData={flatPosts as PostWithProfile[]} />
         </div>
       )}
     </>

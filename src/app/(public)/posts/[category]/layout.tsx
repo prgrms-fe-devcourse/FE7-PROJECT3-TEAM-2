@@ -21,7 +21,7 @@ export default async function CategoryLayout({
     <div className="posts-area flex h-full w-full gap-6 p-6 pt-0 max-sm:p-0">
       <PostSideBar userId={user?.id} postData={postData ?? []} />
       {children}
-      <ProfileSlide userId="123" />
+      <ProfileSlide />
     </div>
   );
 }

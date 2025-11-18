@@ -11,7 +11,7 @@ import ResponsiveContainer from "../common/ResponsiveContainer";
 type DisplayedBadgeProps = {
   action: (displayedBadgeList: (string | null)[]) => Promise<FormState>;
   displayedBadge: (BadgeType | null)[];
-  haveBadge: BadgeType[];
+  haveBadge: BadgeType[] | null;
 };
 export default function DisplayedBadge({ action, displayedBadge, haveBadge }: DisplayedBadgeProps) {
   const [modalStatus, setModalStatus] = useState(false);

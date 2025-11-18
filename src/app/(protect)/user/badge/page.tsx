@@ -1,4 +1,5 @@
 import { Book } from "lucide-react";
+import { redirect } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { Divider } from "@/components/common/Divider";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
@@ -18,7 +19,11 @@ export default async function page() {
     supabase.from("badge").select("*").eq("type", "basic").order("desc"),
   ]);
 
-  const userId = userData.user ? userData.user.id : null;
+  if (!userData.user?.id) {
+    redirect("/");
+  }
+
+  const userId = userData.user?.id;
   const badgeCategory: CategoryType[] | null = badgeCategoryData ?? null;
   const basicBadgeList = basicBadgeListData ?? null;
 
@@ -42,9 +47,7 @@ export default async function page() {
   //카테고리 뱃지 리스트, 내가 가진 뱃지, 프로필 데이터 패칭
   const [categoryBadgeListData, { data: haveBadgeData }, { data: displayedBadgeListData }] = await Promise.all([
     getCategoryBadgeList(),
-    userId
-      ? supabase.from("user_badge").select("*, badge(*)").eq("user_id", userId)
-      : Promise.resolve({ data: [] as { badge_id: string }[] }),
+    supabase.from("user_badge").select("*, badge(*)").eq("user_id", userId),
     supabase
       .from("displayed_badge")
       .select(
@@ -65,7 +68,8 @@ export default async function page() {
   ];
 
   const categoryBadgeList = categoryBadgeListData ?? {};
-  const flatHaveBadge = (haveBadgeData ?? []).reduce<string[]>((arr, b) => [...arr, b.badge_id], []);
+  const flatHaveBadgeList = (haveBadgeData ?? []).reduce<string[]>((arr, b) => [...arr, b.badge_id], []);
+  const flatHaveBadge = (haveBadgeData ?? []).reduce<BadgeType[]>((arr, b) => [...arr, b.badge], []);
 
   async function updateDisplayBadgeAction(displayedBadgeList: (string | null)[]) {
     "use server";
@@ -85,11 +89,7 @@ export default async function page() {
 
   return (
     <div className="mt-6.5 flex w-full flex-col gap-3.5 text-xs">
-      <DisplayedBadge
-        action={updateDisplayBadgeAction}
-        displayedBadge={displayedBadgeList}
-        haveBadge={(haveBadgeData ?? []).reduce((list, b) => [...list, b.badge], [])}
-      />
+      <DisplayedBadge action={updateDisplayBadgeAction} displayedBadge={displayedBadgeList} haveBadge={flatHaveBadge} />
       <ResponsiveContainer className="flex-1 p-6 max-sm:border-none max-sm:px-0">
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-1">
@@ -105,7 +105,7 @@ export default async function page() {
                   <BadgeDetail
                     key={b.id}
                     badgeData={b}
-                    className={twMerge("shrink-0 snap-start", !flatHaveBadge.includes(b.id) && "opacity-50")}
+                    className={twMerge("shrink-0 snap-start", !flatHaveBadgeList.includes(b.id) && "opacity-50")}
                   />
                 ))}
               </div>
@@ -121,7 +121,7 @@ export default async function page() {
                     <BadgeDetail
                       key={b.id}
                       badgeData={b}
-                      className={twMerge("shrink-0 snap-start", !flatHaveBadge.includes(b.id) && "opacity-50")}
+                      className={twMerge("shrink-0 snap-start", !flatHaveBadgeList.includes(b.id) && "opacity-50")}
                     />
                   ))}
                 </div>

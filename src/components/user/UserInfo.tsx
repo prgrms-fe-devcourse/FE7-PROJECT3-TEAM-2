@@ -31,7 +31,7 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
         </div>
         <div className="flex flex-col gap-6 text-xs">
           <p className="text-text-light">개인정보</p>
-          <div className="flex flex-wrap gap-56 max-lg:flex-col max-lg:gap-16 max-sm:gap-8">
+          <div className="flex flex-wrap gap-56 max-[1517px]:gap-16 max-lg:flex-col max-sm:gap-8">
             <div>
               <p className="text-text-sub mb-3">이메일</p>
               <p>{profile?.email}</p>

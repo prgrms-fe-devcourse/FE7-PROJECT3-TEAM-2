@@ -13,7 +13,7 @@ type DisplayedBadgeModalFormProps = {
   setModal: () => void;
   action: (displayedBadgeList: (string | null)[]) => Promise<FormState>;
   displayedBadge: (BadgeType | null)[];
-  haveBadge: BadgeType[];
+  haveBadge: BadgeType[] | null;
 };
 export default function DisplayedBadgeModal({
   setModal,
@@ -42,12 +42,12 @@ export default function DisplayedBadgeModal({
     const displayedBadgeId: (string | null)[] = displayedBadgeList.map(b => b?.id ?? null);
     const res = await action(displayedBadgeId);
     if (res.success) {
-      Toast({ message: "성공적으로 업데이트", type: "SUCCESS" });
+      Toast({ message: "대표 뱃지 업데이트를 성공했습니다.", type: "SUCCESS" });
       setIsPending(false);
       setModal();
       router.replace("/user/badge");
     } else {
-      Toast({ message: "실패했습니다", type: "ERROR" });
+      Toast({ message: "대표 뱃지 업데이트를 실패했습니다", type: "ERROR" });
       setIsPending(false);
     }
     return res;
@@ -113,13 +113,13 @@ export default function DisplayedBadgeModal({
             </div>
             <div className="flex justify-center">
               <div className="flex flex-wrap justify-center gap-20 max-lg:gap-16 max-sm:max-w-full max-sm:gap-6">
-                {!haveBadge || haveBadge.length === 0
-                  ? [...Array(4)].map((_, i) => <BadgeDetail key={i} badgeData={null} />)
-                  : haveBadge.map((b, i) => (
-                      <div key={b?.id ?? i} onClick={() => handleSelect(b)}>
-                        <BadgeDetail badgeData={b} type="update" />
-                      </div>
-                    ))}
+                {haveBadge &&
+                  haveBadge.length > 0 &&
+                  haveBadge.map((b, i) => (
+                    <div key={b?.id ?? i} onClick={() => handleSelect(b)}>
+                      <BadgeDetail badgeData={b} type="update" />
+                    </div>
+                  ))}
               </div>
             </div>
 

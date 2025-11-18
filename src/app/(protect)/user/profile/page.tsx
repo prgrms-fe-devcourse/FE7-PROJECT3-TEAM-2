@@ -1,11 +1,9 @@
-import { ActivityIcon, ArrowRightToLineIcon, Award, ChartLine, UserRound } from "lucide-react";
+import { ActivityIcon, ArrowRightToLineIcon, Award, UserRound } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Divider } from "@/components/common/Divider";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import BadgeDetail from "@/components/user/BadgeDetail";
-// import BadgeDetail from "@/components/user/BadgeDetail";
-import CategoryRanking from "@/components/user/CategoryRanking";
 import UserInfo from "@/components/user/UserInfo";
 import { updateProfile } from "@/services/profile/updateProfile";
 import { BadgeType, FormState } from "@/types";
@@ -118,6 +116,12 @@ export default async function page() {
         error: "올바른 전화번호를 입력해주세요.",
       };
     }
+    if (bio.length > 50) {
+      return {
+        success: false,
+        error: "50자 이내로 작성해주세요.",
+      };
+    }
     if (!avatarImage || avatarImage.size === 0) {
       return updateProfile(user.id, name, email, phoneNumber, bio);
     }
@@ -136,11 +140,11 @@ export default async function page() {
               <p>연결 관리</p>
             </div>
             <div className="flex justify-center gap-6">
-              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
+              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2">
                 <p>팔로잉</p>
                 <p className="text-base">{followCount}</p>
               </div>
-              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
+              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2">
                 <p>팔로워</p>
                 <p className="text-base">{followerCount}</p>
               </div>
@@ -194,7 +198,7 @@ export default async function page() {
           </div>
         </ResponsiveContainer>
       </div>
-      <ResponsiveContainer className="flex-1 p-6 max-sm:rounded-3xl">
+      {/* <ResponsiveContainer className="flex-1 p-6 max-sm:rounded-3xl">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-1">
             <ChartLine size={12} />
@@ -210,7 +214,7 @@ export default async function page() {
             모든 랭킹 보기
           </Link>
         </div>
-      </ResponsiveContainer>
+      </ResponsiveContainer> */}
     </div>
   );
 }
