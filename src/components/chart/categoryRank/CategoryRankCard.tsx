@@ -91,9 +91,9 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
             <AdoptRatioChart label="사용자별 뱃지" percentage={getBadgePercent} color={color} />
           </div>
         </div>
-        <div className="flex flex-col gap-1.5">
+        <div className="flex min-w-[150px] flex-col gap-1.5">
           <div className="text-text-title text-[15px] font-semibold">업적별 뱃지</div>
-          <div className="h-[100px]">
+          <div className="h-[120px]">
             {!badgeCountStat && (
               <Badge size="md" className="bg-text-sub text-bg-main px-2 py-1 font-semibold" text="지표가 부족합니다" />
             )}

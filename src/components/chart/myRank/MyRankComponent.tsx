@@ -23,10 +23,7 @@ export default async function MyRankComponent({ user }: { user: User }) {
     const { category_name, posts_count, comments_count } = item;
     const categoryBadge = myBadgePoint.find(c => c.category_name, item.category_name);
     const total_point =
-      (posts_count || 1) *
-      (comments_count || 1) *
-      (categoryBadge?.badge_points ? categoryBadge?.badge_points * 0.01 : 1) *
-      10;
+      posts_count * 10 + comments_count * 10 + (categoryBadge?.badge_points ? categoryBadge?.badge_points * 0.01 : 0);
 
     return { total_point, category_name, posts_count, comments_count, badge_point: categoryBadge?.badge_points };
   });

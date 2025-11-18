@@ -44,7 +44,7 @@ const renderLabel = ({
 
 export default function ChartFillPie({ stats }: { stats: BagdeCountType[] }) {
   return (
-    <div className="relative h-[120px] w-[120px] min-w-0">
+    <div className="relative h-full min-h-[120px] w-full min-w-0">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width={120} height={120}>
           <Pie
