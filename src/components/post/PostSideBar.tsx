@@ -1,9 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { getFollowingUserId } from "@/services/user/follow";
 import { PostCardType } from "@/types";
 import PostSideButton from "./PostSideButton";
+import type { PostFilterType } from "./PostSideButton";
 import PostSideList from "./PostSideList";
 
 export interface postCardSampleDataType {
@@ -15,9 +18,23 @@ export interface postCardSampleDataType {
   categoryType: string;
 }
 
-export default function PostSideBar({ isLogin, postData }: { isLogin: boolean; postData: PostCardType[] }) {
+export default function PostSideBar({ userId, postData }: { userId: string | undefined; postData: PostCardType[] }) {
   const currentPath = usePathname().split("/");
   const isPostDetail = currentPath.length > 3;
+  const [filter, setFilter] = useState<PostFilterType>("all");
+  const [followers, setFollowers] = useState<string[]>([]);
+  const filteredPosts = filter === "all" ? postData : postData.filter(post => followers.includes(post.user_id));
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchFollowing = async () => {
+      const ids = await getFollowingUserId(userId);
+      setFollowers(ids);
+    };
+
+    fetchFollowing();
+  }, [userId]);
 
   return (
     <div
@@ -26,8 +43,8 @@ export default function PostSideBar({ isLogin, postData }: { isLogin: boolean; p
         isPostDetail && "max-[1100px]:hidden"
       )}
     >
-      <PostSideButton isLogin={isLogin} />
-      <PostSideList postData={postData} />
+      <PostSideButton isLogin={!!userId} onChangeFilter={f => setFilter(f)} />
+      <PostSideList postData={filteredPosts} />
     </div>
   );
 }
