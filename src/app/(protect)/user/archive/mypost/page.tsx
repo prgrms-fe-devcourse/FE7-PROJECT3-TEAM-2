@@ -32,7 +32,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <ResultPosts data={posts as PostWithProfile[]} />
+        <ResultPosts searchData={posts as PostWithProfile[]} />
       </div>
     </>
   );

@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
       </div>
       {flatPosts[0]?.id && (
         <div className="flex flex-col gap-2">
-          <ResultPosts data={flatPosts as PostWithProfile[]} />
+          <ResultPosts searchData={flatPosts as PostWithProfile[]} />
         </div>
       )}
     </>
