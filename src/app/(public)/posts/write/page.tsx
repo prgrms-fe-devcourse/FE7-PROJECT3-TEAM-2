@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import Toast from "@/components/common/toast/Toast";
 import PostForm from "@/components/post/PostForm";
-import { createPost, updatePost } from "@/services/post.server";
+import { createPost, updatePost } from "@/services/post/post.server";
 import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 

@@ -10,7 +10,6 @@ import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { PostCardType } from "@/types";
 import { categoryColor } from "@/utils/category";
-import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 
 const containerVariants = cva(

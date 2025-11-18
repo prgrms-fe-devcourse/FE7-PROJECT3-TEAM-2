@@ -9,7 +9,7 @@ import {
   deleteReaction,
   hasAdoptedComment,
   selectReaction,
-} from "@/services/comment.client";
+} from "@/services/comment/comment.client";
 import Toast from "../common/toast/Toast";
 
 const buttonVariants = cva(

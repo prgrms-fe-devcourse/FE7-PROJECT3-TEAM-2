@@ -2,8 +2,8 @@ import CommentForm from "@/components/comment/CommentForm";
 import CommentList from "@/components/comment/CommentList";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import PostCard from "@/components/post/PostCard";
-import { createComment, getComments } from "@/services/comment.server";
-import { getDetailPost } from "@/services/post.server";
+import { createComment, getComments } from "@/services/comment/comment.server";
+import { getDetailPost } from "@/services/post/post.server";
 import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
