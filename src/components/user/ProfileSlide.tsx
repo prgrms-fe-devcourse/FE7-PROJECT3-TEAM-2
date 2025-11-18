@@ -18,7 +18,7 @@ export default function ProfileSlide() {
   const currentPath = usePathname();
   const isOpen = search.get("user");
 
-  const [profileData, setProfileData] = useState<ProfileType>();
+  const [profileData, setProfileData] = useState<ProfileType | null>();
   const [followCnt, setFollowCnt] = useState(0);
   const [followerCnt, setFollowerCnt] = useState(0);
   const [postCnt, setPostCnt] = useState(0);
@@ -53,7 +53,7 @@ export default function ProfileSlide() {
             .eq("user_id", isOpen)
             .maybeSingle(),
         ]);
-        setProfileData(profileData ?? 0);
+        setProfileData(profileData ?? null);
         setFollowCnt(followCnt ?? 0);
         setFollowerCnt(followerCnt ?? 0);
         setPostCnt(postCnt ?? 0);
