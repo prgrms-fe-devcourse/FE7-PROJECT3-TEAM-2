@@ -8,6 +8,7 @@ import { CategoryType, FormState, PostType } from "@/types";
 import CategoryDropdown from "./CategoryDropdown";
 import { Button } from "../common/Button";
 import ResponsiveContainer from "../common/ResponsiveContainer";
+import Toast from "../common/toast/Toast";
 
 export default function PostForm({
   categorys,
@@ -40,13 +41,13 @@ export default function PostForm({
 
   useEffect(() => {
     if (state.error) {
-      alert(state.error);
+      Toast({ message: state.error, type: "ERROR" });
     } else if (state.success && !state.error) {
       if (postData) {
-        alert("게시글이 성공적으로 수정되었습니다.");
+        Toast({ message: "게시글이 성공적으로 수정되었습니다.", type: "SUCCESS" });
         redirect(`/posts/${categoryType}/post/${postData.id}`);
       } else {
-        alert("게시글이 성공적으로 등록되었습니다.");
+        Toast({ message: "게시글이 성공적으로 등록되었습니다.", type: "SUCCESS" });
         redirect("/posts");
       }
     }

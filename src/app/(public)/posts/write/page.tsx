@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import Toast from "@/components/common/toast/Toast";
 import PostForm from "@/components/post/PostForm";
 import { createPost, updatePost } from "@/services/post.server";
 import { FormState } from "@/types";
@@ -17,7 +18,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
   } = await supabase.auth.getUser();
 
   if (!user) {
-    alert("로그인이 필요한 기능입니다.");
+    Toast({ message: "로그인이 필요한 기능입니다.", type: "ERROR" });
     redirect("/login");
   }
 

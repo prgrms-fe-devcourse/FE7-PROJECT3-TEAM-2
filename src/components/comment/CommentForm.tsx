@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { FormState } from "@/types";
+import Toast from "../common/toast/Toast";
 
 export default function CommentForm({
   action,
@@ -15,7 +16,7 @@ export default function CommentForm({
 
   useEffect(() => {
     if (state.error) {
-      alert(state.error);
+      Toast({ message: state.error, type: "ERROR" });
     }
   }, [state]);
 
