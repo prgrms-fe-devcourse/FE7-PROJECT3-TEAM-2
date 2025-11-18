@@ -1,7 +1,6 @@
 import { ArrowDownWideNarrow } from "lucide-react";
-import ResultPosts from "@/components/search/ResultPosts";
+import ArchiveResult from "@/components/user/ArchiveResult";
 import SortSelect from "@/components/user/SortSelect";
-import { PostWithProfile } from "@/types/search";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ sort: string }> }) {
@@ -15,11 +14,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
 
   let data = supabase
     .from("posts")
-    .select("*, category(type), profiles(name)")
+    .select("*, category(type,name), profiles(name)")
     .eq("user_id", user?.id ?? "")
     .order("created_at", { ascending: false });
 
-  if (category && sort !== "all") {
+  if (category?.id && sort !== "all") {
     data = data.eq("category_id", category.id);
   }
   const { data: posts } = await data;
@@ -31,9 +30,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           <SortSelect sort={sort} />
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <ResultPosts searchData={posts as PostWithProfile[]} />
-      </div>
+      <ArchiveResult posts={posts ?? []} />
     </>
   );
 }
