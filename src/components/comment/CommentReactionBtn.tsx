@@ -10,6 +10,7 @@ import {
   hasAdoptedComment,
   selectReaction,
 } from "@/services/comment.client";
+import Toast from "../common/toast/Toast";
 
 const buttonVariants = cva(
   `flex items-center justify-center rounded-xs bg-gray-300 p-0.5 text-gray-500 cursor-pointer`,
@@ -85,17 +86,18 @@ export default function CommentReactionBtn({
 
   const handleAdopt = async () => {
     if (!isLogin) {
-      alert("로그인이 필요한 기능입니다.");
+      Toast({ message: "로그인이 필요한 기능입니다.", type: "ERROR" });
       return;
     }
 
     if (!isMyPost) {
-      alert("자신이 올린 게시물의 훈수만 채택할 수 있습니다.");
+      Toast({ message: "자신이 올린 게시물의 훈수만 채택할 수 있습니다.", type: "ERROR" });
       return;
     }
 
     if (isMine) {
-      alert("자신의 훈수는 채택할 수 없습니다.");
+      Toast({ message: "자신의 훈수는 채택할 수 없습니다.", type: "ERROR" });
+
       return;
     }
 
@@ -112,7 +114,7 @@ export default function CommentReactionBtn({
       }
     } else {
       if (data?.adopted_comment_id !== commentId) {
-        alert("이미 채택한 훈수가 있습니다.");
+        Toast({ message: "이미 채택한 훈수가 있습니다.", type: "ERROR" });
         return;
       }
 
@@ -131,11 +133,11 @@ export default function CommentReactionBtn({
 
   const handleReaction = async (type: string) => {
     if (!isLogin) {
-      alert("로그인이 필요한 기능입니다.");
+      Toast({ message: "로그인이 필요한 기능입니다.", type: "ERROR" });
       return;
     }
     if (isMine) {
-      alert("자신의 댓글에는 반응을 남길 수 없습니다.");
+      Toast({ message: "자신의 댓글에는 반응을 남길 수 없습니다.", type: "ERROR" });
       return;
     }
 
@@ -160,7 +162,7 @@ export default function CommentReactionBtn({
     } else {
       // 반응 있을 경우
       if (data[0].type !== type) {
-        alert("좋아요 또는 싫어요 중 하나의 반응만 추가할 수 있습니다.");
+        Toast({ message: "좋아요 또는 싫어요 중 하나의 반응만 추가할 수 있습니다.", type: "ERROR" });
         return;
       }
       setCount(prev => prev - 1);

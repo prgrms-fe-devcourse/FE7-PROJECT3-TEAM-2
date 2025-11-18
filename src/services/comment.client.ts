@@ -6,8 +6,8 @@ export async function deleteComment(userId: string, commentId: string) {
   const supabase = createClient();
   const { error } = await supabase.from("comments").delete().eq("id", commentId).eq("user_id", userId);
   if (error) {
-    console.log("댓글 삭제 에러");
-  } else console.log("댓글 삭제 완료");
+    console.error("댓글 삭제 에러");
+  }
 }
 
 export async function selectReaction(userId: string, commentId: string) {
