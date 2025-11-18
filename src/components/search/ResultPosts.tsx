@@ -21,8 +21,7 @@ export default function ResultPosts({
     router.push(`/posts/${category}/post/${id}`);
   };
 
-  if (!searchData || searchData.length === 0)
-    return <p className="flex justify-center py-3 text-sm">첫 훈수 요청을 해보세요.</p>;
+  if (!searchData || searchData.length === 0) return;
 
   return searchData.map(post => (
     <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>

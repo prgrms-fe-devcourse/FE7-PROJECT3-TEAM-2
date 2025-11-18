@@ -38,10 +38,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           <SortSelect sort={sort} />
         </div>
       </div>
-      {flatPosts[0]?.id && (
+      {flatPosts[0]?.id ? (
         <div className="flex flex-col gap-2">
           <ResultPosts searchData={flatPosts as PostWithProfile[]} />
         </div>
+      ) : (
+        <p className="text-text-light flex justify-center py-3 text-sm">도움이 된 훈수를 모아보세요.</p>
       )}
     </>
   );
