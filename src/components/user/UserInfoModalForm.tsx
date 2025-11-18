@@ -6,6 +6,7 @@ import { useActionState, useEffect, useState } from "react";
 import { FormState, ProfileType } from "@/types";
 import { Button } from "../common/Button";
 import CircleProfileImage from "../common/image/CircleProfileImage";
+import Toast from "../common/toast/Toast";
 
 type UserInfoModalFormProps = {
   profile: ProfileType | null;
@@ -20,16 +21,16 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
   useEffect(() => {
     document.body.style.overflow = "hidden";
     if (state.error) {
-      alert(state.error);
+      Toast({ message: String(state.error), type: "ERROR" });
     } else if (state.success && !state.error) {
-      alert("프로필이 성공적으로 업데이트 되었습니다.");
+      Toast({ message: "프로필이 성공적으로 업데이트 되었습니다.", type: "SUCCESS" });
       setModal();
       router.push("/user/profile");
     }
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [setModal, router, state.error, state.success]);
+  }, [setModal, router, state]);
 
   //모달 내부는 클릭해도 사라지지 않게
   const preventOffModal = (event: React.MouseEvent) => {
@@ -41,12 +42,12 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
     if (!file || file.size === 0) return;
 
     if (file.size > 1024 * 1024) {
-      alert("이미지 파일은 1MB 이하만 업로드 가능합니다.");
+      Toast({ message: "이미지 파일은 1MB 이하만 업로드 가능합니다.", type: "ERROR" });
       return;
     }
 
     if (!file.type.startsWith("image/")) {
-      alert("이미지 파일만 업로드할 수 있습니다.");
+      Toast({ message: "이미지 파일만 업로드할 수 있습니다.", type: "ERROR" });
       return;
     }
 

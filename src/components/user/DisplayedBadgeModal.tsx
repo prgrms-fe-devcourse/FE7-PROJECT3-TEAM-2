@@ -42,12 +42,12 @@ export default function DisplayedBadgeModal({
     const displayedBadgeId: (string | null)[] = displayedBadgeList.map(b => b?.id ?? null);
     const res = await action(displayedBadgeId);
     if (res.success) {
-      Toast({ message: "성공적으로 업데이트", type: "SUCCESS" });
+      Toast({ message: "대표 뱃지 업데이트를 성공했습니다.", type: "SUCCESS" });
       setIsPending(false);
       setModal();
       router.replace("/user/badge");
     } else {
-      Toast({ message: "실패했습니다", type: "ERROR" });
+      Toast({ message: "대표 뱃지 업데이트를 실패했습니다", type: "ERROR" });
       setIsPending(false);
     }
     return res;
