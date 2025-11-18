@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 const BadgeVariants = cva("w-max h-max rounded-sm", {
   variants: {
     size: {
-      xs: "text-[8px] px-1.5 py-[3.5px]",
+      xs: "text-xs px-1.5 py-[3.5px]",
       sm: "text-xs px-1.5 py-[3.5px] ",
       md: "text-sm px-2 py-[4.5px] ",
       lg: "text-base px-[14.5px] py-[9px] ",

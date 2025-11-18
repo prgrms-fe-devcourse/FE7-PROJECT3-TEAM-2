@@ -7,7 +7,7 @@ export default function PostSideList({ postData }: { postData: PostCardType[] })
   return (
     <ResponsiveContainer
       className={twMerge(
-        "scrollbar-hide flex w-full flex-col gap-3 overflow-y-scroll px-3 py-4.5",
+        "scrollbar-hide flex w-full flex-col gap-4 overflow-y-scroll px-3 py-4.5",
         postData.length === 0 && "flex h-full items-center justify-center"
       )}
     >
