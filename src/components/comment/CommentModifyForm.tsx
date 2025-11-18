@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { updateContent } from "@/services/comment.server";
+import { updateContent } from "@/services/comment/comment.server";
 
 export function CommentModifyForm({
   handleUpdate,

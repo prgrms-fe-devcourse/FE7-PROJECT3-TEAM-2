@@ -10,7 +10,6 @@ import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { PostCardType } from "@/types";
 import { categoryColor } from "@/utils/category";
-import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 
 const containerVariants = cva(
@@ -27,18 +26,6 @@ const containerVariants = cva(
     },
   }
 );
-
-const userTextVariants = cva("post-card-btn_user flex justify-start items-center", {
-  variants: {
-    device: {
-      pc: "text-xs",
-      mobile: "text-[8px]",
-    },
-  },
-  defaultVariants: {
-    device: "pc",
-  },
-});
 
 const titleVariants = cva("post-card-btn_title font-bold", {
   variants: {
@@ -77,8 +64,7 @@ export default function PostCardButton({ device, postData, className }: PostCard
       )}
     >
       <div className="post-card-btn_info space-y-2">
-        <PostCardBookMark />
-        <div className={userTextVariants({ device })}>
+        <div className="post-card-btn_user flex items-center justify-start text-xs">
           <span className="mr-2">
             {profiles?.name.length >= 10 ? profiles?.name.slice(0, 10) + "..." : profiles?.name}
           </span>

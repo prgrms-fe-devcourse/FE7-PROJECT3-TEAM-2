@@ -1,15 +1,17 @@
 "use client";
 
 import { cva, VariantProps } from "class-variance-authority";
-import { BookMarked, ChevronLeft, MessageSquareMore } from "lucide-react";
+import { Bookmark, ChevronLeft, MessageSquareMore } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect, usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { deletePost } from "@/services/post.client";
+import { getBookmarkCount } from "@/services/post/bookmark";
+import { deletePost } from "@/services/post/post.client";
 import { PostDetailType } from "@/types";
+import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 import BaseImage from "../common/image/BaseImage";
 
@@ -39,6 +41,20 @@ export default function PostCard({ userId, device, postData, commentCount, class
   const router = useRouter();
   const currentPath = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [bookmarkCount, setBookmarkCount] = useState(0);
+
+  const handleBookmarkCount = (count: number) => {
+    setBookmarkCount(prev => prev + count);
+  };
+
+  useEffect(() => {
+    const loadBookmarkCount = async () => {
+      const count = await getBookmarkCount(postData?.id ?? "");
+      setBookmarkCount(count ?? 0);
+    };
+    loadBookmarkCount();
+  }, []);
+
   if (postData) {
     const { content, post_image, profiles, title } = postData;
     return (
@@ -79,9 +95,13 @@ export default function PostCard({ userId, device, postData, commentCount, class
               <span className="mr-2 ml-5 text-xs">{profiles.name}</span>
               <Badge size="sm" text="칭호칭호" className="bg-gray-200 text-black" />
             </div>
-            <button className="hover:bg-main-50 flex h-max cursor-pointer items-center justify-center rounded-lg p-2">
-              <span className="text-main text-[8px]">팔로우</span>
-            </button>
+            <div className="flex gap-2">
+              {" "}
+              <button className="hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2">
+                <span className="text-main text-xs">팔로우</span>
+              </button>
+              <PostCardBookMark postId={postData.id} userId={userId} handleBookmarkCount={handleBookmarkCount} />
+            </div>
           </div>
           <div className="post-card_detail flex flex-col gap-3">
             <p className="post-card_post-title text-text-title text-base font-bold">{title}</p>
@@ -102,8 +122,8 @@ export default function PostCard({ userId, device, postData, commentCount, class
                   <span className="ml-2 text-xs">{commentCount}</span>
                 </div>
                 <div className="post-card_share flex items-center justify-center">
-                  <BookMarked size={12} />
-                  <span className="ml-2 text-xs">1</span>
+                  <Bookmark size={12} />
+                  <span className="ml-2 text-xs">{bookmarkCount}</span>
                 </div>
               </div>
               {userId === postData.user_id && (

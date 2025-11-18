@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority";
 import { Stamp, ThumbsDown, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { deleteComment } from "@/services/comment.client";
+import { deleteComment } from "@/services/comment/comment.client";
 import { CommentDetailType } from "@/types";
 import formatDate from "@/utils/formatDate";
 import { CommentModifyForm } from "./CommentModifyForm";
