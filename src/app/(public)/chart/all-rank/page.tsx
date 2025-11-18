@@ -11,15 +11,20 @@ export default async function page() {
     { data: categoryData, error: categoryError },
     { data: weekCommentData, error: weekCommentError },
     { data: weekPostData, error: weekPostError },
+    { data: bookmarkData, error: bookmarkError },
   ] = await Promise.all([
     supabase.from("category").select("*, posts(*, comments:comments_post_id_fkey(*))"),
     supabase.rpc("get_hot_comments_of_week"),
     supabase.rpc("get_hot_posts_of_week"),
+    supabase.from("bookmark").select("*,posts(category_id,category(*))"),
   ]);
+
+  const map = new Map<string, number>();
 
   if (categoryError) throw categoryError;
   if (weekCommentError) throw weekCommentError;
   if (weekPostError) throw weekPostError;
+  if (bookmarkError) throw bookmarkError;
 
   const postStats = categoryData.map(item => {
     return { id: item.id, name: item.name, count: item.posts.length, image: item.image_url };
@@ -28,6 +33,15 @@ export default async function page() {
     const count = item.posts.reduce((acc, cur) => acc + (cur.comments?.length || 0), 0);
     return { id: item.id, name: item.name, count, image: item.image_url };
   });
+
+  for (const item of bookmarkData) {
+    const name = item.posts.category.name;
+    map.set(name, (map.get(name) ?? 0) + 1);
+  }
+  const bookmarkStats = Array.from(map, ([name, value]) => ({
+    name,
+    value,
+  }));
 
   const adoptStats = [
     { name: "연애", 훈수: 100, 채택: 50 },
@@ -43,24 +57,10 @@ export default async function page() {
     { name: "여행", 훈수: 100, 채택: 37 },
   ];
 
-  const categoryData2 = [
-    { name: "연애", value: 25 },
-    { name: "기술/IT", value: 18 },
-    { name: "제테크/소비", value: 10 },
-    { name: "음식/요리", value: 9 },
-    { name: "생활", value: 8 },
-    { name: "게임", value: 7 },
-    { name: "일상/고민", value: 6 },
-    { name: "패션", value: 5 },
-    { name: "운동", value: 4 },
-    { name: "공부/자기계발", value: 8 },
-    { name: "여행", value: 5 },
-  ];
-
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2">
-        <BookmarkStatsComponent stats={categoryData2} />
+        <BookmarkStatsComponent stats={bookmarkStats} />
         <WeeklyCommentComponent stats={weekCommentData} />
       </div>
       <WeeklyPostComponent stats={weekPostData} />
