@@ -1,5 +1,6 @@
 "use client";
 
+import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -20,22 +21,20 @@ export default function ResultPosts({
     router.push(`/posts/${category}/post/${id}`);
   };
 
-  if (searchData === null) return <p className="flex justify-center py-3 text-sm">첫 훈수 요청을 해보세요</p>;
+  if (!searchData || searchData.length === 0)
+    return <p className="flex justify-center py-3 text-sm">첫 훈수 요청을 해보세요.</p>;
 
-  return (
-    searchData &&
-    searchData.map(post => (
-      <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
-        <div className="flex flex-col gap-6 p-6">
-          <div className="flex gap-2 text-xs">
-            <p>{post.profiles?.name}</p>
-            <p className="text-text-light">{post.created_at}</p>
+  return searchData.map(post => (
+    <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
+      <div className="flex flex-col gap-6 p-6">
+        <div className="flex gap-2 text-xs">
+          <p>{post.profiles?.name}</p>
+          <p className="text-text-light"> {dayjs(post.created_at).format("YYYY-MM-DD mm:ss")}</p>
           </div>
           <div className="flex flex-col gap-2.5 text-sm">
             <p className="font-bold">{textHighlight ? textHighlight(post.title) : post.title}</p>
             <p className="text-text-light">
-              {textHighlight ? textHighlight(post.content ?? "") : (post.content ?? "")}
-            </p>
+              {textHighlight ? textHighlight(post.content ?? "") : (post.content ?? "")}</p>
           </div>
           <Badge
             size="sm"

@@ -65,7 +65,7 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
     <div className={`flex gap-6 ${searchType === "user" && selectedUser ? "flex-row" : ""}`}>
       {/* 왼쪽 */}
       <div
-        className={`flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6 ${searchType === "user" && selectedUser ? "w-2/3" : "w-full"} flex flex-col gap-3`}
+        className={`flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6 ${searchType === "user" && selectedUser ? "hidden w-2/3 lg:flex" : "flex w-full"} flex-col gap-3`}
       >
         <div className="relative flex justify-between">
           <div className="flex text-xs">
@@ -138,7 +138,7 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
 
       {/* 오른쪽 */}
       {searchType === "user" && selectedUser && (
-        <div className="w-1/3">
+        <div className="w-full lg:w-1/3">
           <ProfileSlide userId={selectedUser.id} />
         </div>
       )}
