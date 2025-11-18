@@ -7,7 +7,7 @@ const divider = cva("h-px mx-auto", {
   variants: {
     thickness: {
       subtle: "bg-gray-100",
-      neutral: "bg-gray-200",
+      neutral: "bg-border-main",
       strong: "h-2.5 bg-gray-100",
     },
     width: {
