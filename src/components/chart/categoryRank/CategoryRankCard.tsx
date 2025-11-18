@@ -21,12 +21,12 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
         <div className="flex w-full max-w-[200px] flex-col gap-2">
           <div className="flex gap-8">
             <div className="flex flex-col gap-1">
-              <div className="text-text-title mb-0.5 text-sm font-semibold">총 Exp</div>
-              <div className="text-text-sub text-lg">{stats.total_point?.toLocaleString()}P</div>
+              <div className="text-text-title mb-0.5 text-[15px] font-semibold">총 Exp</div>
+              <div className="text-text-sub text-[16px]">{stats.total_point?.toLocaleString()}P</div>
             </div>
             <div className="flex flex-col gap-1">
-              <div className="text-text-title mb-0.5 text-sm font-semibold">평균 훈수</div>
-              <div className="text-text-sub text-lg">{stats.avg_comments} 개</div>
+              <div className="text-text-title mb-0.5 text-[15px] font-semibold">평균 훈수</div>
+              <div className="text-text-sub text-[16px]">{stats.avg_comments} 개</div>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
                 <Badge
                   key={index}
                   size="md"
-                  className="px-2 py-1 text-white"
+                  className="text-bg-main px-2 py-1 font-semibold"
                   text={keyword}
                   style={{ backgroundColor: color }}
                 />
@@ -50,7 +50,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
         </div>
       </div>
 
-      <div className="my-6 mt-7 border-t border-gray-100" />
+      <div className="border-border-sub my-6 mt-7 border-t" />
 
       <div className="ml-1 flex w-full flex-col gap-2">
         <div className="text-text-title text-[15px] font-semibold">랭킹 TOP3</div>
@@ -74,14 +74,14 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
                   size="md"
                   className="border-none"
                 />
-                <span className="text-text-content font-semibol text-xs">{user.user_name}</span>
+                <span className="text-xs font-semibold text-black">{user.user_name}</span>
               </div>
             );
           })}
         </div>
       </div>
 
-      <div className="my-6 mt-7 border-t border-gray-100" />
+      <div className="border-border-sub my-6 mt-7 border-t" />
 
       <div className="ml-1 flex w-full flex-wrap gap-8">
         <div className="flex w-full max-w-[250px] flex-col gap-3">
@@ -91,11 +91,11 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
             <AdoptRatioChart label="사용자별 뱃지" percentage={getBadgePercent} color={color} />
           </div>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1.5">
           <div className="text-text-title text-[15px] font-semibold">업적별 뱃지</div>
-          <div className="h-[130px]">
+          <div className="h-[100px]">
             {!badgeCountStat && (
-              <Badge size="md" className="bg-text-sub px-2 py-1 text-white" text="지표가 부족합니다" />
+              <Badge size="md" className="bg-text-sub text-bg-main px-2 py-1 font-semibold" text="지표가 부족합니다" />
             )}
             {!!badgeCountStat && <ChartFillPie stats={stats.badge_counts} />}
           </div>

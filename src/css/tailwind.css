@@ -9,7 +9,11 @@
 }
 
 .recharts-surface,
-.recharts-wrapper {
+.recharts-wrapper,
+.recharts-responsive-container,
+.recharts-surface,
+.recharts-layer,
+.recharts-pie {
   outline: none !important;
 }
 
