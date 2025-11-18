@@ -48,6 +48,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
         </div>
         <form className="mx-3 flex h-14 w-full rounded-lg border border-gray-200" onSubmit={handleSearch}>
           <input
+            maxLength={30}
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="검색어를 입력해주세요..."
