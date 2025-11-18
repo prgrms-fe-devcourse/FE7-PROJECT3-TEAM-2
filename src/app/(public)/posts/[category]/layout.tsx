@@ -1,6 +1,6 @@
 import PostSideBar from "@/components/post/PostSideBar";
 import ProfileSlide from "@/components/user/ProfileSlide";
-import { getPosts } from "@/services/post";
+import { getPosts } from "@/services/post.server";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function CategoryLayout({
@@ -17,10 +17,9 @@ export default async function CategoryLayout({
   } = await supabase.auth.getUser();
 
   const postData = await getPosts(category);
-
   return (
     <div className="posts-area flex h-full w-full gap-6 p-6 pt-0 max-sm:p-0">
-      <PostSideBar isLogin={!!user} postData={postData ?? []} />
+      <PostSideBar userId={user?.id} postData={postData ?? []} />
       {children}
       <ProfileSlide userId="123" />
     </div>

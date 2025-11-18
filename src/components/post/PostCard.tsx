@@ -4,15 +4,17 @@ import { cva, VariantProps } from "class-variance-authority";
 import { BookMarked, ChevronLeft, MessageSquareMore } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { deletePost } from "@/services/post.client";
 import { PostDetailType } from "@/types";
 import Badge from "../common/Badge";
 import BaseImage from "../common/image/BaseImage";
 
 const thumbnailVariants = cva(
-  "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-gray-200",
+  "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-border-main",
   {
     variants: {
       device: {
@@ -27,12 +29,13 @@ const thumbnailVariants = cva(
 );
 
 interface PostCardProps extends VariantProps<typeof thumbnailVariants> {
+  userId: string;
   postData: PostDetailType | null;
   commentCount: number;
   className?: string;
 }
 
-export default function PostCard({ device, postData, commentCount, className }: PostCardProps) {
+export default function PostCard({ userId, device, postData, commentCount, className }: PostCardProps) {
   const router = useRouter();
   const currentPath = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +43,7 @@ export default function PostCard({ device, postData, commentCount, className }: 
     const { content, post_image, profiles, title } = postData;
     return (
       <>
-        <div className={twMerge("post-card flex flex-col rounded-3xl border border-gray-200 px-6 py-5", className)}>
+        <div className={twMerge("post-card border-border-main flex flex-col rounded-3xl border px-6 py-5", className)}>
           <div className="post-card_user mb-5 flex items-center justify-between">
             <div className="post-card_user-info text-text-title flex items-center">
               <button
@@ -64,7 +67,7 @@ export default function PostCard({ device, postData, commentCount, className }: 
                   alt="user profile image"
                   width={32}
                   height={32}
-                  className="rounded-sm border border-gray-200"
+                  className="border-border-main rounded-sm border"
                 />
               </button>
 
@@ -87,15 +90,36 @@ export default function PostCard({ device, postData, commentCount, className }: 
                 />
               </div>
             )}
-            <div className="post-card_btns text-text-sub flex gap-6">
-              <div className="post-card_comment flex items-center justify-center">
-                <MessageSquareMore size={12} />
-                <span className="ml-2 text-xs">{commentCount}</span>
+            <div className="post-card_btns text-text-sub flex justify-between gap-6">
+              <div className="flex gap-6">
+                <div className="post-card_comment flex items-center justify-center">
+                  <MessageSquareMore size={12} />
+                  <span className="ml-2 text-xs">{commentCount}</span>
+                </div>
+                <div className="post-card_share flex items-center justify-center">
+                  <BookMarked size={12} />
+                  <span className="ml-2 text-xs">1</span>
+                </div>
               </div>
-              <div className="post-card_share flex items-center justify-center">
-                <BookMarked size={12} />
-                <span className="ml-2 text-xs">1</span>
-              </div>
+              {userId === postData.user_id && (
+                <div className="text-text-light flex gap-1 text-xs">
+                  <Link href={`/posts/write?page=edit&id=${postData.id}`} className="hover:text-main cursor-pointer">
+                    수정
+                  </Link>
+                  <span>|</span>
+                  <button
+                    className="hover:text-main cursor-pointer"
+                    onClick={async () => {
+                      const ok = confirm("정말 삭제하시겠습니까?");
+                      if (!ok) return;
+                      await deletePost(postData.id, post_image ?? "");
+                      redirect("/posts");
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           {isOpen && (

@@ -1,5 +1,6 @@
 "use server";
 
+import Toast from "@/components/common/toast/Toast";
 import { CommentInserType, FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -37,9 +38,9 @@ export async function updateComment(commentId: string, content: string) {
   const { error } = await supabase.from("comments").update({ content: content }).eq("id", commentId);
 
   if (error) {
-    console.log("댓글 수정 실패");
+    console.error(`댓글 수정 실패: ${error.message}`);
     return { success: false, error: error.message };
-  } else console.log("댓글 수정 성공");
+  }
 
   return { success: true, error: null };
 }

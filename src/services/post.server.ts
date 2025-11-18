@@ -18,7 +18,7 @@ export async function createPost(postData: PostInsertType): Promise<[FormState, 
   return [{ success: true, error: null }, data];
 }
 
-export async function updatePost({ id, updateData }: { id: string; updateData: PostUpdateType }) {
+export async function updatePost(id: string, updateData: PostUpdateType): Promise<[FormState, PostInsertType | null]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("posts").update(updateData).eq("id", id);
 
