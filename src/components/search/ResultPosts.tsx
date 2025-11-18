@@ -31,7 +31,7 @@ export default function ResultPosts({
         <div className="flex flex-col gap-6 p-6">
           <div className="flex gap-2 text-xs">
             <p>{post.profiles?.name}</p>
-            <p className="text-text-light">{dayjs(post.created_at).format("YYYY-MM-DD mm:ss")}</p>
+            <p className="text-text-light"> {dayjs(post.created_at).format("YYYY-MM-DD mm:ss")}</p>
           </div>
           <div className="flex flex-col gap-2.5 text-sm">
             <p className="font-bold">{textHighlight ? textHighlight(post.title) : post.title}</p>
