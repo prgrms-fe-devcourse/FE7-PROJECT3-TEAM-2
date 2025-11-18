@@ -3,11 +3,13 @@
 import { ChevronLeft } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { deleteFollow, insertFollow } from "@/services/profile/updateFollow";
 import { BadgeType, ProfileType } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import BadgeDetail from "./BadgeDetail";
 import Badge from "../common/Badge";
 import ResponsiveContainer from "../common/ResponsiveContainer";
+import Toast from "../common/toast/Toast";
 import { Toggle } from "../common/Toggle";
 
 export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
@@ -23,7 +25,7 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
   const [postCnt, setPostCnt] = useState(0);
   const [adoptedComments, setAdoptedComments] = useState(0);
   const [displayedBadge, setDisplayedBadge] = useState<(BadgeType | null)[]>();
-  const [followList, setFollowList] = useState<string[] | null>();
+  const [followList, setFollowList] = useState<string[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,14 +73,35 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
         ]);
         if (user) {
           const { data: followList } = await supabase.from("follow").select("following_id").eq("follower_id", user.id);
-          setFollowList(followList?.reduce((arr, f) => [...arr, f.following_id], []));
+          const followListData = followList?.map(f => f.following_id) ?? [];
+          setFollowList(followListData);
         }
       }
     };
     fetchData();
-  }, [isOpen, followList]);
+  }, [isOpen]);
 
-  const handleFollow = () => {};
+  const handleFollow = async () => {
+    if (userId && isOpen && (followList ?? []).includes(isOpen)) {
+      const { success, error } = await deleteFollow(userId, isOpen);
+      if (error) {
+        Toast({ message: error, type: "ERROR" });
+      } else if (success && !error) {
+        setFollowerCnt(prev => prev - 1);
+        setFollowList(prev => prev?.filter(id => id !== isOpen));
+        Toast({ message: profileData?.name + "님을 언팔로우 했습니다.", type: "SUCCESS" });
+      }
+    } else if (userId && isOpen) {
+      const { success, error } = await insertFollow(userId, isOpen);
+      if (error) {
+        Toast({ message: error, type: "ERROR" });
+      } else if (success && !error) {
+        setFollowerCnt(prev => prev + 1);
+        setFollowList(prev => [...(prev ?? []), isOpen]);
+        Toast({ message: profileData?.name + "님을 팔로우 했습니다.", type: "SUCCESS" });
+      }
+    }
+  };
   const close = () => {
     router.replace(currentPath);
   };
@@ -97,7 +120,7 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
           </div>
           <Toggle
             size="lg"
-            isToggle={(followList ?? []).includes(isOpen) ? false : true}
+            isToggle={!(followList ?? []).includes(isOpen)}
             className="my-8 min-w-full py-3"
             disabled={!userId || userId === isOpen}
             onClick={handleFollow}
