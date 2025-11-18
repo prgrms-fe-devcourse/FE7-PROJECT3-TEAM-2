@@ -43,19 +43,25 @@ export default async function page() {
     value,
   }));
 
-  const adoptStats = [
-    { name: "연애", 훈수: 100, 채택: 50 },
-    { name: "기술/IT", 훈수: 100, 채택: 40 },
-    { name: "제테크/소비", 훈수: 100, 채택: 30 },
-    { name: "음식/요리", 훈수: 100, 채택: 35 },
-    { name: "생활", 훈수: 100, 채택: 45 },
-    { name: "게임", 훈수: 100, 채택: 38 },
-    { name: "일상/고민", 훈수: 100, 채택: 37 },
-    { name: "패션", 훈수: 100, 채택: 37 },
-    { name: "운동", 훈수: 100, 채택: 37 },
-    { name: "공부/자기계발", 훈수: 100, 채택: 37 },
-    { name: "여행", 훈수: 100, 채택: 37 },
-  ];
+  const adoptStats = categoryData.map(item => {
+    const commentCount = item.posts.reduce((acc, cur) => acc + cur.comments.length, 0);
+    const adoptCount = item.posts.filter(post => post.adopted_comment_id !== null).length;
+    return { name: item.name, 훈수: commentCount, 채택: adoptCount };
+  });
+
+  // const adoptStats = [
+  //   { name: "연애", 훈수: 100, 채택: 50 },
+  //   { name: "기술/IT", 훈수: 100, 채택: 40 },
+  //   { name: "제테크/소비", 훈수: 100, 채택: 30 },
+  //   { name: "음식/요리", 훈수: 100, 채택: 35 },
+  //   { name: "생활", 훈수: 100, 채택: 45 },
+  //   { name: "게임", 훈수: 100, 채택: 38 },
+  //   { name: "일상/고민", 훈수: 100, 채택: 37 },
+  //   { name: "패션", 훈수: 100, 채택: 37 },
+  //   { name: "운동", 훈수: 100, 채택: 37 },
+  //   { name: "공부/자기계발", 훈수: 100, 채택: 37 },
+  //   { name: "여행", 훈수: 100, 채택: 37 },
+  // ];
 
   return (
     <div className="flex flex-col gap-2">
