@@ -5,8 +5,6 @@ import SearchResultClient from "./SearchResultClient";
 export default async function SearchResult({ searchType, queryParam }: { searchType: string; queryParam: string }) {
   const supabase = await createClient();
 
-  if (!queryParam) return null;
-
   let searchData: Post[] | Profile[] = [];
 
   if (searchType === "post") {

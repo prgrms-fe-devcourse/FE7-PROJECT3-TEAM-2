@@ -139,7 +139,7 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
       {/* 오른쪽 */}
       {searchType === "user" && selectedUser && (
         <div className="w-1/3">
-          <ProfileSlide />
+          <ProfileSlide onClick={() => setSelectedUser(null)} />
         </div>
       )}
     </div>

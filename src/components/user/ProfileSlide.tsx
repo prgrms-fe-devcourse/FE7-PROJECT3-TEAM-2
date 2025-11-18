@@ -10,26 +10,29 @@ import Badge from "../common/Badge";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { Toggle } from "../common/Toggle";
 
-//유저 아이디를 통한 데이터 패치 필요 (현재 구현 X)
-
-export default function ProfileSlide() {
+export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
   const router = useRouter();
   const search = useSearchParams();
   const currentPath = usePathname();
   const isOpen = search.get("user");
 
+  const [userId, setUserId] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<ProfileType | null>();
   const [followCnt, setFollowCnt] = useState(0);
   const [followerCnt, setFollowerCnt] = useState(0);
   const [postCnt, setPostCnt] = useState(0);
   const [adoptedComments, setAdoptedComments] = useState(0);
   const [displayedBadge, setDisplayedBadge] = useState<(BadgeType | null)[]>();
+  const [followList, setFollowList] = useState<string[] | null>();
 
   useEffect(() => {
     const fetchData = async () => {
       const supabase = createClient();
       if (isOpen) {
         const [
+          {
+            data: { user },
+          },
           { data: profileData },
           { count: followCnt },
           { count: followerCnt },
@@ -37,6 +40,7 @@ export default function ProfileSlide() {
           { data: adoptedComments },
           { data: displayedBadge },
         ] = await Promise.all([
+          supabase.auth.getUser(),
           supabase.from("profiles").select("*").eq("id", isOpen).single(),
           supabase.from("follow").select("*", { count: "exact", head: true }).eq("follower_id", isOpen),
           supabase.from("follow").select("*", { count: "exact", head: true }).eq("following_id", isOpen),
@@ -53,6 +57,7 @@ export default function ProfileSlide() {
             .eq("user_id", isOpen)
             .maybeSingle(),
         ]);
+        setUserId(user?.id ?? null);
         setProfileData(profileData ?? null);
         setFollowCnt(followCnt ?? 0);
         setFollowerCnt(followerCnt ?? 0);
@@ -64,39 +69,48 @@ export default function ProfileSlide() {
           displayedBadge?.badge_third ?? null,
           displayedBadge?.badge_fourth ?? null,
         ]);
+        if (user) {
+          const { data: followList } = await supabase.from("follow").select("following_id").eq("follower_id", user.id);
+          setFollowList(followList?.reduce((arr, f) => [...arr, f.following_id], []));
+        }
       }
     };
     fetchData();
-  }, [isOpen]);
+  }, [isOpen, followList]);
 
+  const handleFollow = () => {};
+  const close = () => {
+    router.replace(currentPath);
+  };
   return (
     <>
       {isOpen && (
         <ResponsiveContainer className="min-w-[334px] px-6 py-8.5">
           <div className="flex items-center gap-6">
-            <button
-              onClick={() => {
-                router.replace(currentPath);
-              }}
-              className="cursor-pointer"
-            >
+            <button onClick={onClick ?? close} className="cursor-pointer">
               <ChevronLeft />
             </button>
             <div className="flex flex-col gap-2">
-              <Badge size="sm" text="LV.1" className="bg-main text-white" />
+              <Badge size="sm" text={"LV." + String(profileData?.level)} className="bg-main text-white" />
               <p className="font-medium">{profileData?.name}</p>
             </div>
           </div>
-          <Toggle size="lg" isToggle={true} className="my-8 min-w-full py-3">
+          <Toggle
+            size="lg"
+            isToggle={(followList ?? []).includes(isOpen) ? false : true}
+            className="my-8 min-w-full py-3"
+            disabled={!userId || userId === isOpen}
+            onClick={handleFollow}
+          >
             팔로우
           </Toggle>
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-6">
-              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
+              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2">
                 <p className="text-xs">팔로잉</p>
                 <p>{followCnt}</p>
               </div>
-              <div className="flex min-w-32.5 flex-col gap-2 rounded-xl border border-gray-200 px-3.5 pt-3 pb-2">
+              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2">
                 <p className="text-xs">팔로워</p>
                 <p>{followerCnt}</p>
               </div>
