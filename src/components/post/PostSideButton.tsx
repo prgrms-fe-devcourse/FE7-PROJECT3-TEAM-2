@@ -8,7 +8,7 @@ export default function PostSideButton({ isLogin }: { isLogin: boolean }) {
     <>
       {isLogin && (
         <>
-          <Link href="/posts/write" className="max-sm:w-full">
+          <Link href="/posts/write?page=new" className="max-sm:w-full">
             <Button size="md" className="w-60 max-sm:w-full">
               <Plus size={24} />
               <span>글쓰기</span>

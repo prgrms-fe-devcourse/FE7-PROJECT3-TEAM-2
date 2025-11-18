@@ -3,7 +3,7 @@ import CommentList from "@/components/comment/CommentList";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import PostCard from "@/components/post/PostCard";
 import { createComment, getComments } from "@/services/comment.server";
-import { getDetailPost } from "@/services/post";
+import { getDetailPost } from "@/services/post.server";
 import { FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -62,6 +62,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
     <>
       <ResponsiveContainer className="bg-bg-sub scrollbar-hide flex w-full flex-col overflow-scroll max-sm:border-none">
         <PostCard
+          userId={user?.id ?? ""}
           commentCount={commentData?.length ?? 0}
           postData={postData}
           className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"

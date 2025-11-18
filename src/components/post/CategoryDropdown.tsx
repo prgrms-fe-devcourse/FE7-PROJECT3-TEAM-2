@@ -5,10 +5,19 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { CategoryType } from "@/types";
 
-export default function CategoryDropdown({ categorys }: { categorys: CategoryType[] }) {
+export default function CategoryDropdown({
+  categorys,
+  selectCategoryId,
+}: {
+  categorys: CategoryType[];
+  selectCategoryId?: string;
+}) {
   const [open, setOpen] = useState(false);
-  const [categoryId, setCategoryId] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
+  const [categoryId, setCategoryId] = useState(selectCategoryId ?? "");
+  const [categoryValue, setCategoryValue] = useState(() => {
+    if (!categorys || !selectCategoryId) return "";
+    return Object.values(categorys).find(c => c.id === selectCategoryId)?.name ?? "";
+  });
 
   return (
     <div className="relative">
