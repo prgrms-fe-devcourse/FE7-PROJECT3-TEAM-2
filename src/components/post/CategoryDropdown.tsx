@@ -25,7 +25,7 @@ export default function CategoryDropdown({
       <button
         type="button"
         className={twMerge(
-          "hover:bg-bg-sub flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-3 py-4 text-gray-200",
+          "hover:bg-bg-sub border-border-main text-text-light flex w-full cursor-pointer items-center justify-between rounded-xl border px-3 py-4",
           categoryValue && "text-text-sub"
         )}
         onClick={() => setOpen(prev => !prev)}
@@ -39,7 +39,7 @@ export default function CategoryDropdown({
       </button>
       <ul
         className={twMerge(
-          "text-text-sub bg-bg-main absolute mt-2.5 flex max-h-[300px] w-full flex-col overflow-y-scroll rounded-xl border border-gray-200 p-2",
+          "text-text-sub bg-bg-main border-border-main absolute mt-2.5 flex max-h-[300px] w-full flex-col overflow-y-scroll rounded-xl border p-2",
           !open && "hidden"
         )}
       >

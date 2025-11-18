@@ -1,5 +1,6 @@
 "use client";
 
+import Toast from "@/components/common/toast/Toast";
 import { createClient } from "@/utils/supabase/client";
 
 export async function deletePost(id: string, imageUrl: string) {
@@ -25,5 +26,5 @@ export async function deletePost(id: string, imageUrl: string) {
     return;
   }
 
-  return alert("게시글을 삭제했습니다.");
+  return Toast({ message: "게시글을 삭제했습니다.", type: "SUCCESS" });
 }

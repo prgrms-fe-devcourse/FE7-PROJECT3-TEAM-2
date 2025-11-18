@@ -32,9 +32,7 @@ export default function PostSideButton({
               <span>글쓰기</span>
             </Button>
           </Link>
-
-          <Divider width="90" />
-
+          <Divider width="90" className="bg-border-main" />
           <div className="post-filter-btn flex gap-3 max-sm:w-full">
             <Button
               size="sm"

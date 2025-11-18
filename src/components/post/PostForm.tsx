@@ -8,6 +8,7 @@ import { CategoryType, FormState, PostType } from "@/types";
 import CategoryDropdown from "./CategoryDropdown";
 import { Button } from "../common/Button";
 import ResponsiveContainer from "../common/ResponsiveContainer";
+import Toast from "../common/toast/Toast";
 
 export default function PostForm({
   categorys,
@@ -40,13 +41,13 @@ export default function PostForm({
 
   useEffect(() => {
     if (state.error) {
-      alert(state.error);
+      Toast({ message: state.error, type: "ERROR" });
     } else if (state.success && !state.error) {
       if (postData) {
-        alert("게시글이 성공적으로 수정되었습니다.");
+        Toast({ message: "게시글이 성공적으로 수정되었습니다.", type: "SUCCESS" });
         redirect(`/posts/${categoryType}/post/${postData.id}`);
       } else {
-        alert("게시글이 성공적으로 등록되었습니다.");
+        Toast({ message: "게시글이 성공적으로 등록되었습니다.", type: "SUCCESS" });
         redirect("/posts");
       }
     }
@@ -62,11 +63,11 @@ export default function PostForm({
                 onClick={() => {
                   router.back();
                 }}
-                className="hover:text-main mr-5 cursor-pointer min-[1100px]:hidden"
+                className="hover:text-main mr-5 cursor-pointer"
               >
                 <ChevronLeft />
               </button>
-              게시글 작성
+              게시글 {postData ? "수정" : "작성"}
             </h1>
             <p className="text-text-light">어떤 글에 훈수를 받고 싶나요?</p>
           </div>
@@ -81,7 +82,7 @@ export default function PostForm({
               placeholder="제목을 입력하세요"
               name="title"
               defaultValue={postData ? postData.title : ""}
-              className="text-text-sub focus:border-text-sub flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-3 py-4 outline-0 placeholder:text-gray-200 hover:cursor-auto"
+              className="text-text-sub focus:border-text-sub placeholder:text-text-light border-border-main flex w-full cursor-pointer items-center justify-between rounded-xl border px-3 py-4 outline-0 hover:cursor-auto"
             />
           </div>
           <div className="post-form_row flex flex-col gap-1.5">
@@ -91,14 +92,14 @@ export default function PostForm({
               wrap="hard"
               name="content"
               defaultValue={postData ? (postData.content ?? "") : ""}
-              className="text-text-sub focus:border-text-sub flex h-60 w-full cursor-pointer resize-none items-center justify-between rounded-xl border border-gray-200 px-3 py-4 outline-0 placeholder:text-gray-200 hover:cursor-auto"
+              className="text-text-sub focus:border-text-sub placeholder:text-text-light border-border-main flex h-60 w-full cursor-pointer resize-none items-center justify-between rounded-xl border px-3 py-4 outline-0 hover:cursor-auto"
             />
           </div>
           <div className="post-form_row flex flex-col gap-1.5">
             <h2 className="text-text-title text-base">이미지 첨부</h2>
             <label
               htmlFor="imageUpload"
-              className="relative flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-gray-200 transition-all hover:bg-gray-300"
+              className="bg-bg-sub hover:bg-border-sub relative flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-xl transition-all"
             >
               {preview ? (
                 <Image src={preview} alt="preview" fill className="object-cover" />
@@ -121,7 +122,7 @@ export default function PostForm({
           <Button
             variant="quaternary"
             size="sm"
-            className="hover:bg-main-50 max-sm:w-full"
+            className={`hover:bg-main-50 dark:hover:bg-main/20 max-sm:w-full`}
             type="reset"
             onClick={() => {
               setPreview("");
