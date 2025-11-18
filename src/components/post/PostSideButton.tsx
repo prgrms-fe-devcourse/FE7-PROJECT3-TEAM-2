@@ -14,7 +14,7 @@ export default function PostSideButton({ isLogin }: { isLogin: boolean }) {
               <span>글쓰기</span>
             </Button>
           </Link>
-          <Divider width="90" />
+          <Divider width="90" className="bg-border-main" />
           <div className="post-filter-btn flex gap-3 max-sm:w-full">
             <Button size="sm" className="max-sm:w-full">
               <Grid2x2 size={12} className="mr-2" />

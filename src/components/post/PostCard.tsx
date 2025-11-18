@@ -14,7 +14,7 @@ import Badge from "../common/Badge";
 import BaseImage from "../common/image/BaseImage";
 
 const thumbnailVariants = cva(
-  "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-gray-200",
+  "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-border-main",
   {
     variants: {
       device: {
@@ -43,7 +43,7 @@ export default function PostCard({ userId, device, postData, commentCount, class
     const { content, post_image, profiles, title } = postData;
     return (
       <>
-        <div className={twMerge("post-card flex flex-col rounded-3xl border border-gray-200 px-6 py-5", className)}>
+        <div className={twMerge("post-card border-border-main flex flex-col rounded-3xl border px-6 py-5", className)}>
           <div className="post-card_user mb-5 flex items-center justify-between">
             <div className="post-card_user-info text-text-title flex items-center">
               <button
@@ -67,7 +67,7 @@ export default function PostCard({ userId, device, postData, commentCount, class
                   alt="user profile image"
                   width={32}
                   height={32}
-                  className="rounded-sm border border-gray-200"
+                  className="border-border-main rounded-sm border"
                 />
               </button>
 

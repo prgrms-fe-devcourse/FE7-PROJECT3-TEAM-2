@@ -25,13 +25,13 @@ const buttonVariants = cva(
 );
 
 const hasReactionVariants = cva(
-  `flex items-center justify-center rounded-xs bg-gray-300 p-0.5 text-gray-500 cursor-pointer transition-all`,
+  `flex items-center justify-center rounded-xs bg-gray-300  p-0.5 text-gray-700 cursor-pointer transition-all`,
   {
     variants: {
       buttonType: {
-        like: "hover:bg-main/40 hover:text-white",
-        disLike: "hover:bg-rose-600/40 hover:text-white",
-        adopt: "hover:bg-emerald-600/40 hover:text-white",
+        like: "hover:bg-main/50 hover:text-white",
+        disLike: "hover:bg-rose-600/50 hover:text-white",
+        adopt: "hover:bg-emerald-600/50 hover:text-white",
       },
     },
   }

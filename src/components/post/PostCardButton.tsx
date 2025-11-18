@@ -14,7 +14,7 @@ import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 
 const containerVariants = cva(
-  "post-card-btn bg-bg-main hover:bg-main-50 text-text-title px-6 py-3 flex justify-between items-center cursor-pointer rounded-xl transition-all duration-300",
+  "post-card-btn bg-bg-main hover:bg-main-50 dark:hover:bg-main/20 text-text-title px-6 py-3 flex justify-between items-center cursor-pointer rounded-xl transition-all duration-300",
   {
     variants: {
       device: {
@@ -70,7 +70,11 @@ export default function PostCardButton({ device, postData, className }: PostCard
   return (
     <Link
       href={`/posts/${categoryType}/post/${id}`}
-      className={twMerge(containerVariants({ device }), postId === postData.id && "bg-main-50", className)}
+      className={twMerge(
+        containerVariants({ device }),
+        postId === postData.id && "bg-main-50 dark:bg-main/20",
+        className
+      )}
     >
       <div className="post-card-btn_info space-y-2">
         <PostCardBookMark />
@@ -80,7 +84,7 @@ export default function PostCardButton({ device, postData, className }: PostCard
           </span>
           <span className="text-text-light">{dayjs(created_at).fromNow()}</span>
         </div>
-        <p className={titleVariants({ device })}>{title}</p>
+        <p className={titleVariants({ device })}>{title.length >= 25 ? title.slice(0, 25) + "..." : title}</p>
         <Badge size="xs" text={category?.name} style={{ backgroundColor: color, color: "#fff" }} />
       </div>
       <div className="post-card-btn_detail-btn text-text-sub my-auto w-4.5">
