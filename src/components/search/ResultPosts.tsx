@@ -30,31 +30,29 @@ export default function ResultPosts({
         <div className="flex gap-2 text-xs">
           <p>{post.profiles?.name}</p>
           <p className="text-text-light"> {dayjs(post.created_at).format("YYYY-MM-DD mm:ss")}</p>
-          </div>
-          <div className="flex flex-col gap-2.5 text-sm">
-            <p className="font-bold">{textHighlight ? textHighlight(post.title) : post.title}</p>
-            <p className="text-text-light">
-              {textHighlight ? textHighlight(post.content ?? "") : (post.content ?? "")}</p>
-          </div>
-          <Badge
-            size="sm"
-            className="px-2 py-1 text-white"
-            style={{ backgroundColor: categoryColor[post.category?.name ?? "#999999"] }}
-            text={post.category?.name ?? "전체"}
-          />
         </div>
-        <div>
-          {post.post_image && (
-            <Image
-              src={post.post_image}
-              alt={`${post.title}의 썸네일`}
-              width={192}
-              height={192}
-              className="m-1.5 h-48 min-h-48 w-48 min-w-48 rounded-sm"
-            />
-          )}
+        <div className="flex flex-col gap-2.5 text-sm">
+          <p className="font-bold">{textHighlight ? textHighlight(post.title) : post.title}</p>
+          <p className="text-text-light">{textHighlight ? textHighlight(post.content ?? "") : (post.content ?? "")}</p>
         </div>
+        <Badge
+          size="sm"
+          className="px-2 py-1 text-white"
+          style={{ backgroundColor: categoryColor[post.category?.name ?? "#999999"] }}
+          text={post.category?.name ?? "전체"}
+        />
       </div>
-    ))
-  );
+      <div>
+        {post.post_image && (
+          <Image
+            src={post.post_image}
+            alt={`${post.title}의 썸네일`}
+            width={192}
+            height={192}
+            className="m-1.5 h-48 min-h-48 w-48 min-w-48 rounded-sm"
+          />
+        )}
+      </div>
+    </div>
+  ));
 }
