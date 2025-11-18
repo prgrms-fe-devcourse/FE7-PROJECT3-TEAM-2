@@ -3,6 +3,7 @@
 import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PostWithProfile, Profile, SearchResultProps } from "@/types/search";
 import ResultPosts from "./ResultPosts";
@@ -18,6 +19,10 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
   const [arrangeType, setArrangeType] = useState("date");
   const [arrangedData, setArrangedData] = useState(searchData);
   const [selectedUser, setSelectedUser] = useState<Profile | null>(null);
+  const router = useRouter();
+  const path = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query") ?? "";
 
   const textHighlight = (text: string) => {
     if (!queryParam) return text;
@@ -105,7 +110,14 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
 
         {searchType === "user" &&
           (arrangedData as Profile[]).map(user => (
-            <div key={user.id} className={cardVariants()} onClick={() => setSelectedUser(user)}>
+            <div
+              key={user.id}
+              className={cardVariants()}
+              onClick={() => {
+                setSelectedUser(user);
+                router.replace(`${path}?query=${query}&user=${user.id}`);
+              }}
+            >
               <div className="flex flex-col gap-6 p-6">
                 <p>{textHighlight(user.name)}</p>
                 <Badge className="bg-amber-400 px-2 py-1" size="sm" text={`LV.${user.level}`} />

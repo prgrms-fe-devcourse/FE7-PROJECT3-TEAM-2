@@ -27,6 +27,7 @@ export type PostWithProfile = Post & {
   };
   category?: {
     type: string;
+    name: string;
   };
 };
 
