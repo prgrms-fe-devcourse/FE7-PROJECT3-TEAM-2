@@ -43,7 +43,12 @@ export default function PostCard({ userId, device, postData, commentCount, class
     const { content, post_image, profiles, title } = postData;
     return (
       <>
-        <div className={twMerge("post-card border-border-main flex flex-col rounded-3xl border px-6 py-5", className)}>
+        <div
+          className={twMerge(
+            "post-card border-border-main flex flex-col rounded-3xl border px-6 py-5 break-all",
+            className
+          )}
+        >
           <div className="post-card_user mb-5 flex items-center justify-between">
             <div className="post-card_user-info text-text-title flex items-center">
               <button

@@ -11,7 +11,7 @@ import { CommentModifyForm } from "./CommentModifyForm";
 import CommentReactionBtn from "./CommentReactionBtn";
 import Badge from "../common/Badge";
 
-const BubbleVariants = cva("flex items-end gap-2 w-full", {
+const BubbleVariants = cva("flex items-end gap-2 w-full ", {
   variants: {
     isMine: {
       true: "justify-end",
@@ -23,7 +23,7 @@ const BubbleVariants = cva("flex items-end gap-2 w-full", {
   },
 });
 
-const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm", {
+const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm break-all", {
   variants: {
     isMine: {
       true: "bg-main text-white rounded-tr-none",
