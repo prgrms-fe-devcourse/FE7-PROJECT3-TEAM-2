@@ -2,18 +2,31 @@
 
 import { UserRoundPen } from "lucide-react";
 import { useState } from "react";
-import { FormState, ProfileType } from "@/types";
+import { BadgeType, FormState } from "@/types";
 import UserInfoModalForm from "./UserInfoModalForm";
 import Badge from "../common/Badge";
 import { Button } from "../common/Button";
 import CircleProfileImage from "../common/image/CircleProfileImage";
 
 type UserInfoProps = {
-  profile: ProfileType | null;
+  profile: {
+    avatar_image: string | null;
+    bio: string | null;
+    created_at: string;
+    email: string;
+    exp: number | null;
+    id: string;
+    level: number | null;
+    name: string;
+    phone_number: string | null;
+    title_badge: string | null;
+    badge?: BadgeType | null;
+  } | null;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
+  haveBadge: BadgeType[] | null;
 };
 
-export default function UserInfo({ profile, action }: UserInfoProps) {
+export default function UserInfo({ profile, action, haveBadge }: UserInfoProps) {
   const [modalStatus, setModalStatus] = useState(false);
   const onHandleModalStatus = () => {
     setModalStatus(prev => !prev);
@@ -26,7 +39,12 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
           <CircleProfileImage src={profile?.avatar_image ?? "/profile_sample.svg"} size="lg" />
           <div className="flex flex-col gap-2">
             <Badge size="sm" text={`LV.${profile?.level}`} className="bg-main text-white" />
-            <p className="font-medium">{profile?.name}</p>
+            <div className="flex items-center gap-2">
+              <p className="font-medium">{profile?.name}</p>
+              {profile?.badge?.name && (
+                <Badge size="sm" text={profile?.badge?.name ?? "칭호 없음"} className="bg-${} text-white" />
+              )}
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-6 text-xs">
@@ -53,7 +71,9 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
           </div>
         </div>
       </div>
-      {modalStatus && <UserInfoModalForm profile={profile} setModal={onHandleModalStatus} action={action} />}
+      {modalStatus && (
+        <UserInfoModalForm profile={profile} setModal={onHandleModalStatus} action={action} haveBadge={haveBadge} />
+      )}
     </>
   );
 }

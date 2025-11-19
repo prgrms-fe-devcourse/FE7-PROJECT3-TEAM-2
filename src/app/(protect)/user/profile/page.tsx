@@ -26,8 +26,9 @@ export default async function page() {
     { count: postCnt },
     { data: adoptedComments },
     { data: displayedBadge },
+    { data: haveBadgeData },
   ] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    supabase.from("profiles").select("*, badge(*)").eq("id", user.id).single(),
     supabase.from("follow").select("*", { count: "exact", head: true }).eq("follower_id", user.id),
     supabase.from("follow").select("*", { count: "exact", head: true }).eq("following_id", user.id),
     supabase.from("posts").select("*", { count: "exact", head: true }).eq("user_id", user.id),
@@ -42,6 +43,7 @@ export default async function page() {
       )
       .eq("user_id", user.id)
       .single(),
+    supabase.from("user_badge").select("*, badge(*)").eq("user_id", user.id),
   ]);
 
   const profile = profileData ?? null;
@@ -56,6 +58,7 @@ export default async function page() {
     displayedBadge?.badge_third ?? null,
     displayedBadge?.badge_fourth ?? null,
   ];
+  const flatHaveBadge = (haveBadgeData ?? []).reduce<BadgeType[]>((arr, b) => [...arr, b.badge], []);
 
   async function updateProfileAction(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -78,6 +81,8 @@ export default async function page() {
     const phoneNumber = formData.get("phoneNumber")?.toString().replaceAll(" ", "").replaceAll(/[\D]/gi, "") ?? "";
     const bio = formData.get("bio")?.toString() ?? "";
     const avatarImage = formData.get("avatarImage") as File | null;
+    const titleBadgeData = formData.get("titleBadge")?.toString();
+    const titleBadge = titleBadgeData === "" ? null : titleBadgeData;
     let avatarImageUrl: string = "";
 
     if (avatarImage && avatarImage.size > 0) {
@@ -123,14 +128,14 @@ export default async function page() {
       };
     }
     if (!avatarImage || avatarImage.size === 0) {
-      return updateProfile(user.id, name, email, phoneNumber, bio);
+      return updateProfile(user.id, name, email, phoneNumber, bio, null, titleBadge);
     }
-    return updateProfile(user.id, name, email, phoneNumber, bio, avatarImageUrl);
+    return updateProfile(user.id, name, email, phoneNumber, bio, avatarImageUrl, titleBadge);
   }
 
   return (
     <div className="mt-6.5 w-full pb-5 text-xs">
-      <UserInfo profile={profile} action={updateProfileAction} />
+      <UserInfo profile={profile} action={updateProfileAction} haveBadge={flatHaveBadge} />
       <Divider />
       <div className="my-6 flex flex-wrap justify-center gap-3 text-xs max-lg:flex-col">
         <ResponsiveContainer className="flex flex-col flex-wrap gap-12 p-6 max-sm:gap-14 max-sm:rounded-3xl">
