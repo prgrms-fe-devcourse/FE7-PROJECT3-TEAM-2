@@ -1,7 +1,4 @@
-import CommentForm from "@/components/comment/CommentForm";
-import CommentList from "@/components/comment/CommentList";
-import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import PostCard from "@/components/post/PostCard";
+import PostDetail from "@/components/post/PostDetail";
 import { createComment, getComments } from "@/services/comment/comment.server";
 import { getDetailPost } from "@/services/post/post.server";
 import { FormState } from "@/types";
@@ -15,7 +12,6 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   const { postId } = await params;
   const commentData = await getComments(postId);
   const postData = await getDetailPost(postId);
-  const isMyPost = user ? postData?.user_id === user.id : false;
 
   async function writeComment(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -59,26 +55,12 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   }
 
   return (
-    <>
-      <ResponsiveContainer className="bg-bg-sub scrollbar-hide flex w-full flex-col overflow-scroll max-sm:border-none">
-        <PostCard
-          userId={user?.id ?? ""}
-          commentCount={commentData?.length ?? 0}
-          postData={postData}
-          className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
-        />
-        <div className="flex h-full flex-col justify-between px-6 py-5">
-          <CommentList
-            isLogin={!!user}
-            isMyPost={isMyPost}
-            userId={user?.id ?? ""}
-            postId={postId}
-            commentData={commentData ?? []}
-            adoptedCommentId={postData?.adopted_comment_id ?? ""}
-          />
-          <CommentForm action={writeComment} />
-        </div>
-      </ResponsiveContainer>
-    </>
+    <PostDetail
+      user={user}
+      commentData={commentData ?? []}
+      postData={postData}
+      postId={postId}
+      writeComment={writeComment}
+    />
   );
 }

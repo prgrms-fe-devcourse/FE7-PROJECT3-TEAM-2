@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { CategoryType } from "@/types";
+import HorizontalScrollContainer from "../common/HorizontalScrollContainer";
 import BaseImage from "../common/image/BaseImage";
 
 export default function Category({ categorys }: { categorys: CategoryType[] }) {
@@ -13,7 +14,9 @@ export default function Category({ categorys }: { categorys: CategoryType[] }) {
   const { category: categoryId, postId } = useParams();
 
   return (
-    <div className={twMerge("category bg-bg-main flex gap-6 p-6", isPostDetail && "max-sm:hidden")}>
+    <HorizontalScrollContainer
+      className={`category bg-bg-main flex shrink-0 gap-6 overflow-y-hidden p-6 pb-5 ${isPostDetail && "max-sm:hidden"}`}
+    >
       <Link href={postId ? `/posts/all/post/${postId}` : "/posts/all"} className="group relative">
         <div
           className={twMerge(
@@ -77,6 +80,6 @@ export default function Category({ categorys }: { categorys: CategoryType[] }) {
           </span>
         </Link>
       ))}
-    </div>
+    </HorizontalScrollContainer>
   );
 }
