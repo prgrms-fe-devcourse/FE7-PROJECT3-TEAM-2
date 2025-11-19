@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname, useRouter } from "next/navigation";
 import Badge from "@/components/common/Badge";
 import CircleProfileImage from "@/components/common/image/CircleProfileImage";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
@@ -7,6 +10,8 @@ import AdoptRatioChart from "./AdoptRatioChart";
 import ChartFillPie from "../ChartFillPie";
 
 export default function CategoryRankCard({ stats }: { stats: categoryStatsType }) {
+  const router = useRouter();
+  const currentPath = usePathname();
   const color = categoryColor[stats.category_name];
   const adoptedPercent = stats.total_posts > 0 ? Math.round((stats.adopted_posts / stats.total_posts) * 100) : 0;
   const getBadgePercent = Math.round((stats.users_with_badge / stats.total_users) * 100);
@@ -17,8 +22,8 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
       <div className="mb-7.5 text-lg font-semibold" style={{ color }}>
         {stats.category_name}
       </div>
-      <div className="ml-1 flex w-full flex-wrap gap-6">
-        <div className="flex w-full max-w-[200px] flex-col gap-2">
+      <div className="ml-1 flex w-full flex-wrap gap-5">
+        <div className="flex w-full max-w-40 flex-col gap-2 md:max-w-[200px]">
           <div className="flex gap-8">
             <div className="flex flex-col gap-1">
               <div className="text-text-title mb-0.5 text-[15px] font-semibold">총 Exp</div>
@@ -65,6 +70,11 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
               <div
                 key={user.user_id}
                 className={`relative flex flex-col items-center justify-center gap-1 overflow-hidden rounded-xl p-2 py-2.5 font-semibold shadow-sm before:absolute before:inset-0 before:opacity-15 before:content-[''] ${metalClasses[index]} `}
+                onClick={() => {
+                  const next = new URLSearchParams();
+                  next.set("user", user.user_id);
+                  router.push(`${currentPath}?${next.toString()}`);
+                }}
               >
                 <CircleProfileImage
                   src={
@@ -83,7 +93,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
 
       <div className="border-border-sub my-6 mt-7 border-t" />
 
-      <div className="ml-1 flex w-full flex-wrap gap-8">
+      <div className="ml-1 flex w-full flex-wrap gap-5 md:gap-8">
         <div className="flex w-full max-w-[250px] flex-col gap-3">
           <div className="text-text-title text-[15px] font-semibold">지표</div>
           <div className="flex gap-3">
@@ -91,7 +101,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
             <AdoptRatioChart label="사용자별 뱃지" percentage={getBadgePercent} color={color} />
           </div>
         </div>
-        <div className="flex min-w-[150px] flex-col gap-1.5">
+        <div className="flex min-w-[110px] flex-col gap-1.5 md:min-w-[120px]">
           <div className="text-text-title text-[15px] font-semibold">업적별 뱃지</div>
           <div className="h-[120px]">
             {!badgeCountStat && (
