@@ -1,11 +1,11 @@
 "use client";
 
-import dayjs from "dayjs";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { PostWithProfile } from "@/types/search";
 import { categoryColor } from "@/utils/category";
+import formatDate from "@/utils/formatDate";
 import { cardVariants } from "./SearchResultClient";
 import Badge from "../common/Badge";
 
@@ -24,15 +24,14 @@ export default function ResultPosts({
     router.push(`/posts/${category}/post/${id}`);
   };
 
-  if (pathType === "user" && (!searchData || searchData.length === 0))
-    return <p className="flex justify-center py-3 text-sm">첫 훈수 요청을 해보세요.</p>;
+  if (!searchData || searchData.length === 0) return;
 
   return searchData?.map(post => (
     <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex gap-2 text-xs">
           <p>{post.profiles?.name}</p>
-          <p className="text-text-light"> {dayjs(post.created_at).format("YYYY-MM-DD mm:ss")}</p>
+          <p className="text-text-light">{formatDate(post.created_at)}</p>
         </div>
         <div className="flex flex-col gap-2.5 text-sm">
           <p className="font-bold">{textHighlight ? textHighlight(post.title) : post.title}</p>

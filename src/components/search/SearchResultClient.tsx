@@ -33,7 +33,7 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
           {part}
         </span>
       ) : (
-        <span>{part}</span>
+        <span key={i}>{part}</span>
       );
     });
   };
