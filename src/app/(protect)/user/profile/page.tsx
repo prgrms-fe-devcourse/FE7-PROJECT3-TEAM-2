@@ -28,7 +28,7 @@ export default async function page() {
     { data: displayedBadge },
     { data: haveBadgeData },
   ] = await Promise.all([
-    supabase.from("profiles").select("*, badge(*)").eq("id", user.id).single(),
+    supabase.from("profiles").select("*, badge(*, category(name))").eq("id", user.id).single(),
     supabase.from("follow").select("*", { count: "exact", head: true }).eq("follower_id", user.id),
     supabase.from("follow").select("*", { count: "exact", head: true }).eq("following_id", user.id),
     supabase.from("posts").select("*", { count: "exact", head: true }).eq("user_id", user.id),
