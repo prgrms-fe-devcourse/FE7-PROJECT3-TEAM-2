@@ -28,7 +28,7 @@ export async function signInWithOAuth(provider: Provider, redirectUrl: string): 
   const { error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: redirectUrl,
+      redirectTo: process.env.NEXT_PUBLIC_SITE_URL ? `${process.env.NEXT_PUBLIC_SITE_URL}/oauth/callback` : redirectUrl,
     },
   });
   if (error && process.env.NODE_ENV === "development") console.error(error);
