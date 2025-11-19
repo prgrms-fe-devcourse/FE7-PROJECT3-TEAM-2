@@ -83,7 +83,7 @@ export default async function page() {
 
     if (!user || userError) {
       console.error(userError);
-      return { success: false, error: "유저 정보를 가져오지 못했습니다." };
+      return { success: false, error: "유저 정보를 가져오지 못했습니다.", result: null };
     }
     return updateDisplayedBadge(user.id, displayedBadgeList);
   }

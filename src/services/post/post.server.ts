@@ -10,12 +10,13 @@ export async function createPost(postData: PostInsertType): Promise<[FormState, 
       {
         success: false,
         error: `게시글 업로드 실패: ${error.message}`,
+        result: null,
       },
       null,
     ];
   }
 
-  return [{ success: true, error: null }, data];
+  return [{ success: true, error: null, result: null }, data];
 }
 
 export async function updatePost(id: string, updateData: PostUpdateType): Promise<[FormState, PostInsertType | null]> {
@@ -27,12 +28,13 @@ export async function updatePost(id: string, updateData: PostUpdateType): Promis
       {
         success: false,
         error: `게시글 업데이트 실패: ${error?.message}`,
+        result: null,
       },
       null,
     ];
   }
 
-  return [{ success: true, error: null }, data];
+  return [{ success: true, error: null, result: null }, data];
 }
 
 export async function getPosts(category: string) {

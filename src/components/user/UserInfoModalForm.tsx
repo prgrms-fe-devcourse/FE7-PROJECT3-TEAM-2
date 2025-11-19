@@ -15,7 +15,7 @@ type UserInfoModalFormProps = {
   haveBadge: BadgeType[] | null;
 };
 export default function UserInfoModalForm({ profile, setModal, action, haveBadge }: UserInfoModalFormProps) {
-  const [state, formAction, isPending] = useActionState(action, { success: false, error: null });
+  const [state, formAction, isPending] = useActionState(action, { success: false, error: null, result: null });
   const router = useRouter();
   const [preview, setPreview] = useState(profile?.avatar_image);
 
