@@ -50,6 +50,7 @@ export default function PostCard({
   const currentPath = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const isMyPost = userId === postData?.user_id;
 
   const handleBookmarkCount = (count: number) => {
     setBookmarkCount(prev => prev + count);
@@ -104,13 +105,15 @@ export default function PostCard({
               <span className="mr-2 ml-5 text-xs">{profiles.name}</span>
               <Badge size="sm" text="칭호칭호" className="bg-gray-200 text-black" />
             </div>
-            <div className="flex gap-2">
-              {" "}
-              <button className="hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2">
-                <span className="text-main text-xs">팔로우</span>
-              </button>
-              <PostCardBookMark postId={postData.id} userId={userId} handleBookmarkCount={handleBookmarkCount} />
-            </div>
+            {!isMyPost && userId && (
+              <div className="flex gap-2">
+                {" "}
+                <button className="hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2">
+                  <span className="text-main text-xs">팔로우</span>
+                </button>
+                <PostCardBookMark postId={postData.id} userId={userId} handleBookmarkCount={handleBookmarkCount} />
+              </div>
+            )}
           </div>
           <div className="post-card_detail flex flex-col gap-3">
             <p className="post-card_post-title text-text-title text-base font-bold">{title}</p>
@@ -135,7 +138,7 @@ export default function PostCard({
                   <span className="ml-2 text-xs">{bookmarkCount}</span>
                 </div>
               </div>
-              {userId === postData.user_id && (
+              {isMyPost && (
                 <div className="text-text-light flex gap-1 text-xs">
                   <Link href={`/posts/write?page=edit&id=${postData.id}`} className="hover:text-main cursor-pointer">
                     수정
