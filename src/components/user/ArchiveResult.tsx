@@ -3,7 +3,13 @@
 import { PostWithProfile } from "@/types/search";
 import ResultPosts from "../search/ResultPosts";
 
-export default function ArchiveResult({ posts, type = "my" }: { posts: PostWithProfile[]; type?: "my" | "bookmark" }) {
+export default function ArchiveResult({
+  posts,
+  type = "my",
+}: {
+  posts: PostWithProfile[] | null;
+  type?: "my" | "bookmark";
+}) {
   return (
     <>
       <div className="flex flex-col gap-2">
