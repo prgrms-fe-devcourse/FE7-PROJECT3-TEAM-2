@@ -11,7 +11,7 @@ import Badge from "../common/Badge";
 import ProfileSlide from "../user/ProfileSlide";
 
 export const cardVariants = cva(
-  "flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-gray-200 hover:bg-gray-200"
+  "flex w-full cursor-pointer justify-between gap-3 rounded-3xl border border-border-main hover:bg-border-main"
 );
 
 export default function SearchResultClient({ searchType, searchData, queryParam }: SearchResultProps) {
@@ -65,7 +65,7 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
     <div className={`flex gap-6 ${searchType === "user" && selectedUser ? "flex-row" : ""}`}>
       {/* 왼쪽 */}
       <div
-        className={`flex flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6 ${searchType === "user" && selectedUser ? "hidden w-2/3 lg:flex" : "flex w-full"} flex-col gap-3`}
+        className={`md:border-border-main flex flex-col gap-3 rounded-3xl md:border md:p-6 ${searchType === "user" && selectedUser ? "hidden w-2/3 lg:flex" : "flex w-full"} flex-col gap-3`}
       >
         <div className="relative flex justify-between">
           <div className="flex text-xs">
@@ -118,10 +118,10 @@ export default function SearchResultClient({ searchType, searchData, queryParam 
                 router.replace(`${path}?query=${query}&user=${user.id}`);
               }}
             >
-              <div className="flex flex-col gap-6 p-6">
+              <div className="flex flex-col gap-12 p-6">
                 <p>{textHighlight(user.name)}</p>
                 <Badge className="bg-amber-400 px-2 py-1" size="sm" text={`LV.${user.level}`} />
-                <Badge size="sm" className="bg-pink-600 px-2 py-1 text-white" text="HOT" />
+                {/* <Badge size="sm" className="bg-pink-600 px-2 py-1 text-white" text="HOT" /> */}
               </div>
               <div>
                 <Image

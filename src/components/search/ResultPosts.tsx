@@ -56,5 +56,6 @@ export default function ResultPosts({
         )}
       </div>
     </div>
+    // </ResponsiveContainer>
   ));
 }
