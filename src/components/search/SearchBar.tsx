@@ -11,19 +11,33 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
   const route = useRouter();
   const [query, setQuery] = useState("");
   const queryChange = useSearchParams();
+  const q = queryChange.get("query") ?? "";
 
+  // 검색 버튼 - 제출로 인한 이동
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
 
-    route.push(`/search/${searchType}?query=${encodeURIComponent(query)}`);
+    if (!q) route.push(`/search/${searchType}?query=${encodeURIComponent(query)}`);
   };
 
   useEffect(() => {
-    const q = queryChange.get("query") ?? "";
     if (q !== query) setQuery(q);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryChange]);
+
+  // 실시간 이동
+  useEffect(() => {
+    if (!query.trim()) return;
+
+    if (q) {
+      const timer = setTimeout(() => {
+        route.replace(`/search/${searchType}?query=${encodeURIComponent(query)}`);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [query, route]);
 
   return (
     <>

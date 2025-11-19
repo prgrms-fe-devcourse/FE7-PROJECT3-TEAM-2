@@ -14,7 +14,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
 
   let data = supabase
     .from("bookmark")
-    .select("posts(*, category(type), profiles(name))")
+    .select("posts(*, category(type,name), profiles(name))")
     .eq("user_id", user?.id ?? "")
     .order("created_at", { ascending: false, foreignTable: "posts" });
 
