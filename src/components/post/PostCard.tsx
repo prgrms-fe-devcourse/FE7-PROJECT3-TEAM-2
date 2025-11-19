@@ -143,7 +143,13 @@ export default function PostCard({
                 <Badge
                   size="sm"
                   text={userBadgeData?.badge?.name}
-                  style={{ backgroundColor: categoryColor[userBadgeData.badge.category?.name ?? ""] }}
+                  style={
+                    userBadgeData?.badge?.type === "category"
+                      ? {
+                          backgroundColor: categoryColor[userBadgeData.badge.category?.name ?? ""],
+                        }
+                      : { backgroundColor: "#999999" }
+                  }
                   className="text-white"
                 />
               )}
@@ -153,8 +159,8 @@ export default function PostCard({
                 <button
                   className={
                     (followList ?? []).includes(postData?.user_id)
-                      ? "hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2"
-                      : "bg-main hover:bg-main/80 flex h-max cursor-pointer items-center justify-center rounded-lg p-2 text-white"
+                      ? "hover:bg-main/10 hidden h-max cursor-pointer items-center justify-center rounded-lg p-2"
+                      : "bg-main hover:bg-main/80 hidden h-max cursor-pointer items-center justify-center rounded-lg p-2 text-white"
                   }
                   onClick={() => handleFollow()}
                 >
