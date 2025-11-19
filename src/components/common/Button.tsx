@@ -14,14 +14,14 @@ const button = cva("inline-flex items-center justify-center rounded-lg cursor-po
       xs: "min-w-[79px] h-fit text-xs py-1.5 gap-0",
     },
     variant: {
-      primary: "bg-[var(--color-main)] text-white hover:bg-blue-400 disabled:bg-gray-300",
+      primary: "bg-[var(--color-main)] text-white hover:bg-blue-400 disabled:bg-gray-300 disabled:cursor-default",
       secondary:
-        "border border-[var(--color-bg-sub)] bg-[var(--color-main-50)] text-[var(--color-main)] hover:bg-blue-100 disabled:bg-gray-200 disabled:text-white",
+        "border border-[var(--color-bg-sub)] bg-[var(--color-main-50)] text-[var(--color-main)] hover:bg-blue-100 disabled:bg-gray-200 disabled:text-white disabled:cursor-default",
       tertiary:
-        "border border-[var(--color-bg-sub)] bg-[var(--color-bg-main)] text-[var(--color-text-content)] hover:border-gray-400 disabled:border-gray-300 disabled:text-gray-200 disabled:border-gray-200",
+        "border border-[var(--color-bg-sub)] bg-[var(--color-bg-main)] text-[var(--color-text-content)] hover:border-gray-400 disabled:border-gray-300 disabled:text-gray-200 disabled:border-gray-200 disabled:cursor-default",
       quaternary:
-        "border border-[var(--color-main)] bg-[var(--color-bg-main)] text-[var(--color-main)] disabled:text-gray-200 disabled:border-blue-100",
-      quinary: "bg-[var(--color-bg-main)] text-[var(--color-main)] disabled:text-gray-200",
+        "border border-[var(--color-main)] bg-[var(--color-bg-main)] text-[var(--color-main)] disabled:text-gray-200 disabled:border-blue-100 disabled:cursor-default",
+      quinary: "bg-[var(--color-bg-main)] text-[var(--color-main)] disabled:text-gray-200 disabled:cursor-default",
     },
   },
 

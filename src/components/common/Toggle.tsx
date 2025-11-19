@@ -3,13 +3,13 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
-const toggle = cva("inline-flex items-center justify-center rounded-lg cursor-pointer", {
+const toggle = cva("inline-flex items-center justify-center rounded-lg cursor-pointer disabled:bg-border-main", {
   variants: {
     size: {
-      xl: "min-w-[343px] text-base py-4.5 gap-4",
-      lg: "min-w-[311px] text-base py-4.5 gap-3",
-      md: "min-w-[151px] text-sm py-[17px] gap-2",
-      sm: "min-w-[79px] text-xs py-3 h-fit gap-0",
+      xl: "min-w-[343px] text-base py-4.5 gap-4 disabled:cursor-default ",
+      lg: "min-w-[311px] text-base py-4.5 gap-3 disabled:cursor-default",
+      md: "min-w-[151px] text-sm py-[17px] gap-2 disabled:cursor-default",
+      sm: "min-w-[79px] text-xs py-3 h-fit gap-0 disabled:cursor-default",
     },
     active: {
       t: "bg-[var(--color-main)] text-white",

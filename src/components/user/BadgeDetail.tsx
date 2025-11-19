@@ -1,37 +1,57 @@
 "use client";
 
+import { BadgeCheck, BadgeX } from "lucide-react";
 import Image from "next/image";
-import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
-import { createClient } from "@/utils/supabase/client";
+import { BadgeType } from "@/types";
 
 type BadgeDetailProps = {
-  badgeTitle: string;
+  badgeData: BadgeType | null;
   className?: string;
+  type?: "display" | "update" | "delete";
 };
 
-export default function BadgeDetail({ badgeTitle, className }: BadgeDetailProps) {
-  const badgeImgData = useMemo(() => {
-    const supabase = createClient();
-    const { data } = supabase.storage.from("badge_images").getPublicUrl(`${badgeTitle}.png`);
-    return data.publicUrl;
-  }, [badgeTitle]);
-
+export default function BadgeDetail({ badgeData, className, type = "display" }: BadgeDetailProps) {
   return (
     <>
-      <div className={twMerge(className, "flex max-w-sm flex-col items-center gap-1")}>
-        {badgeImgData && (
-          <Image
-            src={badgeImgData}
-            alt="badge"
-            width={70}
-            height={70}
-            className="border-bg-sub rounded-full border"
-            unoptimized
-          />
+      <div className={twMerge(className, "flex w-20 flex-col items-center gap-1")}>
+        {badgeData?.badge_image ? (
+          <div
+            className={twMerge(
+              "group relative rounded-full",
+              type === "delete" && "hover:black/70",
+              type === "update" && "hover:bg-main/70"
+            )}
+          >
+            <Image
+              src={badgeData.badge_image}
+              alt={badgeData.name}
+              width={70}
+              height={70}
+              className={twMerge(
+                "border-bg-sub rounded-full border",
+                type === "update" && "group-hover:opacity-40",
+                type === "delete" && "group-hover:brightness-80"
+              )}
+              loading="eager"
+              quality={100}
+            />
+            {type === "update" && (
+              <div className="absolute inset-1 hidden items-center justify-center group-hover:flex">
+                <BadgeCheck color="white" size={25} />
+              </div>
+            )}
+            {type === "delete" && (
+              <div className="absolute inset-1 hidden items-center justify-center group-hover:flex">
+                <BadgeX color="white" size={25} />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="border-bg-sub h-[70px] w-[70px] rounded-full border"></div>
         )}
-        <p className="text-center font-medium break-keep">훈수톡 입장</p>
-        <p className="text-text-light text-center text-[8px] break-keep">첫 가입</p>
+        <p className="text-center font-medium break-keep">{badgeData?.name ?? "-"}</p>
+        <p className="text-text-light text-center text-[8px] break-keep">{badgeData?.desc ?? "선택 가능"}</p>
       </div>
     </>
   );

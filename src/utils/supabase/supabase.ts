@@ -36,27 +36,30 @@ export type Database = {
       badge: {
         Row: {
           badge_image: string | null;
-          category_id: string;
+          category_id: string | null;
           desc: string;
           id: string;
           name: string;
           point: number | null;
+          type: string | null;
         };
         Insert: {
           badge_image?: string | null;
-          category_id: string;
+          category_id?: string | null;
           desc: string;
           id?: string;
           name: string;
           point?: number | null;
+          type?: string | null;
         };
         Update: {
           badge_image?: string | null;
-          category_id?: string;
+          category_id?: string | null;
           desc?: string;
           id?: string;
           name?: string;
           point?: number | null;
+          type?: string | null;
         };
         Relationships: [
           {
@@ -203,36 +206,99 @@ export type Database = {
           },
         ];
       };
+      displayed_badge: {
+        Row: {
+          first: string | null;
+          fourth: string | null;
+          id: number;
+          second: string | null;
+          third: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          first?: string | null;
+          fourth?: string | null;
+          id?: number;
+          second?: string | null;
+          third?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          first?: string | null;
+          fourth?: string | null;
+          id?: number;
+          second?: string | null;
+          third?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "displayed_badge_first_fkey";
+            columns: ["first"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_fourth_fkey";
+            columns: ["fourth"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_second_fkey";
+            columns: ["second"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_third_fkey";
+            columns: ["third"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "displayed_badge_user_id_fkey1";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       follow: {
         Row: {
           created_at: string;
-          follwer_id: string;
-          follwing: string;
+          follower_id: string;
+          following_id: string;
           id: string;
         };
         Insert: {
           created_at?: string;
-          follwer_id: string;
-          follwing: string;
+          follower_id: string;
+          following_id: string;
           id?: string;
         };
         Update: {
           created_at?: string;
-          follwer_id?: string;
-          follwing?: string;
+          follower_id?: string;
+          following_id?: string;
           id?: string;
         };
         Relationships: [
           {
             foreignKeyName: "follow_follwer_id_fkey";
-            columns: ["follwer_id"];
+            columns: ["follower_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "follow_follwing_fkey";
-            columns: ["follwing"];
+            columns: ["following_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
@@ -314,7 +380,7 @@ export type Database = {
       };
       profiles: {
         Row: {
-          avartar_image: string | null;
+          avatar_image: string | null;
           bio: string | null;
           created_at: string;
           email: string;
@@ -325,7 +391,7 @@ export type Database = {
           phone_number: string | null;
         };
         Insert: {
-          avartar_image?: string | null;
+          avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
           email: string;
@@ -336,7 +402,7 @@ export type Database = {
           phone_number?: string | null;
         };
         Update: {
-          avartar_image?: string | null;
+          avatar_image?: string | null;
           bio?: string | null;
           created_at?: string;
           email?: string;
@@ -389,7 +455,121 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_category_full_statistics: {
+        Args: never;
+        Returns: {
+          adopted_posts: number;
+          avg_comments: number;
+          badge_counts: Json;
+          category_id: string;
+          category_name: string;
+          image_url: string;
+          percent_with_badge: number;
+          topkeywords: string[];
+          topusers: Json;
+          total_point: number;
+          total_posts: number;
+          total_users: number;
+          users_with_badge: number;
+        }[];
+      };
+      get_category_total_points: {
+        Args: never;
+        Returns: {
+          category_id: string;
+          name: string;
+          total_point: number;
+        }[];
+      };
+      get_detail_comment: {
+        Args: { p_comment_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_detail_comments: {
+        Args: { p_post_id: string };
+        Returns: {
+          content: string;
+          created_at: string;
+          id: string;
+          profiles: Json;
+          reactions: Json;
+          user_id: string;
+        }[];
+      };
+      get_hot_comments_of_week: {
+        Args: never;
+        Returns: {
+          avatar_image: string;
+          category_type: string;
+          comment_id: string;
+          content: string;
+          dislike_count: number;
+          like_count: number;
+          name: string;
+          post_id: string;
+          user_id: string;
+        }[];
+      };
+      get_hot_posts_of_week: {
+        Args: never;
+        Returns: {
+          author_name: string;
+          category_name: string;
+          category_type: string;
+          post_id: string;
+          post_image: string;
+          title: string;
+        }[];
+      };
+      get_top_keyword: {
+        Args: never;
+        Returns: {
+          category_name: string;
+          keyword: string;
+          keyword_count: number;
+        }[];
+      };
+      get_user_activity_category: {
+        Args: { p_user_id: string };
+        Returns: {
+          category_name: string;
+          comments_count: number;
+          posts_count: number;
+        }[];
+      };
+      get_user_badge_points: {
+        Args: { p_user_id: string };
+        Returns: {
+          badge_points: number;
+          category_name: string;
+        }[];
+      };
+      grant_badges_and_update_exp: {
+        Args: { p_category_id: string; p_user_id: string };
+        Returns: {
+          badge_name: string;
+          leveled_up: boolean;
+          new_exp: number;
+          new_level: number;
+        }[];
+      };
+      process_badges: {
+        Args: { p_action: string; p_category_id: string; p_user_id: string };
+        Returns: {
+          added_exp: number;
+          badge_name: string;
+          leveled_up: boolean;
+          new_exp: number;
+          new_level: number;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;

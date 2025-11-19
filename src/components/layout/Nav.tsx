@@ -1,10 +1,9 @@
 "use client";
 
-import { Settings2, ShieldAlert } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/common/Button";
+import LoginButton from "@/components/auth/login/LoginButton";
 import { NavButton } from "@/components/common/NavButton";
+import ThemeSwitch from "@/components/common/ThemeSwitch";
 import { navData } from "@/routes/routes.data";
 
 export default function Nav() {
@@ -16,7 +15,7 @@ export default function Nav() {
   };
 
   return (
-    <nav className="bg-bg-sub hidden overflow-y-auto rounded-bl-[30px] border border-gray-200 sm:flex sm:h-[calc(100vh-var(--header-height))] sm:w-[223px] sm:flex-col sm:justify-between sm:p-6">
+    <nav className="bg-bg-sub hidden overflow-y-auto border-r border-gray-200 sm:flex sm:h-[calc(100vh-var(--header-height))] sm:w-[223px] sm:flex-col sm:justify-between sm:p-6 2xl:rounded-bl-[30px] dark:border-neutral-800">
       <ul className="flex items-center gap-3 sm:flex-col sm:items-baseline">
         {navData.map(nav => {
           return (
@@ -40,18 +39,8 @@ export default function Nav() {
         })}
       </ul>
       <ul className="flex flex-row gap-2 sm:flex-col">
-        <li>
-          <Button variant="secondary" className="w-full" size="md">
-            <Settings2 size={16} />
-            설정
-          </Button>
-        </li>
-        <Link href="/login">
-          <Button variant="tertiary" className="w-full" size="md">
-            <ShieldAlert size={16} />
-            로그인
-          </Button>
-        </Link>
+        <ThemeSwitch />
+        <LoginButton />
       </ul>
     </nav>
   );
