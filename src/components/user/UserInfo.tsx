@@ -3,6 +3,7 @@
 import { UserRoundPen } from "lucide-react";
 import { useState } from "react";
 import { BadgeType, FormState } from "@/types";
+import { categoryColor } from "@/utils/category";
 import UserInfoModalForm from "./UserInfoModalForm";
 import Badge from "../common/Badge";
 import { Button } from "../common/Button";
@@ -20,7 +21,13 @@ type UserInfoProps = {
     name: string;
     phone_number: string | null;
     title_badge: string | null;
-    badge?: BadgeType | null;
+    badge?:
+      | (BadgeType & {
+          category: {
+            name: string;
+          };
+        })
+      | null;
   } | null;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
   haveBadge: BadgeType[] | null;
@@ -42,7 +49,12 @@ export default function UserInfo({ profile, action, haveBadge }: UserInfoProps) 
             <div className="flex items-center gap-2">
               <p className="font-medium">{profile?.name}</p>
               {profile?.badge?.name && (
-                <Badge size="sm" text={profile?.badge?.name ?? "칭호 없음"} className="bg-${} text-white" />
+                <Badge
+                  size="sm"
+                  text={profile?.badge?.name ?? "칭호 없음"}
+                  className="text-white"
+                  style={{ backgroundColor: categoryColor[profile.badge.category?.name ?? "#999999"] }}
+                />
               )}
             </div>
           </div>
