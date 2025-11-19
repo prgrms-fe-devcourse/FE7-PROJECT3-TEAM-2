@@ -10,10 +10,13 @@ import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { getBookmarkCount } from "@/services/post/bookmark";
 import { deletePost } from "@/services/post/post.client";
+import { deleteFollow, insertFollow } from "@/services/profile/updateFollow";
 import { PostDetailType } from "@/types";
+import { createClient } from "@/utils/supabase/client";
 import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 import BaseImage from "../common/image/BaseImage";
+import Toast from "../common/toast/Toast";
 
 const thumbnailVariants = cva(
   "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-border-main",
@@ -50,6 +53,7 @@ export default function PostCard({
   const currentPath = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [followList, setFollowList] = useState<string[]>();
   const isMyPost = userId === postData?.user_id;
 
   const handleBookmarkCount = (count: number) => {
@@ -57,12 +61,41 @@ export default function PostCard({
   };
 
   useEffect(() => {
+    const supabase = createClient();
+    const fetchData = async () => {
+      if (userId) {
+        const { data: followList } = await supabase.from("follow").select("following_id").eq("follower_id", userId);
+        const followListData = followList?.map(f => f.following_id) ?? [];
+        setFollowList(followListData);
+      }
+    };
     const loadBookmarkCount = async () => {
       const count = await getBookmarkCount(postData?.id ?? "");
       setBookmarkCount(count ?? 0);
     };
+    fetchData();
     loadBookmarkCount();
-  }, []);
+  }, [postData?.id, userId]);
+
+  const handleFollow = async () => {
+    if (userId && postData?.user_id && (followList ?? []).includes(postData?.user_id)) {
+      const { success, error } = await deleteFollow(userId, postData?.user_id);
+      if (error) {
+        Toast({ message: error, type: "ERROR" });
+      } else if (success && !error) {
+        setFollowList(prev => prev?.filter(id => id !== postData?.user_id));
+        Toast({ message: postData?.profiles.name + "님을 언팔로우 했습니다.", type: "SUCCESS" });
+      }
+    } else if (userId && postData?.user_id) {
+      const { success, error } = await insertFollow(userId, postData?.user_id);
+      if (error) {
+        Toast({ message: error, type: "ERROR" });
+      } else if (success && !error) {
+        setFollowList(prev => [...(prev ?? []), postData?.user_id]);
+        Toast({ message: postData?.profiles.name + "님을 팔로우 했습니다.", type: "SUCCESS" });
+      }
+    }
+  };
 
   if (postData) {
     const { content, post_image, profiles, title } = postData;
@@ -107,9 +140,21 @@ export default function PostCard({
             </div>
             {!isMyPost && userId && (
               <div className="flex gap-2">
-                {" "}
-                <button className="hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2">
-                  <span className="text-main text-xs">팔로우</span>
+                <button
+                  className={
+                    (followList ?? []).includes(postData?.user_id)
+                      ? "hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2"
+                      : "bg-main hover:bg-main/80 flex h-max cursor-pointer items-center justify-center rounded-lg p-2 text-white"
+                  }
+                  onClick={() => handleFollow()}
+                >
+                  <span
+                    className={
+                      (followList ?? []).includes(postData?.user_id) ? "text-main text-xs" : "text-xs text-white"
+                    }
+                  >
+                    {(followList ?? []).includes(postData?.user_id) ? "팔로잉" : "팔로우"}
+                  </span>
                 </button>
                 <PostCardBookMark postId={postData.id} userId={userId} handleBookmarkCount={handleBookmarkCount} />
               </div>

@@ -134,7 +134,7 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
             disabled={!userId || userId === isOpen}
             onClick={handleFollow}
           >
-            팔로우
+            {(followList ?? []).includes(isOpen) ? "팔로잉" : "팔로우"}
           </Toggle>
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-6">
