@@ -20,7 +20,7 @@ type UserInfoModalFormProps = {
     name: string;
     phone_number: string | null;
     title_badge: string | null;
-    badge?: BadgeType;
+    badge?: BadgeType | null;
   } | null;
   setModal: () => void;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
