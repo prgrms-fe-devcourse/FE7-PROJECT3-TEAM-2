@@ -112,19 +112,19 @@ export type Database = {
           id: string;
           image_url: string | null;
           name: string;
-          type: string | null;
+          type: string;
         };
         Insert: {
           id?: string;
           image_url?: string | null;
           name: string;
-          type?: string | null;
+          type: string;
         };
         Update: {
           id?: string;
           image_url?: string | null;
           name?: string;
-          type?: string | null;
+          type?: string;
         };
         Relationships: [];
       };
@@ -210,26 +210,26 @@ export type Database = {
         Row: {
           first: string | null;
           fourth: string | null;
-          id: number;
+          id: string;
           second: string | null;
           third: string | null;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           first?: string | null;
           fourth?: string | null;
-          id?: number;
+          id?: string;
           second?: string | null;
           third?: string | null;
-          user_id?: string | null;
+          user_id: string;
         };
         Update: {
           first?: string | null;
           fourth?: string | null;
-          id?: number;
+          id?: string;
           second?: string | null;
           third?: string | null;
-          user_id?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -389,6 +389,7 @@ export type Database = {
           level: number | null;
           name: string;
           phone_number: string | null;
+          title_badge: string | null;
         };
         Insert: {
           avatar_image?: string | null;
@@ -400,6 +401,7 @@ export type Database = {
           level?: number | null;
           name: string;
           phone_number?: string | null;
+          title_badge?: string | null;
         };
         Update: {
           avatar_image?: string | null;
@@ -411,8 +413,17 @@ export type Database = {
           level?: number | null;
           name?: string;
           phone_number?: string | null;
+          title_badge?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "profiles_title_badge_fkey";
+            columns: ["title_badge"];
+            isOneToOne: false;
+            referencedRelation: "badge";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       user_badge: {
         Row: {
