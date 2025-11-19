@@ -50,6 +50,7 @@ export default function PostDetail({
             isMyPost={isMyPost}
             userId={user?.id ?? ""}
             postId={postId}
+            categoryId={postData?.category_id ?? ""}
             commentData={commentData ?? []}
             adoptedCommentId={postData?.adopted_comment_id ?? ""}
           />

@@ -73,6 +73,7 @@ export default async function page() {
       return {
         success: false,
         error: "로그인이 필요합니다.",
+        result: null,
       };
     }
 
@@ -101,6 +102,7 @@ export default async function page() {
         return {
           success: false,
           error: "이미지 업로드 실패",
+          result: null,
         };
       } else {
         const { data } = supabase.storage.from("user_upload_image").getPublicUrl(filePath);
@@ -112,6 +114,7 @@ export default async function page() {
       return {
         success: false,
         error: "필수 항목을 채워주세요",
+        result: null,
       };
     }
 
@@ -119,12 +122,14 @@ export default async function page() {
       return {
         success: false,
         error: "올바른 전화번호를 입력해주세요.",
+        result: null,
       };
     }
     if (bio.length > 50) {
       return {
         success: false,
         error: "50자 이내로 작성해주세요.",
+        result: null,
       };
     }
     if (!avatarImage || avatarImage.size === 0) {

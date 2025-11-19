@@ -27,7 +27,7 @@ const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm break-all", 
   variants: {
     isMine: {
       true: "bg-main text-white rounded-tr-none",
-      false: "bg-white text-gray-900 border-2 border-gray-100 rounded-tl-none",
+      false: "bg-bg-main  text-text-content rounded-tl-none",
     },
   },
   defaultVariants: {
@@ -42,6 +42,7 @@ export default function MessageBubble({
   postId,
   currentUserId,
   adoptedId,
+  categoryId,
 }: {
   isLogin: boolean;
   isMyPost: boolean;
@@ -49,6 +50,7 @@ export default function MessageBubble({
   postId: string;
   currentUserId: string;
   adoptedId: string;
+  categoryId: string;
 }) {
   const { content, created_at, id, reactions, user_id, profiles } = data;
   const isAdopted = id === adoptedId;
@@ -99,9 +101,10 @@ export default function MessageBubble({
           <div className="comment-btns flex justify-end gap-2">
             <CommentReactionBtn
               isLogin={isLogin}
-              isMine={isMine}
+              userId={user_id}
               currentUserId={currentUserId}
               commentId={id}
+              categoryId={categoryId}
               buttonType="like"
               reactions={reactions.like}
             >
@@ -109,9 +112,10 @@ export default function MessageBubble({
             </CommentReactionBtn>
             <CommentReactionBtn
               isLogin={isLogin}
-              isMine={isMine}
+              userId={user_id}
               currentUserId={currentUserId}
               commentId={id}
+              categoryId={categoryId}
               buttonType="disLike"
               reactions={reactions.disLike}
             >
@@ -120,11 +124,12 @@ export default function MessageBubble({
             {isAdopted && (
               <CommentReactionBtn
                 isLogin={isLogin}
-                isMine={isMine}
+                userId={user_id}
                 isMyPost={isMyPost}
                 isAdopted={isAdopted}
                 currentUserId={currentUserId}
                 commentId={id}
+                categoryId={categoryId}
                 buttonType="adopt"
               >
                 <Stamp size={8} />
@@ -159,9 +164,10 @@ export default function MessageBubble({
           <div className="comment-btns flex gap-2">
             <CommentReactionBtn
               isLogin={isLogin}
-              isMine={isMine}
+              userId={user_id}
               currentUserId={currentUserId}
               commentId={id}
+              categoryId={categoryId}
               buttonType="like"
               reactions={reactions.like}
             >
@@ -169,9 +175,10 @@ export default function MessageBubble({
             </CommentReactionBtn>
             <CommentReactionBtn
               isLogin={isLogin}
-              isMine={isMine}
+              userId={user_id}
               currentUserId={currentUserId}
               commentId={id}
+              categoryId={categoryId}
               buttonType="disLike"
               reactions={reactions.disLike}
             >
@@ -180,12 +187,13 @@ export default function MessageBubble({
             {isAdopted ? (
               <CommentReactionBtn
                 isLogin={isLogin}
-                isMine={isMine}
+                userId={user_id}
                 isMyPost={isMyPost}
                 isAdopted={isAdopted}
                 currentUserId={currentUserId}
                 postId={postId}
                 commentId={id}
+                categoryId={categoryId}
                 buttonType="adopt"
               >
                 <Stamp size={8} />
@@ -194,12 +202,13 @@ export default function MessageBubble({
               isMyPost && (
                 <CommentReactionBtn
                   isLogin={isLogin}
-                  isMine={isMine}
+                  userId={user_id}
                   isMyPost={isMyPost}
                   isAdopted={isAdopted}
                   currentUserId={currentUserId}
                   postId={postId}
                   commentId={id}
+                  categoryId={categoryId}
                   buttonType="adopt"
                 >
                   <Stamp size={8} />

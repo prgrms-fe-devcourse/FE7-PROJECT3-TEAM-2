@@ -22,6 +22,7 @@ export default function PostForm({
   const [state, formAction, isPending] = useActionState(action, {
     success: false,
     error: null,
+    result: null,
   });
 
   const router = useRouter();
@@ -60,6 +61,10 @@ export default function PostForm({
         redirect(`/posts/${categoryType}/post/${postData.id}`);
       } else {
         Toast({ message: "게시글이 성공적으로 등록되었습니다.", type: "SUCCESS" });
+        state.result?.forEach(res => {
+          Toast({ message: `${res.badgeName} 뱃지를 획득하셨습니다!`, type: "SUCCESS" });
+          if (res.leveledUp) Toast({ message: `${res.newLevel} 레벨업!`, type: "SUCCESS" });
+        });
         redirect("/posts");
       }
     }

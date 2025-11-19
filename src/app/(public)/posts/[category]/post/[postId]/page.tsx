@@ -2,6 +2,7 @@ import PostDetail from "@/components/post/PostDetail";
 import { createComment, getComments } from "@/services/comment/comment.server";
 import { getDetailPost } from "@/services/post/post.server";
 import { FormState } from "@/types";
+import { badgeComments } from "@/utils/achieve/server";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function PostPage({ params }: { params: Promise<{ postId: string }> }) {
@@ -26,6 +27,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
       return {
         success: false,
         error: "로그인이 필요합니다.",
+        result: null,
       };
     }
 
@@ -35,6 +37,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
       return {
         success: false,
         error: "내용을 입력해주세요.",
+        result: null,
       };
     }
 
@@ -47,10 +50,12 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
     if (!state.success) return state;
 
     // 뱃지, 경험치
+    const result = await badgeComments(user.id, postData?.category_id ?? "");
 
     return {
       success: true,
       error: null,
+      result: result,
     };
   }
 

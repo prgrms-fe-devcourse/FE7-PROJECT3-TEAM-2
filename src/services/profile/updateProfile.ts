@@ -20,9 +20,10 @@ export async function updateProfile(
       return {
         success: false,
         error: "프로필 저장중에 문제가 발생하였습니다.",
+        result: null,
       };
     }
-    return { success: true, error: null };
+    return { success: true, error: null, result: null };
   } else {
     const { error: updateErrors } = await supabase
       .from("profiles")
@@ -33,8 +34,9 @@ export async function updateProfile(
       return {
         success: false,
         error: "프로필 저장중에 문제가 발생하였습니다.",
+        result: null,
       };
     }
-    return { success: true, error: null };
+    return { success: true, error: null, result: null };
   }
 }
