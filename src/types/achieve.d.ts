@@ -5,3 +5,13 @@ type BadgeAchieveType = {
   badgeName: string;
   addedExp: number | null;
 };
+
+type userBadgeType = {
+  title_badge: string | null;
+  badge: {
+    name: string;
+    category: {
+      name: string;
+    } | null;
+  } | null;
+} | null;

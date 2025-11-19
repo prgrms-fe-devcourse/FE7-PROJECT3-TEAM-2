@@ -13,6 +13,11 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   const { postId } = await params;
   const commentData = await getComments(postId);
   const postData = await getDetailPost(postId);
+  const { data: userBadgeData } = await supabase
+    .from("profiles")
+    .select("title_badge, level, badge (name, category(name))")
+    .eq("id", postData?.user_id ?? "")
+    .maybeSingle();
 
   async function writeComment(prevState: FormState, formData: FormData): Promise<FormState> {
     "use server";
@@ -66,6 +71,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
       postData={postData}
       postId={postId}
       writeComment={writeComment}
+      userBadgeData={userBadgeData}
     />
   );
 }

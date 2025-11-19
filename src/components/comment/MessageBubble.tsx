@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { deleteComment } from "@/services/comment/comment.client";
 import { CommentDetailType } from "@/types";
+import { categoryColor } from "@/utils/category";
 import formatDate from "@/utils/formatDate";
 import { CommentModifyForm } from "./CommentModifyForm";
 import CommentReactionBtn from "./CommentReactionBtn";
@@ -60,6 +61,8 @@ export default function MessageBubble({
   const handleUpdate = () => {
     setIsUpdate(false);
   };
+
+  console.log(data.profiles);
 
   return (
     <div className={BubbleVariants({ isMine })}>
@@ -150,8 +153,15 @@ export default function MessageBubble({
             <div className="flex flex-col justify-center gap-0.5">
               <span className="text-sm">{profiles.name}</span>
               <div className="flex gap-1">
-                <Badge text="LV.31" size="xs" className="bg-amber-400 px-1 py-0.5" />
-                <Badge text="연애프로 패널급" size="xs" className="bg-pink-600 px-1 py-0.5 text-white" />
+                <Badge text={`LV.${profiles.level}`} size="xs" className="bg-main px-1 py-0.5 text-white" />
+                {profiles.badge.name && (
+                  <Badge
+                    text={profiles.badge.name}
+                    size="xs"
+                    className="px-1 py-0.5"
+                    style={{ backgroundColor: categoryColor[profiles.badge.category.name] ?? "#999999", color: "#fff" }}
+                  />
+                )}
               </div>
             </div>
           </div>

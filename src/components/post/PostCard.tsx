@@ -12,6 +12,7 @@ import { getBookmarkCount } from "@/services/post/bookmark";
 import { deletePost } from "@/services/post/post.client";
 import { deleteFollow, insertFollow } from "@/services/profile/updateFollow";
 import { PostDetailType } from "@/types";
+import { categoryColor } from "@/utils/category";
 import { createClient } from "@/utils/supabase/client";
 import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
@@ -38,6 +39,7 @@ interface PostCardProps extends VariantProps<typeof thumbnailVariants> {
   postData: PostDetailType | null;
   commentCount: number;
   handleSelectUser: () => void;
+  userBadgeData: userBadgeType;
   className?: string;
 }
 
@@ -47,6 +49,7 @@ export default function PostCard({
   postData,
   commentCount,
   handleSelectUser,
+  userBadgeData,
   className,
 }: PostCardProps) {
   const router = useRouter();
@@ -136,7 +139,14 @@ export default function PostCard({
               </button>
 
               <span className="mr-2 ml-5 text-xs">{profiles.name}</span>
-              <Badge size="sm" text="칭호칭호" className="bg-gray-200 text-black" />
+              {userBadgeData?.badge?.name && (
+                <Badge
+                  size="sm"
+                  text={userBadgeData?.badge?.name}
+                  style={{ backgroundColor: categoryColor[userBadgeData.badge.category?.name ?? ""] }}
+                  className="text-white"
+                />
+              )}
             </div>
             {!isMyPost && userId && (
               <div className="flex gap-2">
