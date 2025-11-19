@@ -41,7 +41,8 @@ export async function getPosts(category: string) {
     const { data, error } = await supabase
       .from("posts")
       .select("*,category!inner(id, name, type), profiles(id, name, avatar_image)")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(10);
     if (!error) {
       return data as PostCardType[];
     } else return null;
@@ -50,7 +51,8 @@ export async function getPosts(category: string) {
       .from("posts")
       .select("*,category!inner(id, name, type), profiles(id, name, avatar_image)")
       .eq("category.type", category)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(10);
     if (!error) {
       return data as PostCardType[];
     } else return null;
