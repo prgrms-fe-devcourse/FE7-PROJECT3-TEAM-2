@@ -34,10 +34,18 @@ interface PostCardProps extends VariantProps<typeof thumbnailVariants> {
   userId: string;
   postData: PostDetailType | null;
   commentCount: number;
+  handleSelectUser: () => void;
   className?: string;
 }
 
-export default function PostCard({ userId, device, postData, commentCount, className }: PostCardProps) {
+export default function PostCard({
+  userId,
+  device,
+  postData,
+  commentCount,
+  handleSelectUser,
+  className,
+}: PostCardProps) {
   const router = useRouter();
   const currentPath = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -77,6 +85,7 @@ export default function PostCard({ userId, device, postData, commentCount, class
               </button>
               <button
                 onClick={() => {
+                  handleSelectUser();
                   const next = new URLSearchParams();
                   next.set("user", profiles.id);
                   router.push(`${currentPath}?${next.toString()}`);

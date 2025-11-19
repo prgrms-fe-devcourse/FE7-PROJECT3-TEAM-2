@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { getFollowingUserId } from "@/services/user/follow";
@@ -24,6 +24,7 @@ export default function PostSideBar({ userId, postData }: { userId: string | und
   const [filter, setFilter] = useState<PostFilterType>("all");
   const [followers, setFollowers] = useState<string[]>([]);
   const filteredPosts = filter === "all" ? postData : postData.filter(post => followers.includes(post.user_id));
+  const isSelectedUser = !!useSearchParams().get("user");
 
   useEffect(() => {
     if (!userId) return;
@@ -40,7 +41,8 @@ export default function PostSideBar({ userId, postData }: { userId: string | und
     <div
       className={twMerge(
         "category-side flex max-h-screen min-w-[270px] flex-col items-center gap-2 max-sm:w-full max-sm:px-6 max-sm:pb-6",
-        isPostDetail && "max-[1100px]:hidden"
+        isPostDetail && "max-[1100px]:hidden",
+        isSelectedUser && "max-xl:hidden"
       )}
     >
       <PostSideButton isLogin={!!userId} onChangeFilter={f => setFilter(f)} />
