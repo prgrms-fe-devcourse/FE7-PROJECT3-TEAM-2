@@ -1,10 +1,10 @@
 "use client";
 
 import { PanelsLeftBottomIcon, Search, User } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
-import { SearchBarProps, TopKeyword } from "@/types/search";
+import { SearchBarProps } from "@/types/search";
 import SearchRecommend from "./SearchRecommend";
 
 export default function SearchBar({ searchType, isSearched, TopData }: SearchBarProps) {

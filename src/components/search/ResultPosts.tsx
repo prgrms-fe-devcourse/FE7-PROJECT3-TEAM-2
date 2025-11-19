@@ -8,7 +8,6 @@ import { categoryColor } from "@/utils/category";
 import formatDate from "@/utils/formatDate";
 import { cardVariants } from "./SearchResultClient";
 import Badge from "../common/Badge";
-import ResponsiveContainer from "../common/ResponsiveContainer";
 
 export default function ResultPosts({
   searchData,
