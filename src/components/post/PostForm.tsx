@@ -32,6 +32,18 @@ export default function PostForm({
 
     if (!file) return;
 
+    if (file.size > 1024 * 1024) {
+      Toast({ message: "1MB 이하의 이미지만 업로드 할 수 있습니다.", type: "ERROR" });
+      e.target.value = "";
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      Toast({ message: "이미지 파일만 업로드할 수 있습니다.", type: "ERROR" });
+      e.target.value = "";
+      return;
+    }
+
     const url = URL.createObjectURL(file);
 
     setPreview(url);
