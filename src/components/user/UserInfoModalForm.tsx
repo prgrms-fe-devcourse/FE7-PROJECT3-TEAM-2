@@ -24,7 +24,7 @@ type UserInfoModalFormProps = {
       | (BadgeType & {
           category: {
             name: string;
-          };
+          } | null;
         })
       | null;
   } | null;

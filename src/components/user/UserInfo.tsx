@@ -25,7 +25,7 @@ type UserInfoProps = {
       | (BadgeType & {
           category: {
             name: string;
-          };
+          } | null;
         })
       | null;
   } | null;
