@@ -125,11 +125,18 @@ export default async function page() {
         result: null,
       };
     }
-    if (bio.length > 50) {
+    if (name.length > 10) {
       return {
         success: false,
-        error: "50자 이내로 작성해주세요.",
+        error: "이름은 10자 이내로 작성해주세요.",
         result: null,
+      };
+    }
+    if (bio.length > 30) {
+      return {
+        success: false,
+        result: null,
+        error: "한줄 소개는 30자 이내로 작성해주세요.",
       };
     }
     if (!avatarImage || avatarImage.size === 0) {
