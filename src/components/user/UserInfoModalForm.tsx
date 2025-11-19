@@ -9,25 +9,7 @@ import CircleProfileImage from "../common/image/CircleProfileImage";
 import Toast from "../common/toast/Toast";
 
 type UserInfoModalFormProps = {
-  profile: {
-    avatar_image: string | null;
-    bio: string | null;
-    created_at: string;
-    email: string;
-    exp: number | null;
-    id: string;
-    level: number | null;
-    name: string;
-    phone_number: string | null;
-    title_badge: string | null;
-    badge?:
-      | (BadgeType & {
-          category: {
-            name: string;
-          } | null;
-        })
-      | null;
-  } | null;
+  profile: UserProfile;
   setModal: () => void;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
   haveBadge: BadgeType[] | null;
@@ -106,7 +88,7 @@ export default function UserInfoModalForm({ profile, setModal, action, haveBadge
               <label className="text-text-sub">
                 닉네임<span className="text-red-400">*</span>
               </label>
-              <div className="flex">
+              <div className="flex max-sm:flex-col">
                 <select className="px-2 py-1.5 outline-none" name="titleBadge" defaultValue={profile?.badge?.id ?? ""}>
                   <option value={""}>칭호 없음</option>
                   {haveBadge &&

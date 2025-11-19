@@ -10,25 +10,7 @@ import { Button } from "../common/Button";
 import CircleProfileImage from "../common/image/CircleProfileImage";
 
 type UserInfoProps = {
-  profile: {
-    avatar_image: string | null;
-    bio: string | null;
-    created_at: string;
-    email: string;
-    exp: number | null;
-    id: string;
-    level: number | null;
-    name: string;
-    phone_number: string | null;
-    title_badge: string | null;
-    badge?:
-      | (BadgeType & {
-          category: {
-            name: string;
-          } | null;
-        })
-      | null;
-  } | null;
+  profile: UserProfile;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
   haveBadge: BadgeType[] | null;
 };
