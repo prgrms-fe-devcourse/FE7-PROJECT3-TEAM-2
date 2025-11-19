@@ -44,15 +44,13 @@ export default function AdoptStatsComponent({
                     fontSize: "13px",
                   }}
                 />
-
-                <Bar dataKey="채택" radius={[8, 8, 2, 2]} activeBar={false}>
+                <Bar dataKey="채택" fill="#6a7282" className="bg-gray-500" radius={[8, 8, 2, 2]} activeBar={false} />
+                <Bar dataKey="훈수" radius={[8, 8, 2, 2]} activeBar={false}>
                   {stats.map((data, i) => {
                     const fillColor = categoryColor[data.name] ?? "#CCCCCC";
                     return <Cell key={`cell-${i}`} fill={fillColor} />;
                   })}
                 </Bar>
-
-                <Bar dataKey="훈수" fill="#E2E2E2" radius={[8, 8, 2, 2]} activeBar={false} />
               </BarChart>
             </RsponsiveContain>
           </div>
