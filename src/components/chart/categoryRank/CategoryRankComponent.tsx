@@ -1,23 +1,28 @@
-import { createClient } from "@/utils/supabase/server";
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { twMerge } from "tailwind-merge";
+import ProfileSlide from "@/components/user/ProfileSlide";
 import CategoryRankCard from "./CategoryRankCard";
 
-export default async function CategoryRankComponent() {
-  const supabase = await createClient();
-  const { data: statsData, error } = await supabase.rpc("get_category_full_statistics");
-
-  if (error) throw error;
-
-  const parsedData = statsData?.map(item => ({
-    ...item,
-    topusers: item.topusers ? (item.topusers as TopUserType[]) : [],
-    badge_counts: item.badge_counts ? (item.badge_counts as BagdeCountType[]) : [],
-  }));
-
+export default function CategoryRankComponent({ stats }: { stats: categoryStatsType[] }) {
+  const search = useSearchParams();
+  const user = search.get("user");
   return (
-    <div className="grid w-full grid-cols-1 gap-5 py-7 pt-0 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
-      {parsedData?.map(stats => (
-        <CategoryRankCard key={stats.category_id} stats={stats} />
-      ))}
+    <div>
+      <div
+        className={twMerge(
+          "grid w-full grid-cols-1 gap-5 py-7 pt-0 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2",
+          user && "hidden"
+        )}
+      >
+        {stats?.map(st => (
+          <CategoryRankCard key={st.category_id} stats={st} />
+        ))}
+      </div>
+      <div>
+        <ProfileSlide />
+      </div>
     </div>
   );
 }
