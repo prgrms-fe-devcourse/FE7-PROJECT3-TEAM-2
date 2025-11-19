@@ -116,13 +116,11 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
             <div className="flex min-w-[80%] items-end gap-4">
               <div className="flex flex-col gap-2">
                 <Badge size="sm" text={"LV." + String(profileData?.level)} className="bg-main text-white" />
-                <p className="font-medium">{profileData?.name}</p>
+                <p className="min-w-11 font-medium">{profileData?.name}</p>
               </div>
               {profileData?.bio && (
                 <p className="bg-main/40 w-fit rounded-2xl rounded-bl-none px-3 py-2 text-sm break-all text-white">
-                  {profileData?.bio.length > 30
-                    ? profileData?.bio?.slice(0, 30) + "..."
-                    : profileData?.bio?.slice(0, 30)}
+                  {profileData?.bio.length > 25 ? profileData?.bio?.slice(0, 25) + "..." : profileData?.bio}
                 </p>
               )}
             </div>
