@@ -16,15 +16,15 @@ export default function AdoptStatsComponent({
 }) {
   return (
     <ResponsiveContainer className="w-full px-5 py-6">
-      {
-        <div className="flex flex-col">
-          <ChartCardTtile title="채택" subTitle="훈수별 채택" />
-          <div className="mx-auto h-[400px] w-11/12">
-            <RsponsiveContain width="100%" height={400}>
+      <div className="flex flex-col">
+        <ChartCardTtile title="채택" subTitle="훈수별 채택" />
+        <div className="mx-auto flex w-full items-center justify-center overflow-x-auto">
+          <div className="mx-auto h-[400px] min-w-[1000px]">
+            <RsponsiveContain width={1000} height={400}>
               <BarChart
                 data={stats}
-                width={100}
-                height={100}
+                width={1000}
+                height={400}
                 barCategoryGap="25%"
                 margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
               >
@@ -44,18 +44,20 @@ export default function AdoptStatsComponent({
                     fontSize: "13px",
                   }}
                 />
-                <Bar dataKey="채택" radius={[8, 8, 8, 8]} activeBar={false}>
+
+                <Bar dataKey="채택" radius={[8, 8, 2, 2]} activeBar={false}>
                   {stats.map((data, i) => {
                     const fillColor = categoryColor[data.name] ?? "#CCCCCC";
                     return <Cell key={`cell-${i}`} fill={fillColor} />;
                   })}
                 </Bar>
-                <Bar dataKey="훈수" stackId="a" fill="#E2E2E2" radius={[8, 8, 8, 8]} activeBar={false} />
+
+                <Bar dataKey="훈수" fill="#E2E2E2" radius={[8, 8, 2, 2]} activeBar={false} />
               </BarChart>
             </RsponsiveContain>
           </div>
         </div>
-      }
+      </div>
     </ResponsiveContainer>
   );
 }

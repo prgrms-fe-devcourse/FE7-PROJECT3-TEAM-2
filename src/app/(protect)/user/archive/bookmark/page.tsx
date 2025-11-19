@@ -1,7 +1,6 @@
 import { ArrowDownWideNarrow } from "lucide-react";
-import ResultPosts from "@/components/search/ResultPosts";
+import ArchiveResult from "@/components/user/ArchiveResult";
 import SortSelect from "@/components/user/SortSelect";
-import { PostWithProfile } from "@/types/search";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ sort: string }> }) {
@@ -38,11 +37,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
           <SortSelect sort={sort} />
         </div>
       </div>
-      {flatPosts[0]?.id && (
-        <div className="flex flex-col gap-2">
-          <ResultPosts searchData={flatPosts as PostWithProfile[]} />
-        </div>
-      )}
+      <ArchiveResult posts={flatPosts} type="bookmark" />
     </>
   );
 }

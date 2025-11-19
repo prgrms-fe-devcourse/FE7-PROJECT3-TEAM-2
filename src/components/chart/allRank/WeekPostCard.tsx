@@ -24,7 +24,7 @@ export default function WeekPostCard({ post }: { post: WeekPostDataType }) {
           <Badge
             text={post.category_name}
             size={"sm"}
-            className="text-text-title"
+            className="text-bg-main font-semibold"
             style={{ backgroundColor: categoryColor[post.category_name] }}
           />
         </div>
