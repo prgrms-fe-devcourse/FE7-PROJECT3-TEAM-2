@@ -19,40 +19,47 @@ export default function AdoptStatsComponent({
       {
         <div className="flex flex-col">
           <ChartCardTtile title="채택" subTitle="훈수별 채택" />
-          <div className="mx-auto h-[400px] w-11/12">
-            <RsponsiveContain width="100%" height={400}>
-              <BarChart
-                data={stats}
-                width={100}
-                height={100}
-                barCategoryGap="25%"
-                margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
-              >
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 15 }}
-                  className="text-text-title"
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip
-                  cursor={false}
-                  contentStyle={{
-                    backgroundColor: "white",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "8px",
-                    fontSize: "13px",
-                  }}
-                />
-                <Bar dataKey="채택" stackId="a" radius={[0, 0, 8, 8]} activeBar={false}>
-                  {stats.map((data, i) => {
-                    const fillColor = categoryColor[data.name] ?? "#CCCCCC";
-                    return <Cell key={`cell-${i}`} fill={fillColor} />;
-                  })}
-                </Bar>
-                <Bar dataKey="훈수" stackId="a" fill="#E2E2E2" radius={[8, 8, 0, 0]} activeBar={false} />
-              </BarChart>
-            </RsponsiveContain>
+
+          {/* 스크롤 컨테이너 */}
+          <div className="mx-auto flex w-full items-center justify-center overflow-x-auto">
+            {/* 차트 자체 폭 고정 */}
+            <div className="mx-auto h-[400px] min-w-[1000px]">
+              <RsponsiveContain width={1000} height={400}>
+                <BarChart
+                  data={stats}
+                  width={1000}
+                  height={400}
+                  barCategoryGap="25%"
+                  margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+                >
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fontSize: 15 }}
+                    className="text-text-title"
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    cursor={false}
+                    contentStyle={{
+                      backgroundColor: "white",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "8px",
+                      fontSize: "13px",
+                    }}
+                  />
+
+                  <Bar dataKey="채택" stackId="a" radius={[0, 0, 8, 8]} activeBar={false}>
+                    {stats.map((data, i) => {
+                      const fillColor = categoryColor[data.name] ?? "#CCCCCC";
+                      return <Cell key={`cell-${i}`} fill={fillColor} />;
+                    })}
+                  </Bar>
+
+                  <Bar dataKey="훈수" stackId="a" fill="#E2E2E2" radius={[8, 8, 0, 0]} activeBar={false} />
+                </BarChart>
+              </RsponsiveContain>
+            </div>
           </div>
         </div>
       }
