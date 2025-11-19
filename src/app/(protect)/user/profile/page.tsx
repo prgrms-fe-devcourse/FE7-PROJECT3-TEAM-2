@@ -121,10 +121,10 @@ export default async function page() {
         error: "올바른 전화번호를 입력해주세요.",
       };
     }
-    if (bio.length > 50) {
+    if (bio.length > 30) {
       return {
         success: false,
-        error: "50자 이내로 작성해주세요.",
+        error: "30자 이내로 작성해주세요.",
       };
     }
     if (!avatarImage || avatarImage.size === 0) {
