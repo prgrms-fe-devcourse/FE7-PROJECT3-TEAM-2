@@ -45,7 +45,7 @@ export default function AdoptRatioChart({ label, percentage, color = "#007F5F" }
           />
         </RadialBarChart>
 
-        <span className="absolute inset-0 flex items-center justify-center text-[15px] font-semibold text-gray-800">
+        <span className="text-text-sub absolute inset-0 flex items-center justify-center text-[15px] font-semibold">
           {percentage}%
         </span>
       </div>

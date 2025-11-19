@@ -20,9 +20,9 @@ export default function ProgressBar({ percent, count, color, className }: Progre
   return (
     <div
       className={twMerge(
-        "flex h-4 w-full overflow-hidden rounded-full bg-gray-200 md:w-11/12",
+        "bg-border-sub flex h-4 w-full overflow-hidden rounded-full md:w-11/12",
         className,
-        !count && "bg-gray-300"
+        !count && "bg-border-main"
       )}
       role="progressbar"
       aria-valuenow={percentages}

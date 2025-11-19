@@ -8,6 +8,7 @@ export default function ChartPie({
   height = 250,
   innerRadius = 73,
   labelEndText = "개",
+  total_point,
 }: {
   stats: {
     name: string;
@@ -16,13 +17,14 @@ export default function ChartPie({
   height?: number;
   innerRadius?: number;
   labelEndText?: string;
+  total_point?: number;
 }) {
   const totalPosts = stats.reduce((acc, cur) => acc + cur.value, 0);
 
   return (
     <div className="h-fit min-w-[180px]">
       <div className="relative h-full min-h-[100px] w-full min-w-0">
-        <RsponsiveContain width="100%" height={height}>
+        <RsponsiveContain width="100%" height={height} className="pointer-events-none">
           <PieChart>
             <Pie
               data={stats}
@@ -39,7 +41,14 @@ export default function ChartPie({
             >
               {stats.map((data, index) => {
                 const fillColor = categoryColor[data.name];
-                return <Cell key={`cell-${index}`} fill={fillColor} />;
+                return (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={fillColor}
+                    style={{ outline: "none" }}
+                    className="pointer-events-auto"
+                  />
+                );
               })}
             </Pie>
             <Tooltip
@@ -54,8 +63,8 @@ export default function ChartPie({
         </RsponsiveContain>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
           <p className="text-text-title text-xs">총</p>
-          <p className="text-lg font-bold">
-            {totalPosts}
+          <p className="text-text-sub text-lg font-bold">
+            {total_point ? total_point : totalPosts}
             {labelEndText}
           </p>
         </div>
