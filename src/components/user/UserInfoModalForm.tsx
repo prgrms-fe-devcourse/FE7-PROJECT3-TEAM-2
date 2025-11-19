@@ -3,17 +3,30 @@
 import { SquarePen, UserRoundPen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { FormState, ProfileType } from "@/types";
+import { BadgeType, FormState } from "@/types";
 import { Button } from "../common/Button";
 import CircleProfileImage from "../common/image/CircleProfileImage";
 import Toast from "../common/toast/Toast";
 
 type UserInfoModalFormProps = {
-  profile: ProfileType | null;
+  profile: {
+    avatar_image: string | null;
+    bio: string | null;
+    created_at: string;
+    email: string;
+    exp: number | null;
+    id: string;
+    level: number | null;
+    name: string;
+    phone_number: string | null;
+    title_badge: string | null;
+    badge?: BadgeType | null;
+  } | null;
   setModal: () => void;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
+  haveBadge: BadgeType[] | null;
 };
-export default function UserInfoModalForm({ profile, setModal, action }: UserInfoModalFormProps) {
+export default function UserInfoModalForm({ profile, setModal, action, haveBadge }: UserInfoModalFormProps) {
   const [state, formAction, isPending] = useActionState(action, { success: false, error: null });
   const router = useRouter();
   const [preview, setPreview] = useState(profile?.avatar_image);
@@ -87,13 +100,24 @@ export default function UserInfoModalForm({ profile, setModal, action }: UserInf
               <label className="text-text-sub">
                 닉네임<span className="text-red-400">*</span>
               </label>
-              <input
-                type="text"
-                name="name"
-                defaultValue={profile?.name}
-                placeholder="닉네임을 입력하세요."
-                className="border-bg-sub w-45.5 rounded-lg border px-2 py-1.5 outline-none"
-              />
+              <div className="flex">
+                <select className="px-2 py-1.5 outline-none" name="titleBadge" defaultValue={profile?.badge?.id ?? ""}>
+                  <option value={""}>칭호 없음</option>
+                  {haveBadge &&
+                    haveBadge.map(b => (
+                      <option key={b.id} value={b.id}>
+                        {b.name}
+                      </option>
+                    ))}
+                </select>
+                <input
+                  type="text"
+                  name="name"
+                  defaultValue={profile?.name}
+                  placeholder="닉네임을 입력하세요."
+                  className="border-bg-sub w-45.5 rounded-lg border px-2 py-1.5 outline-none"
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-6 text-xs">

@@ -6,20 +6,35 @@ export async function updateProfile(
   email: string,
   phoneNumber: string,
   bio: string,
-  avatarImage?: string | null
+  avatarImage?: string | null,
+  titleBadge?: string | null
 ) {
   const supabase = await createClient();
-  const { data, error: updateErrors } = await supabase
-    .from("profiles")
-    .update({ name, email, phone_number: phoneNumber, bio, avatar_image: avatarImage })
-    .eq("id", userId);
+  if (avatarImage) {
+    const { error: updateErrors } = await supabase
+      .from("profiles")
+      .update({ name, email, phone_number: phoneNumber, bio, avatar_image: avatarImage, title_badge: titleBadge })
+      .eq("id", userId);
 
-  console.log(data);
-  if (updateErrors) {
-    return {
-      success: false,
-      error: "프로필 저장중에 문제가 발생하였습니다.",
-    };
+    if (updateErrors) {
+      return {
+        success: false,
+        error: "프로필 저장중에 문제가 발생하였습니다.",
+      };
+    }
+    return { success: true, error: null };
+  } else {
+    const { error: updateErrors } = await supabase
+      .from("profiles")
+      .update({ name, email, phone_number: phoneNumber, bio, title_badge: titleBadge })
+      .eq("id", userId);
+
+    if (updateErrors) {
+      return {
+        success: false,
+        error: "프로필 저장중에 문제가 발생하였습니다.",
+      };
+    }
+    return { success: true, error: null };
   }
-  return { success: true, error: null };
 }
