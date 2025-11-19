@@ -8,6 +8,7 @@ import { categoryColor } from "@/utils/category";
 import formatDate from "@/utils/formatDate";
 import { cardVariants } from "./SearchResultClient";
 import Badge from "../common/Badge";
+import ResponsiveContainer from "../common/ResponsiveContainer";
 
 export default function ResultPosts({
   searchData,
@@ -24,6 +25,7 @@ export default function ResultPosts({
   if (!searchData || searchData.length === 0) return;
 
   return searchData.map(post => (
+    // <ResponsiveContainer>
     <div key={post.id} className={cardVariants()} onClick={() => handleClick(post.id, post.category?.type)}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex gap-2 text-xs">
@@ -53,5 +55,6 @@ export default function ResultPosts({
         )}
       </div>
     </div>
+    // </ResponsiveContainer>
   ));
 }

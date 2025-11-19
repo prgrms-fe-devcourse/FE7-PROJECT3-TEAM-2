@@ -27,7 +27,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
 
   return (
     <>
-      <div className="flex w-full flex-col gap-3 rounded-3xl md:border md:border-gray-200 md:p-6">
+      <div className="md:border-border-main flex w-full flex-col gap-3 rounded-3xl md:border md:p-6">
         <div className="flex items-start gap-3 px-3">
           <Button
             variant={searchType === "post" ? "primary" : "tertiary"}
@@ -46,7 +46,7 @@ export default function SearchBar({ searchType, isSearched, TopData }: SearchBar
             사용자 검색
           </Button>
         </div>
-        <form className="mx-3 flex h-14 w-full rounded-lg border border-gray-200" onSubmit={handleSearch}>
+        <form className="border-border-main mx-3 flex h-14 w-full rounded-lg border" onSubmit={handleSearch}>
           <input
             maxLength={30}
             value={query}
