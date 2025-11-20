@@ -61,7 +61,7 @@ export default function UserInfoModalForm({ profile, setModal, action, haveBadge
       <div className="fixed inset-0 z-11 flex h-full w-full justify-center bg-gray-500/50 py-20" onMouseDown={setModal}>
         <form
           action={formAction}
-          className="bg-bg-main z-12 h-fit w-[70%] rounded-3xl p-12 max-sm:p-9"
+          className="bg-bg-main z-12 h-fit w-[70%] rounded-3xl p-12 max-sm:w-[90%] max-sm:p-9"
           onMouseDown={preventOffModal}
         >
           <div className="mb-3 flex items-center gap-3">
@@ -88,7 +88,7 @@ export default function UserInfoModalForm({ profile, setModal, action, haveBadge
               <label className="text-text-sub">
                 닉네임<span className="text-red-400">*</span>
               </label>
-              <div className="flex max-sm:flex-col">
+              <div className="flex gap-2 max-sm:flex-col max-sm:gap-0">
                 <select className="px-2 py-1.5 outline-none" name="titleBadge" defaultValue={profile?.badge?.id ?? ""}>
                   <option value={""}>칭호 없음</option>
                   {haveBadge &&
@@ -102,8 +102,8 @@ export default function UserInfoModalForm({ profile, setModal, action, haveBadge
                   type="text"
                   name="name"
                   defaultValue={profile?.name}
-                  placeholder="닉네임을 입력하세요."
-                  className="border-bg-sub w-45.5 rounded-lg border px-2 py-1.5 outline-none"
+                  placeholder="이름을 입력하세요."
+                  className="border-bg-sub min-w-42 rounded-lg border px-2 py-1.5 outline-none"
                 />
               </div>
             </div>
