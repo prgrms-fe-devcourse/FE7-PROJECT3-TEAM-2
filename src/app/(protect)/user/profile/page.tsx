@@ -157,11 +157,11 @@ export default async function page() {
               <p>연결 관리</p>
             </div>
             <div className="flex justify-center gap-6">
-              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2">
+              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2 max-[360px]:min-w-[40%]">
                 <p>팔로잉</p>
                 <p className="text-base">{followCount}</p>
               </div>
-              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2">
+              <div className="border-border-main flex min-w-32.5 flex-col gap-2 rounded-xl border px-3.5 pt-3 pb-2 max-[360px]:min-w-[40%]">
                 <p>팔로워</p>
                 <p className="text-base">{followerCount}</p>
               </div>
@@ -173,11 +173,11 @@ export default async function page() {
               <p>내 활동</p>
             </div>
             <div className="flex justify-center gap-6">
-              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
+              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2 max-[360px]:min-w-[40%]">
                 <p>게시물</p>
                 <p className="text-base">{postCount}</p>
               </div>
-              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2">
+              <div className="bg-bg-sub flex min-w-32.5 flex-col gap-2 rounded-xl px-3.5 pt-3 pb-2 max-[360px]:min-w-[40%]">
                 <p>채택 수</p>
                 <p className="text-base">{adoptedCommentCount}</p>
               </div>
@@ -194,7 +194,7 @@ export default async function page() {
               <p className="text-text-light">대표로 설정한 4개의 뱃지만 표시</p>
             </div>
             <div className="flex justify-center">
-              <div className="flex flex-wrap justify-center gap-16 max-[1146px]:max-w-[273px] max-[1146px]:gap-8 max-sm:grid max-sm:grid-cols-2 max-sm:gap-6">
+              <div className="flex flex-wrap justify-center gap-16 max-[1180px]:max-w-65 max-[1180px]:gap-8 max-sm:grid max-sm:grid-cols-2 max-sm:gap-6">
                 {!displayedBadgeList || displayedBadgeList.length === 0
                   ? [...Array(4)].map((_, i) => (
                       <div key={i}>

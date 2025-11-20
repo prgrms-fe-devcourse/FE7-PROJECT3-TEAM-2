@@ -59,7 +59,7 @@ export default function UserInfo({ profile, action, haveBadge }: UserInfoProps) 
               <p>{profile?.phone_number ?? "-"}</p>
             </div>
             <div>
-              <p className="text-text-sub mb-3">한줄 소개</p>
+              <p className="text-text-sub mb-3 break-keep">한줄 소개</p>
               <p>{profile?.bio ?? "-"}</p>
             </div>
           </div>
