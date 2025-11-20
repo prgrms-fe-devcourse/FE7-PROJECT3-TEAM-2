@@ -18,24 +18,11 @@ export interface postCardSampleDataType {
   categoryType: string;
 }
 
-export default function PostSideBar({ userId, postData }: { userId: string | undefined; postData: PostCardType[] }) {
+export default function PostSideBar({ userId }: { userId: string | undefined }) {
   const currentPath = usePathname().split("/");
   const isPostDetail = currentPath.length > 3;
   const [filter, setFilter] = useState<PostFilterType>("all");
-  const [followers, setFollowers] = useState<string[]>([]);
-  const filteredPosts = filter === "all" ? postData : postData.filter(post => followers.includes(post.user_id));
   const isSelectedUser = !!useSearchParams().get("user");
-
-  useEffect(() => {
-    if (!userId) return;
-
-    const fetchFollowing = async () => {
-      const ids = await getFollowingUserId(userId);
-      setFollowers(ids);
-    };
-
-    fetchFollowing();
-  }, [userId]);
 
   return (
     <div
@@ -46,7 +33,8 @@ export default function PostSideBar({ userId, postData }: { userId: string | und
       )}
     >
       <PostSideButton isLogin={!!userId} onChangeFilter={f => setFilter(f)} />
-      <PostSideList postData={filteredPosts} />
+      {filter === "all" && <PostSideList />}
+      {filter === "following" && <PostSideList user_id={userId} />}
     </div>
   );
 }
