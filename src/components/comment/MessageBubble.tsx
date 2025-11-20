@@ -11,6 +11,7 @@ import formatDate from "@/utils/formatDate";
 import { CommentModifyForm } from "./CommentModifyForm";
 import CommentReactionBtn from "./CommentReactionBtn";
 import Badge from "../common/Badge";
+import CircleProfileImage from "../common/image/CircleProfileImage";
 
 const BubbleVariants = cva("flex items-end gap-2 w-full ", {
   variants: {
@@ -24,7 +25,7 @@ const BubbleVariants = cva("flex items-end gap-2 w-full ", {
   },
 });
 
-const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-2xl text-sm break-all", {
+const TextVariants = cva("max-w-[45%] px-3 py-2 rounded-xl text-sm break-all", {
   variants: {
     isMine: {
       true: "bg-main text-white rounded-tr-none",
@@ -140,13 +141,11 @@ export default function MessageBubble({
         </div>
       ) : (
         <div className="flex w-full flex-col gap-1">
-          <div className="flex items-center justify-start gap-2">
-            <Image
+          <div className="flex items-center justify-start gap-1.5">
+            <CircleProfileImage
               src={profiles.avatar_image ?? "/profile_sample.svg"}
               alt="comment user profile image"
-              width={32}
-              height={32}
-              className="rounded-sm"
+              className="h-9 w-9"
             />{" "}
             <div className="flex flex-col justify-center gap-0.5">
               <span className="text-sm">{profiles.name}</span>
@@ -169,7 +168,7 @@ export default function MessageBubble({
             </div>
             <span className="text-text-sub text-[9px]">{formatDate(created_at)}</span>
           </div>
-          <div className="comment-btns flex gap-2">
+          <div className="comment-btns flex gap-2 pl-1.5">
             <CommentReactionBtn
               isLogin={isLogin}
               userId={user_id}

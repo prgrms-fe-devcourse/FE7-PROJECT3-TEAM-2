@@ -1,10 +1,8 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { getFollowingUserId } from "@/services/user/follow";
-import { PostCardType } from "@/types";
 import PostSideButton from "./PostSideButton";
 import type { PostFilterType } from "./PostSideButton";
 import PostSideList from "./PostSideList";
