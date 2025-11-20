@@ -62,8 +62,6 @@ export default function MessageBubble({
     setIsUpdate(false);
   };
 
-  console.log(data.profiles);
-
   return (
     <div className={BubbleVariants({ isMine })}>
       {isMine ? (

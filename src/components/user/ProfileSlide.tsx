@@ -115,7 +115,7 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
             </button>
             <div className="flex min-w-[80%] items-end gap-4">
               <div className="flex flex-col gap-2">
-                <Badge size="sm" text={"LV." + String(profileData?.level)} className="bg-main text-white" />
+                <Badge size="sm" text={"LV." + String(profileData?.level ?? "")} className="bg-main text-white" />
                 <p className="min-w-11 font-medium">{profileData?.name}</p>
               </div>
               {profileData?.bio && (

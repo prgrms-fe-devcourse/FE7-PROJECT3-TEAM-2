@@ -15,7 +15,7 @@ export default async function PostPage({ params }: { params: Promise<{ postId: s
   const postData = await getDetailPost(postId);
   const { data: userBadgeData } = await supabase
     .from("profiles")
-    .select("title_badge, level, badge (name, category(name))")
+    .select("title_badge, level, badge (type, name, category(name))")
     .eq("id", postData?.user_id ?? "")
     .maybeSingle();
 

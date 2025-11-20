@@ -10,6 +10,7 @@ type userBadgeType = {
   title_badge: string | null;
   badge: {
     name: string;
+    type: string | null;
     category: {
       name: string;
     } | null;

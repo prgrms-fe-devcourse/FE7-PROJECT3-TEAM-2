@@ -35,7 +35,13 @@ export default function UserInfo({ profile, action, haveBadge }: UserInfoProps) 
                   size="sm"
                   text={profile?.badge?.name ?? "칭호 없음"}
                   className="text-white"
-                  style={{ backgroundColor: categoryColor[profile.badge.category?.name ?? "#999999"] }}
+                  style={
+                    profile.badge?.type === "category"
+                      ? {
+                          backgroundColor: categoryColor[profile.badge.category.name],
+                        }
+                      : { backgroundColor: "#999999" }
+                  }
                 />
               )}
             </div>
